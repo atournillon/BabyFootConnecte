@@ -1,0 +1,30 @@
+<!--TODO : Connecter avec le fichier CSS
+http://flask.pocoo.org/docs/0.11/quickstart/#static-files
+https://stackoverflow.com/questions/39579666/how-to-set-background-image-on-flask-templates
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BabyFoot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- Custom styles for this template -->
+    <style>
+    body {
+      background: url('https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/S-vNPviIgiy1c0cbk/videoblocks-kick-off-strike-in-table-football-game-young-people-playing-foosball-side-view_bd8d0dc6g_thumbnail-full01.png') no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      background-size: cover;
+      -o-background-size: cover;
+    }
+    </style>
+  </head>
+  <body>
+    {% include 'includes/_navbar.html' %}
+    <div class="container">
+      {% block body %}{% endblock %}
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
