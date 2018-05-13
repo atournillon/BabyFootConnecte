@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron">
+
+
+    <div class="container">
+      <h2>Players Table</h2>
+      <input class="form-control" id="myInput" type="text" placeholder="Search..">
+      <br>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Firstname</th>
+            <th>Trigram</th>
+            <th>Victories</th>
+            <th>Defeats</th>
+          </tr>
+        </thead>
+        <tbody id="myTable">
+          {% for id_player in players_table.index %}
+            <tr>
+              <td>{{ players_table.loc[id_player].first_name }}</td>
+              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].trigram }}</a></td>
+              <td>{{ players_table.loc[id_player].nb_vic }}</td>
+              <td>{{ players_table.loc[id_player].nb_def }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+    </script>
+
+
+  </div>
+{% endblock %}
