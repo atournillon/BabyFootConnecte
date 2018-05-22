@@ -32,7 +32,7 @@ def player(id_player):
 #Load Choix Equipe
 @app.route('/match_team')
 def match_team():
-    return render_template('livematch.html', players_table = players_table)
+    return render_template('livematch.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
