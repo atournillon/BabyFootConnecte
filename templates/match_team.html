@@ -1,8 +1,82 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="jumbotron text-center">
-    <h1>WELCOME !!!</h1>
-    <p class="lead">Interface de OUF</p>
-  </div>
+
+  
+  <table>
+
+<h1> Choisis ton camp ! </h1>
+
+ <tr>
+  <td colspan="2"><img src="static/img/bleus.png" style="width:auto;height:150px; margin: 0 15px 0 30px;"><h2 style=color:#2864A8>Equipe Bleue</h2></td>
+  <td ><img src="static/img/versus.png" style="width:300px;height:auto;"></td>
+  <td colspan="2"><img src="static/img/rouges.png" style="width:auto;height:160px; margin: 0 15px 0 30px;"><h2 style=color:#CD1B21>Equipe Rouge</h2></td>
+ </tr>
+  <tr>
+	<td>
+		<FORM>
+			<SELECT name="nom" size="1">
+				<OPTION selected> Nicolas
+				<OPTION> Adrien
+				<OPTION> Eric
+				<OPTION> Matthieu
+				<OPTION> Fabrice
+				<OPTION> Thibault
+			</SELECT>
+		</FORM>
+	</td>
+	<td>
+		<FORM>
+			<SELECT name="nom" size="1">
+				<OPTION > Nicolas
+				<OPTION > Adrien
+				<OPTION> Eric
+				<OPTION> Matthieu
+				<OPTION> Fabrice
+				<OPTION> Thibault
+				<OPTION selected> Casper
+			</SELECT>
+		</FORM>
+	</td>
+	<td>
+	</td>
+	<td>
+		<FORM>
+			<SELECT name="nom" size="1">
+				<OPTION > Nicolas
+				<OPTION selected> Adrien
+				<OPTION > Eric
+				<OPTION> Matthieu
+				<OPTION> Fabrice
+				<OPTION> Thibault
+			</SELECT>
+		</FORM>
+	</td>
+	<td>
+		<FORM>
+			<SELECT name="nom" size="1">
+				<OPTION > Nicolas
+				<OPTION> Adrien
+				<OPTION> Eric
+				<OPTION > Matthieu
+				<OPTION> Fabrice
+				<OPTION> Thibault
+				<OPTION selected> Casper
+			</SELECT>
+		</FORM>
+	</td>
+ </tr>
+</table>
+</body>
+<footer>
+<table>
+<tr >
+  <td><h3><a href="{{ url_for('index') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour</a></h3></td>
+  <td><form method="POST"><h3><a href="{{ url_for('live_match') }}"><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Valider</a></h3></form></td>
+ </tr>
+ </table>
+</footer>
+  
+  
+  
 {% endblock %}
