@@ -14,5 +14,12 @@ A la fin du match, les stats du match et des joueurs est disponible, toujours so
 
 ## 2 - Détail du projet
 
-** Déroulé du match **
-** Interface Flask **
+**Déroulé du match **
+
+Un capteur MC005 est placé dans la cage. Lorsqu'un mouvement est détecté, le capteur renvoie l'information au Rapsberry et écrit dans la table MySQL le score live
+*To be continued*
+
+**Interface Flask **
+
+*To be continued*
+
