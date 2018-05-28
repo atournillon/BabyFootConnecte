@@ -108,7 +108,7 @@ while True:	                                                                    
                 time.sleep(5)                                                                   #On rajoute du temps (5sec) pour éviter les problèmes de détection
         
         #Buts pour les rouges
-        if GPIO.input(19) == 9:                                                                 #Détection des mouvements sur le PIN 19
+        if GPIO.input(19) == 0:                                                                 #Détection des mouvements sur le PIN 19
             time_but = datetime.datetime.now()                                                  #Récupérer le time du but
             time_but_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_but))                        #Conversion en format String pour stockage au bon format
             Timing_But = time_but - time_debut                                                  #Timing du but
