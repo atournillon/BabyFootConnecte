@@ -44,6 +44,7 @@ padding-bottom sould be equal to width */
     color:white;
 }
 
+
 .circle_team_2 {
     width:50%;
     position:absolute;
@@ -130,28 +131,28 @@ table {
  width:90%;
  margin:3% 5% 7% 5%;
  }
- 
-tr { 
+
+tr {
  border:none;
- /*border-style:solid; 
+ /*border-style:solid;
  border-color:red;*/
  min-width:10%;
  text-align:center;
  padding:50px 50px 50px 50px;
  background-color:rgba(255, 255, 255, 0.6);
  }
- 
+
  td{
  	padding:20px;
  }
- 
+
  h1{
 	 font-size:70px;
 	 color:white;
 	 font-family: Impact, Charcoal, sans-serif;
 	 text-align:center;
  }
- 
+
  h2{
 	 font-size:30px;
 	 color:#303030;
@@ -159,7 +160,7 @@ tr {
 	 text-align:center;
 	 text-transform: uppercase;
  }
- 
+
   h3{
 	 font-size:20px;
 	 color:#303030;
@@ -167,14 +168,14 @@ tr {
 	 text-align:center;
 	 text-decoration:none;
  }
- 
+
   p{
 	 font-size:20px;
 	 color:#303030;
 	 font-family: Helvetica;
 	 text-align:center;
  }
- 
+
 a:link {
     color: red;
 }
@@ -182,7 +183,7 @@ a:link {
 a:hover {
     color: hotpink;
 }
- 
+
  select {
     width: 100%;
     padding: 16px 20px;
