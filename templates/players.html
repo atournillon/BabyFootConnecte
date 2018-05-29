@@ -11,19 +11,29 @@
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>Firstname</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Trigram</th>
+            <th>Matchs</th>
             <th>Victories</th>
             <th>Defeats</th>
+            <th>Game time</th>
+            <th>Goal Scored</th>
+            <th>Goal Received</th>
           </tr>
         </thead>
         <tbody id="myTable">
           {% for id_player in players_table.index %}
             <tr>
-              <td>{{ players_table.loc[id_player].first_name }}</td>
+              <td>{{ players_table.loc[id_player].prenom }}</td>
+              <td>{{ players_table.loc[id_player].nom }}</td>
               <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].trigram }}</a></td>
-              <td>{{ players_table.loc[id_player].nb_vic }}</td>
-              <td>{{ players_table.loc[id_player].nb_def }}</td>
+              <td>{{ players_table.loc[id_player].match_count }}</td>
+              <td>{{ players_table.loc[id_player].match_win_count }}</td>
+              <td>{{ players_table.loc[id_player].match_los_count }}</td>
+              <td>{{ players_table.loc[id_player].game_time_sec }}</td>
+              <td>{{ players_table.loc[id_player].goals_win_count }}</td>
+              <td>{{ players_table.loc[id_player].goals_los_count }}</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -40,7 +50,6 @@
       });
     });
     </script>
-
-
   </div>
+
 {% endblock %}
