@@ -87,27 +87,25 @@ while True:	                                                                    
             time_but_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_but))                        #Conversion en format String pour stockage au bon format
             i += 1                                                                              #Incrément du but marqué
             Last_Goal = 1																        #Ce but a été marqué par les bleus - utiliser pour l'annulation
-            if i < 10:                                                                          #Boucle de buts
-                print("Buuuut des Bleus !")
-                live(time_debut_str,time_but_str,i,j)                                            #Ecriture dans la table live
-                for row in curs.execute("SELECT * FROM LIVE_MATCH"):
-                    print (row)
-                histo_data(time_debut_str,time_but_str,m,i,j)                                   #Ecriture dans la table d'historique
-                time.sleep(5)                                                                   #On rajoute du temps (5sec) pour éviter les problèmes de détection
+            print("Buuuut des Bleus !")
+            live(time_debut_str,time_but_str,i,j)                                                #Ecriture dans la table live
+            for row in curs.execute("SELECT * FROM LIVE_MATCH"): 
+                print (row)
+            histo_data(time_debut_str,time_but_str,m,i,j)                                       #Ecriture dans la table d'historique
+            time.sleep(5)                                                                       #On rajoute du temps (5sec) pour éviter les problèmes de détection
         
         #Buts pour les rouges
-        if GPIO.input(19) == 0:                                                                 #Détection des mouvements sur le PIN 19
+        elif GPIO.input(19) == 0:                                                                 #Détection des mouvements sur le PIN 19
             time_but = datetime.datetime.now()                                                  #Récupérer le time du but
             time_but_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_but))                        #Conversion en format String pour stockage au bon format
             j += 1                                                                              #Incrément du but marqué
             Last_Goal = 2																        #Ce but a été marqué par les rouges - utiliser pour l'annulation
-            if j < 10:                                                                          #Boucle de buts
-                print("Buuuut des Rouges !")
-                live(time_debut_str, time_but_str, i,j)                                         #Ecriture dans la table live
-                for row in curs.execute("SELECT * FROM LIVE_MATCH"):
-                    print (row)
-                histo_data(time_debut_str,time_but_str,m,i,j)                                   #Ecriture dans la table d'historique
-                time.sleep(5)                                                                   #On rajoute du temps (5sec) pour éviter les problèmes de détection
+            print("Buuuut des Rouges !")
+            live(time_debut_str, time_but_str, i,j)                                         #Ecriture dans la table live
+            for row in curs.execute("SELECT * FROM LIVE_MATCH"):
+                print (row)
+            histo_data(time_debut_str,time_but_str,m,i,j)                                   #Ecriture dans la table d'historique
+            time.sleep(5)                                                                   #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
         #Annulation du dernier but
         for event in pygame.event.get():                                                        #A tout moment on peut annuler un but
@@ -146,12 +144,12 @@ while True:	                                                                    
 
 # 3 - FIN DU MATCH_____________________
 
-#Affichage du résultat
-time.sleep(1)                                                                               #On rajoute du temps (1sec) pour afficher la fin de match
-if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
-    print("C'est donc terminé pour ce match")# #" + str(m) + " à l'Avisia Arena !\nVictoire des Bleus : " + str(i) + "-" + str(j) + "\nOn se retrouve très vite pour un nouveau match !\nA vous les studios !")
-elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
-    print("C'est donc terminé pour ce match")# #" + str(m) + " à l'Avisia Arena !\nVictoire des Rouges : " + str(i) + "-" + str(j) + "\nOn se retrouve très vite pour un nouveau match !\nA vous les studios !")      	
+    #Affichage du résultat
+    time.sleep(1)                                                                               #On rajoute du temps (1sec) pour afficher la fin de match
+    if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
+        print("C'est donc terminé pour ce match")
+    elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
+        print("C'est donc terminé pour ce match")     	
 
 #Sortie de la table
 conn.close()                                                                               
