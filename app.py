@@ -1,5 +1,6 @@
 """ TODO :
 - Ameliorer NavBar
+- Ajouter
 """
 
 from flask import Flask, render_template, request
@@ -34,7 +35,7 @@ class LiveScoreThread(Thread):
         #infinite loop of magical random numbers
         print("Making random numbers")
         while not thread_stop_event.isSet():
-            time_stamp, score_team_1, score_team_2 = getData()
+            score_team_1, score_team_2 = getData()
             socketio.emit('livematch', {'score_team_1': score_team_1, 'score_team_2': score_team_2}, namespace='/test')
             print score_team_1
             time.sleep(self.delay)
@@ -50,13 +51,13 @@ def index():
 def getData():
 	conn=sqlite3.connect('data/baby_foot.db')
 	curs=conn.cursor()
-
-	for row in curs.execute("SELECT * FROM LIVE_MATCH ORDER BY time_stamp DESC LIMIT 1"):
-		time_stamp = str(row[0])
-		score_team_1 = row[1]
-		score_team_2 = row[2]
+	for row in curs.execute("SELECT * FROM LIVE_MATCH ORDER BY time_but DESC LIMIT 1"):
+		time_debut = str(row[0])
+        time_but  =  str(row[1])
+        score_team_1 = row[2]
+        score_team_2 = row[3]
 	conn.close()
-	return time_stamp, score_team_1, score_team_2
+	return score_team_1, score_team_2
 
 #Load Players Table
 players_table = pd.read_csv('data/players.csv', sep = ';', index_col = 0)
