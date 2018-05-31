@@ -1,10 +1,29 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="jumbotron text-center">
-    <h1>{{players_table.loc[id_player].first_name}}</h1>
-    <h1>{{players_table.loc[id_player].trigram}}</h1>
-    <h1>{{players_table.loc[id_player].nb_vic}}</h1>
-    <h1>{{players_table.loc[id_player].nb_def}}</h1>
-  </div>
+
+</br>
+<h1>Profil de {{players_table.loc[id_player].first_name}}</h1>
+</br>
+
+
+  
+  <table id="table_base">
+ 	<tr id="tr_vide">
+  		<td><h2># Victoires</h2><div id="green_circle"><div id="score">{{players_table.loc[id_player].nb_vic}}</div></div></td>
+  		<td><h1>/</h1></td>
+  		<td><h2># Défaites</h2><div id="red_circle"><div id="score">{{players_table.loc[id_player].nb_def}}</div></div></td>
+ 		</tr>
+ </table>
+  
+  
+<footer id="footer">
+  	<table id="footer">
+		<tr id="tr_footer">
+  			<td id="td_footer"><h3><a href="{{ url_for('players') }}"><img src="/static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour</a></h3></td>
+  			<td id="td_footer"><h3><a href="{{ url_for('index') }}"><img src="/static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour Menu</a></h3></td>
+  		</tr>
+ 	</table>
+</footer>
+
 {% endblock %}
