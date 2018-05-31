@@ -5,8 +5,23 @@
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 
-<h1 style="margin-top:2%"> Live Match </h1>
+</br><h1> Live du match </h1>
+<table id="table_base">
+ <tr id="tr_vide">
+  <td><div id="blue_circle"><div id="score">{{score_team_1}}</div></div></td>
+  <td><h1>/</h1></td>
+  <td><div id="red_circle"><div id="score">{{score_team_2}}</div></div></td>
+ </tr>
+ </table>
 
-<span class="circle_team_1"><div id="score_team_1"></div></span>
-<span class="circle_team_2"><div id="score_team_2"></div></span>
+<footer id="footer">
+  	<table id="footer">
+		<tr id="tr_footer">
+  			<td id="td_footer"><h3><a href="{{ url_for('index') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Annuler le match</a></h3></td>
+  			<td id="td_footer"><form method="POST"><h3><a href="{{ url_for('players') }}"><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Fin du match</a></h3></form></td>
+ 		</tr>
+ 	</table>
+</footer>
+
+
 {% endblock %}
