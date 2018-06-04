@@ -4,8 +4,11 @@ import time
 from datetime import datetime
 import pandas as pd
 
-# Base de recette
+# Base de production
 connexion = sql.connect('data/PARC_DES_PRINCES.db')
+
+# Visualiser la base SQL
+# Télécharger PARC_DES_PRINCES.DB puis sur https://sqliteonline.com/ -> File -> Open DB
 
 # Connexion
 requete = connexion.cursor()
