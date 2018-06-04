@@ -7,6 +7,9 @@ import pandas as pd
 # Base de recette
 connexion = sql.connect('data/ROUDOUROU.db')
 
+# Visualiser la base SQL
+# Télécharger ROUDOUROU.DB puis sur https://sqliteonline.com/ -> File -> Open DB
+
 # Connexion
 requete = connexion.cursor()
 
