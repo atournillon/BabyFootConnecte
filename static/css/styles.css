@@ -74,9 +74,9 @@ body {
 /* CODE DE TQS A AMELIORER */
 
 #table_base {
- width:90%;
+ width:100%;
  margin:auto;
- margin:5%;
+ margin-top:3%;
  
 }
  
@@ -95,6 +95,7 @@ tr {
 	 font-size:70px;
 	 color:white;
 	 font-family: Impact, Charcoal, sans-serif;
+	 text-transform: uppercase;
 	 text-align:center;
  }
  
@@ -172,3 +173,96 @@ a:hover {
 	font-family: Helvetica;
 	text-align:center;
 }
+
+
+/* Création du bouton annuler*/
+.button_annuler {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 400px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button_annuler span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button_annuler span:after {
+  content: '\00D7';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button_annuler:hover span {
+  padding-right: 25px;
+}
+
+.button_annuler:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
+/* Création du bouton suivant*/
+.button_suivant {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #4ED35E;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 300px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  opacity:0.5;
+}
+
+.button_suivant:hover {
+  opacity:1;
+}
+
+.button_suivant span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button_suivant span:after {
+  content: '\00BB';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button_suivant:hover span {
+  padding-right: 25px;
+}
+
+.button_suivant:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
+
+
