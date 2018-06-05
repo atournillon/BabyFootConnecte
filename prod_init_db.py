@@ -17,10 +17,10 @@ requete = connexion.cursor()
 def CreateTable():
     # Création de la table du live du match
     requete.execute('''CREATE TABLE IF NOT EXISTS PROD_LIVE_MATCH
-    (id_match INTEGER PRIMARY KEY, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
+    (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
     # Création de la table d'historisation des lives de match
     requete.execute('''CREATE TABLE IF NOT EXISTS PROD_LIVE_MATCH_HISTO
-    (id_match INTEGER PRIMARY KEY, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
+    (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
     # Création de la table contenant le référentiel des joueurs
     requete.execute('''CREATE TABLE IF NOT EXISTS PROD_REF_PLAYERS
     (id_player INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT, nickname TEXT)''')
