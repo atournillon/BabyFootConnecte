@@ -12,18 +12,16 @@
         <thead>
           <tr>
             <th>Prénom</th>
-            <th>Trigramme</th>
-            <th># Victoires</th>
-            <th># Défaites</th>
+            <th>Nom</th>
+            <th>Surnom</th>
           </tr>
         </thead>
         <tbody id="myTable">
           {% for id_player in players_table.index %}
             <tr>
-              <td>{{ players_table.loc[id_player].first_name }}</td>
-              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].trigram }}</a></td>
-              <td>{{ players_table.loc[id_player].nb_vic }}</td>
-              <td>{{ players_table.loc[id_player].nb_def }}</td>
+              <td>{{ players_table.loc[id_player].firstname }}</td>
+              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].lastname }}</a></td>
+              <td>{{ players_table.loc[id_player].nickname }}</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -43,8 +41,8 @@
 
 
   </div>
-  
-  
+
+
 <footer id="footer">
   	<table id="footer">
 		<tr id="tr_footer">

@@ -3,39 +3,34 @@
 {% block body %}
 
 </br><h1> Fais ta compo ! </h1>
-  
+
   <table id="table_base">
 
 
 
  <tr>
-  <td colspan="2"><img src="static/img/bleus.png" style="width:auto;height:250px; margin: 0 15px 0 30px;"></br><h2 style=color:#126DE3>équipe Bleu</h2></td>
+  <td colspan="2"><img src="static/img/bleus.png" style="width:auto;height:250px; margin: 0 15px 0 30px;"></br><h2 style=color:#126DE3>Equipe Bleue</h2></td>
   <td ><img src="static/img/versus.png" style="width:400px;height:auto;"></td>
-  <td colspan="2"><img src="static/img/rouges.png" style="width:auto;height:260px; margin: 0 15px 0 30px;"></br><h2 style=color:#E31212>équipe Rouge</h2></td>
+  <td colspan="2"><img src="static/img/rouges.png" style="width:auto;height:260px; margin: 0 15px 0 30px;"></br><h2 style=color:#E31212>Equipe Rouge</h2></td>
  </tr>
   <tr>
 	<td>
 		<FORM>
 			<SELECT name="nom" size="1">
-				<OPTION selected> Nicolas
-				<OPTION> Adrien
-				<OPTION> Eric
-				<OPTION> Matthieu
-				<OPTION> Fabrice
-				<OPTION> Thibault
+        <OPTION selected> {{ players_table.loc[1].firstname }}
+        {% for id_player in players_table.index[1:] %}
+				  <OPTION> {{ players_table.loc[id_player].firstname }}
+        {% endfor %}
 			</SELECT>
 		</FORM>
 	</td>
 	<td>
 		<FORM>
 			<SELECT name="nom" size="1">
-				<OPTION > Nicolas
-				<OPTION > Adrien
-				<OPTION> Eric
-				<OPTION> Matthieu
-				<OPTION> Fabrice
-				<OPTION> Thibault
-				<OPTION selected> Casper
+        <OPTION selected> {{ players_table.loc[1].firstname }}
+        {% for id_player in players_table.index[1:] %}
+				  <OPTION> {{ players_table.loc[id_player].firstname }}
+        {% endfor %}
 			</SELECT>
 		</FORM>
 	</td>
@@ -44,26 +39,20 @@
 	<td>
 		<FORM>
 			<SELECT name="nom" size="1">
-				<OPTION > Nicolas
-				<OPTION selected> Adrien
-				<OPTION > Eric
-				<OPTION> Matthieu
-				<OPTION> Fabrice
-				<OPTION> Thibault
+        <OPTION selected> {{ players_table.loc[1].firstname }}
+        {% for id_player in players_table.index[1:] %}
+				  <OPTION> {{ players_table.loc[id_player].firstname }}
+        {% endfor %}
 			</SELECT>
 		</FORM>
 	</td>
 	<td>
 		<FORM>
 			<SELECT name="nom" size="1">
-				<OPTION > Nicolas
-				<OPTION> Adrien
-				<OPTION> Eric
-				<OPTION > Matthieu
-				<OPTION> Fabrice
-				<OPTION> Thibault
-				<OPTION selected> Casper
-			</SELECT>
+        <OPTION selected> {{ players_table.loc[1].firstname }}
+        {% for id_player in players_table.index[1:] %}
+				  <OPTION> {{ players_table.loc[id_player].firstname }}
+        {% endfor %}
 		</FORM>
 	</td>
  </tr>
@@ -73,11 +62,11 @@
   	<table id="footer">
 		<tr id="tr_footer">
   			<td id="td_footer"><h3><a href="{{ url_for('index') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour</a></h3></td>
-  			<td id="td_footer"<form method="POST"><h3><a href="{{ url_for('live_match') }}"><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Suivant</a></h3></form></td>
+  			<td id="td_footer"<form method="POST"><h3><a href="{{ url_for('live_match') }}"><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Démarrer</a></h3></form></td>
  		</tr>
  	</table>
 </footer>
-  
-  
-  
+
+
+
 {% endblock %}

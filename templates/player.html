@@ -3,11 +3,11 @@
 {% block body %}
 
 </br>
-<h1>Profil de {{players_table.loc[id_player].first_name}}</h1>
+<h1>Profil de {{players_table.loc[id_player].firstname}}</h1>
 </br>
 
 
-  
+
   <table id="table_base">
  	<tr id="tr_vide">
   		<td><h2># Victoires</h2><div id="green_circle"><div id="score">{{players_table.loc[id_player].nb_vic}}</div></div></td>
@@ -15,8 +15,8 @@
   		<td><h2># Défaites</h2><div id="red_circle"><div id="score">{{players_table.loc[id_player].nb_def}}</div></div></td>
  		</tr>
  </table>
-  
-  
+
+
 <footer id="footer">
   	<table id="footer">
 		<tr id="tr_footer">

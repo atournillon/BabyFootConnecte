@@ -6,11 +6,11 @@ $(document).ready(function(){
 
     //receive details from server
     socket.on('livematch', function(msg) {
-        console.log("Received number" + msg.score_team_1);
-        console.log("Received number 2" + msg.score_team_2);
+        console.log("Received number" + msg.score_b);
+        console.log("Received number 2" + msg.score_r);
         //maintain a list of ten numbers
-        $('#score_team_1').html(msg.score_team_1.toString());
-        $('#score_team_2').html(msg.score_team_2.toString());
+        $('#score_b').html(msg.score_b.toString());
+        $('#score_r').html(msg.score_r.toString());
     });
 
 });

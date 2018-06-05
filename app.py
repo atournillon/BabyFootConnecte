@@ -3,6 +3,12 @@
 - Ajouter
 """
 
+
+""" TODO :
+- Ameliorer NavBar
+- Ajouter
+"""
+
 from flask import Flask, render_template, request
 import pandas as pd
 import time
@@ -11,7 +17,7 @@ from flask_socketio import SocketIO, emit
 from flask import Flask, render_template
 from threading import Thread, Event
 
-import sqlite3
+import sqlite3 as lite
 
 app = Flask(__name__)
 
@@ -19,7 +25,6 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 thread = Thread()
 thread_stop_event = Event()
-
 
 #New thread to get live data from the SQLITE DB
 class LiveScoreThread(Thread):
@@ -32,12 +37,10 @@ class LiveScoreThread(Thread):
         Query the DB to get the live score each second
         Ideally to be run in a separate thread?
         """
-        #infinite loop of magical random numbers
-        print("Making random numbers")
+        #infinite loop
         while not thread_stop_event.isSet():
-            score_team_1, score_team_2 = getData()
-            socketio.emit('livematch', {'score_team_1': score_team_1, 'score_team_2': score_team_2}, namespace='/test')
-            print score_team_1
+            score_b, score_r = getData()
+            socketio.emit('livematch', {'score_b': score_b, 'score_r': score_r}, namespace='/test')
             time.sleep(self.delay)
 
     def run(self):
@@ -45,22 +48,35 @@ class LiveScoreThread(Thread):
 
 @app.route('/')
 def index():
+    purge_live_match()
     return render_template('home.html')
 
 # Retrieve data from database
 def getData():
-	conn=sqlite3.connect('data/baby_foot.db')
-	curs=conn.cursor()
-	for row in curs.execute("SELECT * FROM LIVE_MATCH ORDER BY time_but DESC LIMIT 1"):
-		time_debut = str(row[0])
-        time_but  =  str(row[1])
-        score_team_1 = row[2]
-        score_team_2 = row[3]
-	conn.close()
-	return score_team_1, score_team_2
+    conn_thr=lite.connect('data/PARC_DES_PRINCES.db')
+    curs_thr=conn_thr.cursor()
+    table = curs_thr.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
+    if len(table) == 0:
+        return '/', '/'
+    else:
+    	row = table[0] #Just one line in the table
+        score_b = row[7]
+        score_r = row[8]
 
-#Load Players Table
-players_table = pd.read_csv('data/players.csv', sep = ';', index_col = 0)
+	conn_thr.close()
+	return score_b, score_r
+
+
+def get_players():
+    #Load Players Table
+    conn = lite.connect('data/PARC_DES_PRINCES.db')
+    query = "SELECT * FROM PROD_REF_PLAYERS"
+    df_players = pd.read_sql(query, conn)
+    conn.close()
+    return df_players
+
+
+players_table = get_players().set_index('id_player') #pd.read_csv('data/players.csv', sep = ';', index_col = 0)
 @app.route('/players')
 def players():
     return render_template('players.html', players_table = players_table)
@@ -84,11 +100,37 @@ def match_team():
         return redirect(url_for('index'))
 
     # show the form, it wasn't submitted
-    return render_template('match_team.html')
+    return render_template('match_team.html', players_table = players_table)
+
+#  Initalisation de la fonction de vidage des tables
+def purge_live_match():
+    conn=lite.connect('data/PARC_DES_PRINCES.db')
+    curs=conn.cursor()
+
+    # Purge de la table contenant le live du match
+    curs.execute("DELETE FROM PROD_LIVE_MATCH")
+    conn.commit()
+    conn.close()
+
+
+#Function to insert data on PROD_LIVE_MATCH when livematch.html is loaded
+def init_prod_live_match():
+    conn=lite.connect('data/PARC_DES_PRINCES.db')
+    curs=conn.cursor()
+    b1 = 0
+    b2 = 0
+    r1 = 0
+    r2 = 0
+    score_b = 0
+    score_r = 0
+    curs.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), datetime('now'), datetime('now'), (?), (?))", (None, b1, b2, r1, r2, score_b, score_r))
+    conn.commit()
+    conn.close()
 
 
 @app.route('/livematch')
 def live_match():
+    init_prod_live_match()
     return render_template('livematch.html')
 
 @socketio.on('connect', namespace='/test')
