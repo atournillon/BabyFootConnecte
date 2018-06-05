@@ -27,10 +27,10 @@ mon_joystick = pygame.joystick.Joystick(0)                                      
 mon_joystick.init() 
 
 #Initialisation de SQLite
-import sqlite3 as lite                                                                          #Import de SQLite
+import sqlite3 as sql                                                                          #Import de SQLite
 import sys
-conn = lite.connect('data/baby_foot.db')                                                        #Nom de la base
-curs=conn.cursor()
+connexion = sql.connect('data/PARC_DES_PRINCES.db')                                                        #Nom de la base
+requete=connexion.cursor()
 
 #Import des librairies Time
 import time
@@ -38,13 +38,13 @@ import datetime
 
 #Fonction d'ajout de données dans la table
 def live (time_goal_str, i, j):                                                                 #Update de la table Live avec le time du but, et les scores des Bleus et Rouge
-    curs.execute("UPDATE LIVE_MATCH SET time_goal=?, score_b=?, score_r=?",(time_goal_str, i, j))                   
-    conn.commit()
+    requete.execute("UPDATE PROD_LIVE_MATCH SET time_goal=?, score_b=?, score_r=?",(time_goal_str, i, j))                   
+    connexion.commit()
 
 #Fonction d'ajout des infos dans la table historique
 def histo_data ():                                                                              #Recopie de la table Live vers la table d'Histo                   
-    curs.execute("INSERT INTO HISTO_MATCH SELECT * from LIVE_MATCH")   
-    conn.commit()
+    requete.execute("INSERT INTO PROD_LIVE_MATCH_HISTO SELECT * from PROD_LIVE_MATCH")   
+    connexion.commit()
 
 
 #Initialisation du compteur de match
@@ -58,8 +58,8 @@ try:                                                                            
     while True:                                                                                 #Programme qui tourne à l'infini
         print("Vérification de la base Live en cours")                                                        
         try:                                                                                    #On vérifie si la base Live contient quelque chose
-            curs.execute("SELECT count(*) FROM LIVE_MATCH")
-            test_score = curs.fetchone()
+            requete.execute("SELECT count(*) FROM PROD_LIVE_MATCH")
+            test_score = requete.fetchone()
             nb_rows = test_score[0]
             if nb_rows > 0:
                 print("On peut démarrer un match")                                              #Si elle contient une ligne, c'est qu'un match doit démarrer
@@ -95,7 +95,7 @@ try:                                                                            
                         Last_Goal = 1															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                         print("Buuuut des Bleus !")
                         live (time_goal_str, i, j)                                              #Ecriture dans la table live
-                        for row in curs.execute("SELECT * FROM LIVE_MATCH"):                    #Affichage de la table Live
+                        for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):                    #Affichage de la table Live
                             print (row)
                         histo_data()                                                            #Ecriture dans la table d'historique
                         time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
@@ -108,7 +108,7 @@ try:                                                                            
                         Last_Goal = 2															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                         print("Buuuut des Rouge !")
                         live (time_goal_str, i, j)                                              #Ecriture dans la table live
-                        for row in curs.execute("SELECT * FROM LIVE_MATCH"):                    #Affichage de la table Live
+                        for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):                    #Affichage de la table Live
                             print (row)
                         histo_data()                                                            #Ecriture dans la table d'historique
                         time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
@@ -122,7 +122,7 @@ try:                                                                            
                                     Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                     print("Oh le but n'est pas validé")	
                                     live (time_goal_str, i, j)                                  #Ecriture dans la table live
-                                    for row in curs.execute("SELECT * FROM LIVE_MATCH"):        #Affichage de la table Live
+                                    for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
                                         print (row)
                                     histo_data()                                                #Ecriture dans la table d'historique
                                 elif Last_Goal == 2:                                            #Si le dernier but vient des rouge
@@ -130,7 +130,7 @@ try:                                                                            
                                     Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                     print("Oh le but n'est pas validé")
                                     live (time_goal_str, i, j)                                  #Ecriture dans la table live
-                                    for row in curs.execute("SELECT * FROM LIVE_MATCH"):        #Affichage de la table Live
+                                    for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
                                         print (row)
                                     histo_data()                                                #Ecriture dans la table d'historique
                                 elif Last_Goal == 0:                                            #Si c'est le premier but du match
@@ -139,7 +139,7 @@ try:                                                                            
                                     Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                     print("Oh ce premier but n'est pas validé")
                                     live (time_goal_str, i, j)                                  #Ecriture dans la table live
-                                    for row in curs.execute("SELECT * FROM LIVE_MATCH"):        #Affichage de la table Live
+                                    for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
                                         print (row)
                                     histo_data()                                                #Ecriture dans la table d'historique
                                 elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
@@ -158,7 +158,8 @@ try:                                                                            
         except:
             print ("Table Live Vide")                                                                       #Si la Table Live est vide, on affiche l'info
 
-        curs.execute("DROP TABLE IF EXISTS LIVE_MATCH")                                                     #Après un match classique, on supprime la Table Live
+        #requete.execute("DROP TABLE IF EXISTS PROD_LIVE_MATCH")                                                     #Après un match classique, on supprime la Table Live
+        requete.execute("DELETE FROM PROD_LIVE_MATCH") 
         time.sleep(10)                                                                                      #Un check est fait toutes les 10 secondes pour savoir si un match commence
 
 
@@ -167,7 +168,7 @@ try:                                                                            
 
 except:                                                                                                     #Si on quitte le programme,
     #Sortie de la table 
-    conn.close()                                                                                                                                                               
+    connexion.close()                                                                                                                                                               
 
     #Réinitialisation des capteurs
     GPIO.cleanup()                                                                                      
