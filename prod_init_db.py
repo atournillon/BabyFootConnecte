@@ -1,10 +1,13 @@
+#!/usr/bin/python
+#coding: utf8
+
 # Chargement des packages
 import sqlite3 as sql
 import time
 from datetime import datetime
 import pandas as pd
 
-# Base de production
+# Base de recette
 connexion = sql.connect('data/PARC_DES_PRINCES.db')
 
 # Visualiser la base SQL
@@ -21,9 +24,6 @@ def CreateTable():
     # Création de la table d'historisation des lives de match
     requete.execute('''CREATE TABLE IF NOT EXISTS PROD_LIVE_MATCH_HISTO
     (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
-    # Création de la table contenant le référentiel des joueurs
-    requete.execute('''CREATE TABLE IF NOT EXISTS PROD_REF_PLAYERS
-    (id_player INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT, nickname TEXT)''')
     
 # Initialisation de la fonction contenant le déclencheur
 def Trigger():
@@ -51,9 +51,12 @@ Trigger()
 # Appel de la fonction de vidage des tables
 PurgeLiveMatch()
 
-# Importation des commentaires depuis le dictionnaire vers SQLITE
-# requete.execute('''DROP TABLE PROD_REF_COMMENTS''')
+# Soumission des fonctions précédemment appelées
+connexion.commit()
+
+# Importation des commentaires et des joueurs depuis les dictionnaires vers SQLITE3
 wb=pd.read_excel('data/dictionnaire_commentaires.xlsx',sheet_name=None)
+wb2=pd.read_excel('data/dictionnaire_joueurs.xlsx',sheet_name=None)
 """
 if_exists : {'fail', 'replace', 'append'}, default 'fail'
     - fail: If table exists, do nothing.
@@ -62,9 +65,9 @@ if_exists : {'fail', 'replace', 'append'}, default 'fail'
 """
 for sheet in wb:
     wb[sheet].to_sql('PROD_REF_COMMENTS',connexion, index=False, if_exists='replace')
-
-# Soumission des fonctions précédemment appelées
-connexion.commit()
+for sheet in wb2:
+    wb2[sheet].to_sql('PROD_REF_PLAYERS',connexion, index=False, if_exists='replace')
+    
 
 # Déconnexion de la base
 requete.close()
