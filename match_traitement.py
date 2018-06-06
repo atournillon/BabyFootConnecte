@@ -32,7 +32,7 @@ def time_function(df):
     df = df.groupby('id_match', as_index=False).agg(['min','max'])['time_goal']
     df['time_start'] = pd.to_datetime(df['min'])
     df['time_end'] = pd.to_datetime(df['max'])
-    print df
+
     df['time_duration'] = df['time_end'] - df['time_start']
     df['time_duration'] = df['time_duration'].dt.total_seconds().astype(int)
     col_keep = ['time_start','time_end','time_duration']
@@ -88,7 +88,6 @@ def results_function(df):
     df_ext_win.reset_index()
     # concat two dataframe
     df_concat = pd.concat([df_dom_win,df_ext_win],axis=0).set_index('id_match').sort_index()
-    print(df_concat.columns)
     df_concat = df_concat.drop(['b1','b2','r1','r2','score_b','score_r'],axis=1)
     return df_concat
 
@@ -114,6 +113,14 @@ match_results = results_function(input_match_df[columns_results][(input_match_df
 ###############################################
 
 resume_match_df = pd.concat([match_time, match_players,match_results],axis=1).reset_index()
+
+
+
+######################################################################################
+######################################################################################
+########################### PLAYERS RESUME ###########################################
+######################################################################################
+######################################################################################
 
 # new dataframe with all players
 players = pd.unique(resume_match_df[['winner_id1', 'winner_id2','loser_id1', 'loser_id2']].values.ravel('K'))
