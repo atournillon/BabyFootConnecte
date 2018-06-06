@@ -24,6 +24,10 @@ def CreateTable():
     # Création de la table d'historisation des lives de match
     requete.execute('''CREATE TABLE IF NOT EXISTS REC_LIVE_MATCH_HISTO
     (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
+    requete.execute('''CREATE TABLE IF NOT EXISTS PROD_STAT_PLAYERS
+    (id_player INTEGER, match_count INTEGER, match_win_count INTEGER, match_los_count INTEGER, game_time_sec INTEGER,
+     goals_win_count INTEGER, goals_los_count INTEGER, match_win_percent REAL, goals_count INTEGER, goal_per_minut REAL
+     , prenom TEXT , nom TEXT , trigram TEXT)''')
     
 # Initialisation de la fonction contenant le déclencheur
 def Trigger():
