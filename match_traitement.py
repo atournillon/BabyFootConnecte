@@ -12,11 +12,12 @@
 #Adversaire favoris (plus de victoires) ,Adversaire redoutable (plus de défaites) ,Meilleur partenaire (plus de victoires) ,Pire partenaire (plus de défaites)
 
 #Import librairies python
-import pandas as pd, numpy as np
+import pandas as pd, numpy as np, datetime, timedelta
 
 #Initialisation de SQLite
 import sqlite3 as sql                                                                          #Import de SQLite
 import sys
+
 connexion = sql.connect('data/PARC_DES_PRINCES.db')                                                        #Nom de la base
 requete=connexion.cursor()
 
