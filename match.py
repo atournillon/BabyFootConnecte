@@ -29,8 +29,6 @@ mon_joystick.init()
 #Initialisation de SQLite
 import sqlite3 as sql                                                                          #Import de SQLite
 import sys
-connexion = sql.connect('data/PARC_DES_PRINCES.db')                                                        #Nom de la base
-requete=connexion.cursor()
 
 #Import des librairies Time
 import time
@@ -58,6 +56,9 @@ try:                                                                            
     while True:                                                                                 #Programme qui tourne à l'infini
         print("Vérification de la base Live en cours")                                                        
         try:                                                                                    #On vérifie si la base Live contient quelque chose
+            connexion = sql.connect('data/PARC_DES_PRINCES.db')  # Nom de la base
+            requete = connexion.cursor()
+
             requete.execute("SELECT count(*) FROM PROD_LIVE_MATCH")
             test_score = requete.fetchone()
             nb_rows = test_score[0]
