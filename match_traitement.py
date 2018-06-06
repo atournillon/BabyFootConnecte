@@ -12,7 +12,7 @@
 #Adversaire favoris (plus de victoires) ,Adversaire redoutable (plus de défaites) ,Meilleur partenaire (plus de victoires) ,Pire partenaire (plus de défaites)
 
 #Import librairies python
-import pandas as pd, numpy as np, datetime, timedelta
+import pandas as pd, numpy as np, datetime
 
 #Initialisation de SQLite
 import sqlite3 as sql                                                                          #Import de SQLite
@@ -32,6 +32,7 @@ def time_function(df):
     df = df.groupby('id_match', as_index=False).agg(['min','max'])['time_goal']
     df['time_start'] = pd.to_datetime(df['min'])
     df['time_end'] = pd.to_datetime(df['max'])
+    print df
     df['time_duration'] = df['time_end'] - df['time_start']
     df['time_duration'] = df['time_duration'].dt.total_seconds().astype(int)
     col_keep = ['time_start','time_end','time_duration']
