@@ -59,12 +59,12 @@ def getData():
     if len(table) == 0:
         return '/', '/'
     else:
-    	row = table[0] #Just one line in the table
+        row = table[0] #Just one line in the table
         score_b = row[7]
         score_r = row[8]
 
-	conn_thr.close()
-	return score_b, score_r
+    conn_thr.close()
+    return score_b, score_r
 
 
 def get_players():
@@ -76,10 +76,14 @@ def get_players():
     return df_players
 
 
-players_table = get_players().set_index('id_player') #pd.read_csv('data/players.csv', sep = ';', index_col = 0)
+players_table = get_players().set_index('id_player')
 @app.route('/players')
 def players():
-    return render_template('players.html', players_table = players_table)
+    conn = lite.connect('data/PARC_DES_PRINCES.db')
+    query = "SELECT * FROM PROD_STAT_PLAYERS LIMIT 5"
+    players_stat= pd.read_sql(query, conn).set_index('id_player')
+    conn.close()
+    return render_template('players.html', players_table = players_stat)
 
 @app.route('/player/<int:id_player>/')
 def player(id_player):
