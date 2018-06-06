@@ -89,7 +89,7 @@ try:                                                                            
                 while  i < 10 and j < 10:                                                       #Boucle de 10 buts
                     
                     #Buts pour les bleus
-                    if GPIO.input(18) == 0:                                                     #Détection des mouvements sur le PIN 18
+                    if GPIO.input(18) == 1:                                                     #Détection des mouvements sur le PIN 18
                         time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                         time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                         i += 1                                                                  #Incrément du but marqué
