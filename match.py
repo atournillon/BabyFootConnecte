@@ -74,7 +74,7 @@ try:                                                                            
                 i=0                                                                             #i = Equipe Bleue
                 j=0                                                                             #j = Equipe Rouge
                 Last_Goal = 0                                                                   # Pas de dernier but pour démarrer
-                histo_data ()                                                                   #On écrit dans la table d'Histo le début du match
+                #histo_data ()                                                                   #On écrit dans la table d'Histo le début du match
 
                 #Initialisation de l'heure de début de partie
                 from datetime import timedelta                                                  #Import de TimeDelta pour calculer la durée
@@ -98,7 +98,7 @@ try:                                                                            
                         live (time_goal_str, i, j)                                              #Ecriture dans la table live
                         for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):                    #Affichage de la table Live
                             print (row)
-                        histo_data()                                                            #Ecriture dans la table d'historique
+                        #histo_data()                                                            #Ecriture dans la table d'historique
                         time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
                     
                     #Buts pour les rouges
@@ -111,7 +111,7 @@ try:                                                                            
                         live (time_goal_str, i, j)                                              #Ecriture dans la table live
                         for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):                    #Affichage de la table Live
                             print (row)
-                        histo_data()                                                            #Ecriture dans la table d'historique
+                        #histo_data()                                                            #Ecriture dans la table d'historique
                         time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
                     #Annulation du dernier but
@@ -125,7 +125,7 @@ try:                                                                            
                                     live (time_goal_str, i, j)                                  #Ecriture dans la table live
                                     for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
                                         print (row)
-                                    histo_data()                                                #Ecriture dans la table d'historique
+                                    #histo_data()                                                #Ecriture dans la table d'historique
                                 elif Last_Goal == 2:                                            #Si le dernier but vient des rouge
                                     j = j - 1                                                   #On retire le but
                                     Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
@@ -133,7 +133,7 @@ try:                                                                            
                                     live (time_goal_str, i, j)                                  #Ecriture dans la table live
                                     for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
                                         print (row)
-                                    histo_data()                                                #Ecriture dans la table d'historique
+                                    #histo_data()                                                #Ecriture dans la table d'historique
                                 elif Last_Goal == 0:                                            #Si c'est le premier but du match
                                     i = 0                                                       #Les bleus reste à 0
                                     j = 0                                                       #Les rouge reste à 0
@@ -142,7 +142,7 @@ try:                                                                            
                                     live (time_goal_str, i, j)                                  #Ecriture dans la table live
                                     for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
                                         print (row)
-                                    histo_data()                                                #Ecriture dans la table d'historique
+                                    #histo_data()                                                #Ecriture dans la table d'historique
                                 elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
                                     print("Pas de ça ici messieurs ! Bien essayé !\n\n")	
                     

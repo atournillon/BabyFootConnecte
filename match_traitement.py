@@ -60,8 +60,10 @@ def results_function(df):
     # create 2 dataframe for domicile and ext winner with filter. Traitments and concat two DF
     # if team domicile win : filter match with domicile winner
     # filter each dataframe for winners domicile or ext
+
     df_dom_win = df[df.score_b==10]
     df_ext_win = df[df.score_r==10]
+    print(df_dom_win)
     # if dom. team win :
     df_dom_win['winner_loc'] = 'domicile'
     df_dom_win['winner_id1'] = df_dom_win[['b1','b2']].min(axis=1)

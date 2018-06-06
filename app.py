@@ -52,19 +52,28 @@ def index():
     purge_live_match()
     return render_template('home.html')
 
+global score_b, score_r
+score_b = 0
+score_r = 0
+
 # Retrieve data from database
 def getData():
-    conn_thr=lite.connect('data/PARC_DES_PRINCES.db')
-    curs_thr=conn_thr.cursor()
-    table = curs_thr.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
-    if len(table) == 0:
-        return '/', '/'
-    else:
-        row = table[0] #Just one line in the table
-        score_b = row[7]
-        score_r = row[8]
+    try:
+        conn_thr=lite.connect('data/PARC_DES_PRINCES.db')
+        curs_thr=conn_thr.cursor()
+        table = curs_thr.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
+        if len(table) == 0:
+            return '/', '/'
+        else:
+            row = table[0] #Just one line in the table
+            score_b = row[7]
+            score_r = row[8]
 
-    conn_thr.close()
+        conn_thr.close()
+
+    except:
+        pass
+
     return score_b, score_r
 
 
