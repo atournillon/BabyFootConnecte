@@ -12,6 +12,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import time
+import datetime
 
 from flask_socketio import SocketIO, emit
 from flask import Flask, render_template
@@ -121,13 +122,14 @@ def purge_live_match():
 def init_prod_live_match():
     conn=lite.connect('data/PARC_DES_PRINCES.db')
     curs=conn.cursor()
+    id_match = int(time.mktime(datetime.now().timetuple()))
     b1 = 0
     b2 = 0
     r1 = 0
     r2 = 0
     score_b = 0
     score_r = 0
-    curs.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), datetime('now'), datetime('now'), (?), (?))", (None, b1, b2, r1, r2, score_b, score_r))
+    curs.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), datetime('now'), datetime('now'), (?), (?))", (id_match, b1, b2, r1, r2, score_b, score_r))
     conn.commit()
     conn.close()
 
