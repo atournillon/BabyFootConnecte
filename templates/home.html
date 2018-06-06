@@ -1,8 +1,17 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="table" style=margin-top:10%;>
-    <h1>Welcome To BabyFootConnect</h1>
-    <p><a href="{{ url_for('match_team') }}">Je vais choisir mon équipe !</a></p>
-  </div>
+  	</br>
+  	<h1>La gamelle connectée</h1>
+	<img src="static/img/avisia.png" style="width:150px;height:25px; margin-left:60%; align:center;">
+    
+    <table id="table_base">
+    <tr>
+    <td><a href="{{ url_for('players') }}"><img src="static/img/stats.png" style="width:300px;height:300px; margin:auto;"></br></br><h2>Voir les stats</h2></a></td>
+  	
+    <td><a href="{{ url_for('match_team') }}"><img src="static/img/start.png" style="width:300px;height:300px; margin:auto;"></br></br><h2>Jouer un match</h2></a></td>
+  	</tr>
+  	</table>
+  
+
 {% endblock %}

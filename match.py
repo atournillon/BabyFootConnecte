@@ -1,136 +1,176 @@
 #!/usr/bin/python
 #coding: utf8
 
+
 #_______________________________________________________________________
 # BABY FOOT Connecté
 # Programme pour compter les buts d'un match de Baby-Foot à partir de capteurs MC005
-# Avril 2017
+# Juin 2017
 #_______________________________________________________________________
 
 
 # 1 - INITIALISATION_________________________
 
+
 #Initialisation des capteurs
-import RPi.GPIO as GPIO																		#Import de la librairie pour les capteurs
-GPIO.setwarnings(False)                                                                     #Désactive le Warning
-GPIO.setmode(GPIO.BCM)                                                                      #Mode BCM si on utilise un BreadBoard
-GPIO.setup(18, GPIO.IN)                                                                     #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
-GPIO.setup(19, GPIO.IN)                                                                     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
+import RPi.GPIO as GPIO																		    #Import de la librairie pour les capteurs
+GPIO.setwarnings(False)                                                                         #Désactive le Warning
+GPIO.setmode(GPIO.BCM)                                                                          #Mode BCM si on utilise un BreadBoard
+GPIO.setup(18, GPIO.IN)                                                                         #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
+GPIO.setup(19, GPIO.IN)                                                                         #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 
-#Initilisation du son
-import pygame                                                                               #Import de la librairie PyGame
-from pygame.locals import *                                                                 #Tout importer
-pygame.init()                                                                               #Init de Pygame
+#Initilisation de la manette
+import pygame                                                                                   #Import de la librairie PyGame
+from pygame.locals import *                                                                     #Tout importer
+pygame.init()                                                                                   #Init de Pygame
+mon_joystick = pygame.joystick.Joystick(0)                                                      #Touche 0 correspond au bouton Start
+mon_joystick.init() 
 
-#Initialisation de la manette
-mon_joystick = pygame.joystick.Joystick(0)                                                  #Touche 0 correspond au bouton Start
-mon_joystick.init()                                                                         #Initialisation du Joystick
+#Initialisation de SQLite
+import sqlite3 as sql                                                                          #Import de SQLite
+import sys
+connexion = sql.connect('data/PARC_DES_PRINCES.db')                                                        #Nom de la base
+requete=connexion.cursor()
+
+#Import des librairies Time
+import time
+import datetime
+
+#Fonction d'ajout de données dans la table
+def live (time_goal_str, i, j):                                                                 #Update de la table Live avec le time du but, et les scores des Bleus et Rouge
+    requete.execute("UPDATE PROD_LIVE_MATCH SET time_goal=?, score_b=?, score_r=?",(time_goal_str, i, j))                   
+    connexion.commit()
+
+#Fonction d'ajout des infos dans la table historique
+def histo_data ():                                                                              #Recopie de la table Live vers la table d'Histo                   
+    requete.execute("INSERT INTO PROD_LIVE_MATCH_HISTO SELECT * from PROD_LIVE_MATCH")   
+    connexion.commit()
+
 
 #Initialisation du compteur de match
-m = 0																						#Par défaut le compteur de match est à 0
-
-#Initialisation du Push Button
-while True:	                                                                                #Le programme ne s'arrêtera jamais de tourner
-#Initialisation des compteurs et du fichier d'export
-m += 1																				        #On incrémente le match dès le début
-i=0                                                                                         #i = Equipe Bleue
-j=0                                                                                         #j = Equipe Rouge
-Last_Goal = 0                                                                               # Pas de dernier but pour démarrer
-export = "Time;match;score_bleu;score_rouge\n"                                              #Création du texte pour export CSV avec le timestamp, le match, le score des bleus, le score des rouges
-export_flask = "Time;score_bleu;score_rouge"                                                #Création du texte pour export CSV pour Flask et affichage avec le timestamp, le score des bleus, le score des rouges
-
-#Initialisation de l'heure de début de partie
-import datetime, time                                                                       #Import de la librairie Time et Datetime
-from datetime import timedelta                                                              #Import de TimeDelta pour calculer la durée
-time_debut = datetime.datetime.now()                                                        #Time de début de partie
-time_debut_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_debut))                            #Conversion pour stockage en caractère
-export = export  + time_debut_str + ";" + str(m) + ";0;0\n"                                 #On ajoute une ligne à l'export avec l'initialisation du match
+m = 0	
 
 
+# 2 - GESTION DE L'ATTENTE D'UN DEBUT DE MATCH_____________________
 
 
-# 2 - DEROULE DU MATCH_____________________
-
-#Début du match
-print("\nEt c'est parti pour le " + str(m) + "e match de baby-foot à l'Avisia Arena!\n\n")  #A supprimer
-time.sleep(5)                                                                               #On rajoute du temps (5sec) avant de lancer le match
-
-#Boucle pour créer le match jusqu'au moment où une équipe arrive à 10
-while  i < 10 and j < 10:                                                                   #Boucle de 10 buts
-    
-    #Buts pour les bleus
-    if GPIO.input(18) == 0:                                                                 #Détection des mouvements sur le PIN 18
-        time_but = datetime.datetime.now()                                                  #Récupérer le time du but
-        time_but_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_but))                        #Conversion en format String pour stockage au bon format
-        Timing_But = time_but - time_debut                                                  #Timing du but
-        heure_but, remainder = divmod(Timing_But.seconds, 3600)                             #Calcul pour découper le timing en heure, minute, secondes (1/2)
-        minute_but, seconde_but = divmod(remainder, 60)                                     #Calcul pour découper le timing en heure, minute, secondes (2/2)
-        i += 1                                                                              #Incrément du but marqué
-        Last_Goal = 1																        #Ce but a été marqué par les bleus - utiliser pour l'annulation
-        if i < 10:                                                                          #Boucle de buts
-            print("Buuuut des Bleus !\nNous sommes à la " + str(seconde_but) + '" de jeu et ça fait ' + str(i) + "-" + str(j) + "\n\n")
-            export = export + time_but_str +  ";" + str(m) + ";" + str(i) + ";" + str(j) + "\n"
-            export_flask = time_but_str +  ";" + str(i) + ";" + str(j)                      #Export pour Flask en affichage
-            fichier_flask = open("/home/pi/Desktop/Data_Match/Live.csv", "w")               #Ecraser le fichier
-            fichier_flask.write(export_flask)                                               #Ecriture du score actuel
-            fichier_flask.close()                                                           #Fermeture du fichier
-            time.sleep(5)                                                                   #On rajoute du temps (5sec) pour éviter les problèmes de détection
-    
-    #Buts pour les rouges
-    if GPIO.input(19) == 0:                                                                 #Détection des mouvements sur le PIN 19
-        time_but = datetime.datetime.now()                                                  #Récupérer le time du but
-        time_but_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_but))                        #Conversion en format String pour stockage au bon format
-        Timing_But = time_but - time_debut                                                  #Timing du but
-        heure_but, remainder = divmod(Timing_But.seconds, 3600)                             #Calcul pour découper le timing en heure, minute, secondes (1/2)
-        minute_but, seconde_but = divmod(remainder, 60)                                     #Calcul pour découper le timing en heure, minute, secondes (2/2)
-        j += 1                                                                              #Incrément du but marqué
-        Last_Goal = 2																        #Ce but a été marqué par les rouges - utiliser pour l'annulation
-        if j < 10:                                                                          #Boucle de buts
-            print("Buuuut des Rouges !\nNous sommes à la " + str(seconde_but) + '" de jeu et ça fait ' + str(i) + "-" + str(j) + "\n\n")
-            export = export + time_but_str +  ";" + str(m) + ";" + str(i) + ";" + str(j) + "\n"
-            export_flask = time_but_str +  ";" + str(i) + ";" + str(j)                      #Export pour Flask en affichage
-            fichier_flask = open("/home/pi/Desktop/Data_Match/Live.csv", "w")               #Ecraser le fichier
-            fichier_flask.write(export_flask)                                               #Ecriture du score actuel
-            fichier_flask.close()                                                           #Fermeture du fichier
-            time.sleep(5)                                                                   #On rajoute du temps (5sec) pour éviter les problèmes de détection
-
-    #Annulation du dernier but
-    for event in pygame.event.get():                                                        #A tout moment on peut annuler un but
-        if event.type == JOYBUTTONDOWN:                                                     #Quand un bouton est appuyé
-            if event.button == 0:                                                           #Le bouton 0 correspond au bouton X
-                if Last_Goal == 1:                                                          #Si le dernier but vient des bleus
-                    i = i - 1                                                               #On retire le but
-                    Last_Goal = -1                                                          #En modifiant le Last Goal, on va empêcher la double annulation
-                    print("Oh le but n'est pas validé, terrible pour les Bleus ! Le match reprend\nLe score reste à " + str(i) + "-" + str(j) + "\n\n")	
-                elif Last_Goal == 2:                                                        #Si le dernier but vient des rouge
-                    j = j - 1                                                               #On retire le but
-                    Last_Goal = -1                                                          #En modifiant le Last Goal, on va empêcher la double annulation
-                    print("Oh le but n'est pas validé, terrible pour les Rouges ! Le match reprend\nLe score resre à " + str(i) + "-" + str(j) + "\n\n")
-                elif Last_Goal == 0:                                                        #Si c'est le premier but du match
-                    i = 0                                                                   #Les bleus reste à 0
-                    j = 0                                                                   #Les rouge reste à 0
-                    Last_Goal = -1                                                          #En modifiant le Last Goal, on va empêcher la double annulation
-                    print("Oh ce premier but n'est pas validé, ! Le match reprend\nLe score reste à " + str(i) + "-" + str(j) + "\n\n")	
-                elif Last_Goal == -1:                                                       #En modifiant le Last Goal, on va empêcher la double annulation
-                    print("Pas de ça ici messieurs ! Bien essayé !\n\n")	
-    
+try:                                                                                            #Gestion de l'arret du programme
+    while True:                                                                                 #Programme qui tourne à l'infini
+        print("Vérification de la base Live en cours")                                                        
+        try:                                                                                    #On vérifie si la base Live contient quelque chose
+            requete.execute("SELECT count(*) FROM PROD_LIVE_MATCH")
+            test_score = requete.fetchone()
+            nb_rows = test_score[0]
+            if nb_rows > 0:
+                print("On peut démarrer un match")                                              #Si elle contient une ligne, c'est qu'un match doit démarrer
 
 
+# 3 - DEROULE DU MATCH_____________________
 
-# 3 - FIN DU MATCH_____________________
 
-#Affichage du résultat
-time.sleep(1)                                                                               #On rajoute du temps (3sec) pour afficher la fin de match
-if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
-    print("C'est donc terminé pour ce match #" + str(m) + " à l'Avisia Arena !\nVictoire des Bleus : " + str(i) + "-" + str(j) + "\nOn se retrouve très vite pour un nouveau match !\nA vous les studios !")
-elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
-    print("C'est donc terminé pour ce match #" + str(m) + " à l'Avisia Arena !\nVictoire des Rouges : " + str(i) + "-" + str(j) + "\nOn se retrouve très vite pour un nouveau match !\nA vous les studios !")      	
+                #Initialisation du début de match
+                m += 1																	        #On incrémente le match dès le début
+                i=0                                                                             #i = Equipe Bleue
+                j=0                                                                             #j = Equipe Rouge
+                Last_Goal = 0                                                                   # Pas de dernier but pour démarrer
+                histo_data ()                                                                   #On écrit dans la table d'Histo le début du match
 
-#Ecriture du fichier d'export
-nom_fichier = str('{0:%Y%m%d_%H%M%S}'.format(time_debut))                                   #Le fichier se base sur l'horodatage
-fichier = open("/home/pi/Desktop/Data_Match/Data_" + str(nom_fichier) + "_Match" + str(m) + ".csv", "w")                    #Ecraser le fichier
-fichier.write(export)                                                                       #Ecriture de tous les enregistrements du match
-fichier.close()                                                                             #Fermeture du fichier
+                #Initialisation de l'heure de début de partie
+                from datetime import timedelta                                                  #Import de TimeDelta pour calculer la durée
+                time_start = datetime.datetime.now()                                            #Time de début de partie
+                time_start_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_start))                #Conversion pour stockage en caractère                           
 
-#Réinitialisation des capteurs
-GPIO.cleanup()                                                                              #On réinitialise les ports GPIO
+                #Début du match
+                print("\nEt c'est parti pour le " + str(m) + "e match de baby-foot à l'Avisia Arena!\n\n")  
+                time.sleep(5)                                                                   #On rajoute du temps (5sec) avant de lancer le match et éviter les problèmes de détection
+
+                #Boucle pour créer le match jusqu'au moment où une équipe arrive à 10
+                while  i < 10 and j < 10:                                                       #Boucle de 10 buts
+                    
+                    #Buts pour les bleus
+                    if GPIO.input(18) == 1:                                                     #Détection des mouvements sur le PIN 18
+                        time_goal = datetime.datetime.now()                                     #Récupérer le time du but
+                        time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
+                        i += 1                                                                  #Incrément du but marqué
+                        Last_Goal = 1															#Ce but a été marqué par les bleus - utiliser pour l'annulation
+                        print("Buuuut des Bleus !")
+                        live (time_goal_str, i, j)                                              #Ecriture dans la table live
+                        for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):                    #Affichage de la table Live
+                            print (row)
+                        histo_data()                                                            #Ecriture dans la table d'historique
+                        time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
+                    
+                    #Buts pour les rouges
+                    elif GPIO.input(19) == 1:                                                   #Détection des mouvements sur le PIN 19
+                        time_goal = datetime.datetime.now()                                     #Récupérer le time du but
+                        time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
+                        j += 1                                                                  #Incrément du but marqué
+                        Last_Goal = 2															#Ce but a été marqué par les bleus - utiliser pour l'annulation
+                        print("Buuuut des Rouge !")
+                        live (time_goal_str, i, j)                                              #Ecriture dans la table live
+                        for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):                    #Affichage de la table Live
+                            print (row)
+                        histo_data()                                                            #Ecriture dans la table d'historique
+                        time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
+
+                    #Annulation du dernier but
+                    for event in pygame.event.get():                                            #A tout moment on peut annuler un but
+                        if event.type == JOYBUTTONDOWN:                                         #Quand un bouton est appuyé
+                            if event.button == 0:                                               #Le bouton 0 correspond au bouton X
+                                if Last_Goal == 1:                                              #Si le dernier but vient des bleus
+                                    i = i - 1                                                   #On retire le but
+                                    Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                                    print("Oh le but n'est pas validé")	
+                                    live (time_goal_str, i, j)                                  #Ecriture dans la table live
+                                    for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
+                                        print (row)
+                                    histo_data()                                                #Ecriture dans la table d'historique
+                                elif Last_Goal == 2:                                            #Si le dernier but vient des rouge
+                                    j = j - 1                                                   #On retire le but
+                                    Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                                    print("Oh le but n'est pas validé")
+                                    live (time_goal_str, i, j)                                  #Ecriture dans la table live
+                                    for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
+                                        print (row)
+                                    histo_data()                                                #Ecriture dans la table d'historique
+                                elif Last_Goal == 0:                                            #Si c'est le premier but du match
+                                    i = 0                                                       #Les bleus reste à 0
+                                    j = 0                                                       #Les rouge reste à 0
+                                    Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                                    print("Oh ce premier but n'est pas validé")
+                                    live (time_goal_str, i, j)                                  #Ecriture dans la table live
+                                    for row in requete.execute("SELECT * FROM PROD_LIVE_MATCH"):        #Affichage de la table Live
+                                        print (row)
+                                    histo_data()                                                #Ecriture dans la table d'historique
+                                elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
+                                    print("Pas de ça ici messieurs ! Bien essayé !\n\n")	
+                    
+
+# 4 - FIN DU MATCH_____________________
+
+
+                #Affichage du résultat
+                if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
+                    print("C'est donc terminé pour ce match. Victoire des Bleus")
+                elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
+                    print("C'est donc terminé pour ce match. Victoire des Rouge")     	
+
+        except:
+            print ("Table Live Vide")                                                                       #Si la Table Live est vide, on affiche l'info
+
+        #requete.execute("DROP TABLE IF EXISTS PROD_LIVE_MATCH")                                                     #Après un match classique, on supprime la Table Live
+        requete.execute("DELETE FROM PROD_LIVE_MATCH") 
+        time.sleep(10)                                                                                      #Un check est fait toutes les 10 secondes pour savoir si un match commence
+
+
+# 5 - SORTIE DU PROGRAMME_____________________
+
+
+except:                                                                                                     #Si on quitte le programme,
+    #Sortie de la table 
+    connexion.close()                                                                                                                                                               
+
+    #Réinitialisation des capteurs
+    GPIO.cleanup()                                                                                      
+
+    print("Fin du game")

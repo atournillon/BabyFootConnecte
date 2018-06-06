@@ -1,29 +1,27 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+</br>
+<h1>C'est qui le patron ?</h1>
+</br>
   <div class="jumbotron">
-
-
     <div class="container">
-      <h2>Players Table</h2>
       <input class="form-control" id="myInput" type="text" placeholder="Search..">
       <br>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>Firstname</th>
-            <th>Trigram</th>
-            <th>Victories</th>
-            <th>Defeats</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Surnom</th>
           </tr>
         </thead>
         <tbody id="myTable">
           {% for id_player in players_table.index %}
             <tr>
-              <td>{{ players_table.loc[id_player].first_name }}</td>
-              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].trigram }}</a></td>
-              <td>{{ players_table.loc[id_player].nb_vic }}</td>
-              <td>{{ players_table.loc[id_player].nb_def }}</td>
+              <td>{{ players_table.loc[id_player].firstname }}</td>
+              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].lastname }}</a></td>
+              <td>{{ players_table.loc[id_player].nickname }}</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -43,4 +41,13 @@
 
 
   </div>
+
+
+<footer id="footer">
+  	<table id="footer">
+		<tr id="tr_footer">
+  			<td id="td_footer"><h3><a href="{{ url_for('index') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Menu</a></h3></td>
+  		</tr>
+ 	</table>
+</footer>
 {% endblock %}

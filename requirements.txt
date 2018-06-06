@@ -2,6 +2,8 @@
 Flask
 gunicorn
 pandas
+flask_socketio
+sqlite3
 
 #Partie Capteurs
 RPi.GPIO
@@ -10,3 +12,15 @@ datetime
 
 #Partie Joystick
 pygame
+
+#Partie database
+pandas
+sqlite3
+datetime
+time
+
+#Partie TextToSpeech
+datetime
+os
+pyttsx3
+time
