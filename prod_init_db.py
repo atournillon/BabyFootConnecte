@@ -40,6 +40,14 @@ def Trigger():
     FROM PROD_LIVE_MATCH;
     END
     ''')
+    requete.execute('''CREATE TRIGGER IF NOT EXISTS MAJ_HISTO_MATCH2 
+    AFTER INSERT
+    ON PROD_LIVE_MATCH
+    BEGIN insert into PROD_LIVE_MATCH_HISTO  
+    SELECT id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r
+    FROM PROD_LIVE_MATCH;
+    END
+    ''')
 
 #  Initalisation de la fonction de vidage des tables
 def PurgeLiveMatch():
