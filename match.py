@@ -16,8 +16,8 @@
 import RPi.GPIO as GPIO																		    #Import de la librairie pour les capteurs
 GPIO.setwarnings(False)                                                                         #Désactive le Warning
 GPIO.setmode(GPIO.BOARD)                                                                          #Mode BCM si on utilise un BreadBoard
-GPIO.setup(18, GPIO.IN)                                                                         #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
-GPIO.setup(24, GPIO.IN)                                                                         #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
+GPIO.setup(12, GPIO.IN)                                                                         #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
+GPIO.setup(18, GPIO.IN)                                                                         #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 
 #Initilisation de la manette
 import pygame                                                                                   #Import de la librairie PyGame
@@ -89,7 +89,7 @@ try:                                                                            
                 while  i < 10 and j < 10:                                                       #Boucle de 10 buts
                     
                     #Buts pour les bleus
-                    if GPIO.input(18) == 1:                                                     #Détection des mouvements sur le PIN 18
+                    if GPIO.input(12) == 0:                                                     #Détection des mouvements sur le PIN 18
                         time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                         time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                         i += 1                                                                  #Incrément du but marqué
@@ -102,7 +102,7 @@ try:                                                                            
                         time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
                     
                     #Buts pour les rouges
-                    elif GPIO.input(24) == 1:                                                   #Détection des mouvements sur le PIN 19
+                    elif GPIO.input(18) == 0:                                                   #Détection des mouvements sur le PIN 19
                         time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                         time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                         j += 1                                                                  #Incrément du but marqué
