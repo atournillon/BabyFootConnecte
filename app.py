@@ -122,7 +122,7 @@ def purge_live_match():
 def init_prod_live_match():
     conn=lite.connect('data/PARC_DES_PRINCES.db')
     curs=conn.cursor()
-    id_match = int(time.mktime(datetime.now().timetuple()))
+    id_match = int(time.mktime(datetime.datetime.now().timetuple()))
     b1 = 0
     b2 = 0
     r1 = 0
