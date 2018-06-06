@@ -102,7 +102,7 @@ try:                                                                            
                         time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
                     
                     #Buts pour les rouges
-                    elif GPIO.input(24) == 0:                                                   #Détection des mouvements sur le PIN 19
+                    elif GPIO.input(24) == 1:                                                   #Détection des mouvements sur le PIN 19
                         time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                         time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                         j += 1                                                                  #Incrément du but marqué
