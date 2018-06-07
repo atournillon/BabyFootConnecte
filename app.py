@@ -12,6 +12,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import time
+import datetime
 
 from flask_socketio import SocketIO, emit
 from flask import Flask, render_template
@@ -51,20 +52,29 @@ def index():
     purge_live_match()
     return render_template('home.html')
 
+global score_b, score_r
+score_b = 0
+score_r = 0
+
 # Retrieve data from database
 def getData():
-    conn_thr=lite.connect('data/PARC_DES_PRINCES.db')
-    curs_thr=conn_thr.cursor()
-    table = curs_thr.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
-    if len(table) == 0:
-        return '/', '/'
-    else:
-    	row = table[0] #Just one line in the table
-        score_b = row[7]
-        score_r = row[8]
+    try:
+        conn_thr=lite.connect('data/PARC_DES_PRINCES.db')
+        curs_thr=conn_thr.cursor()
+        table = curs_thr.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
+        if len(table) == 0:
+            return '/', '/'
+        else:
+            row = table[0] #Just one line in the table
+            score_b = row[7]
+            score_r = row[8]
 
-	conn_thr.close()
-	return score_b, score_r
+        conn_thr.close()
+
+    except:
+        pass
+
+    return score_b, score_r
 
 
 def get_players():
@@ -76,10 +86,14 @@ def get_players():
     return df_players
 
 
-players_table = get_players().set_index('id_player') #pd.read_csv('data/players.csv', sep = ';', index_col = 0)
+players_table = get_players().set_index('id_player')
 @app.route('/players')
 def players():
-    return render_template('players.html', players_table = players_table)
+    conn = lite.connect('data/PARC_DES_PRINCES.db')
+    query = "SELECT * FROM PROD_STAT_PLAYERS LIMIT 5"
+    players_stat= pd.read_sql(query, conn).set_index('id_player')
+    conn.close()
+    return render_template('players.html', players_table = players_stat)
 
 @app.route('/player/<int:id_player>/')
 def player(id_player):
@@ -117,13 +131,14 @@ def purge_live_match():
 def init_prod_live_match():
     conn=lite.connect('data/PARC_DES_PRINCES.db')
     curs=conn.cursor()
+    id_match = int(time.mktime(datetime.datetime.now().timetuple()))
     b1 = 0
     b2 = 0
     r1 = 0
     r2 = 0
     score_b = 0
     score_r = 0
-    curs.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), datetime('now'), datetime('now'), (?), (?))", (None, b1, b2, r1, r2, score_b, score_r))
+    curs.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), datetime('now'), datetime('now'), (?), (?))", (id_match, b1, b2, r1, r2, score_b, score_r))
     conn.commit()
     conn.close()
 

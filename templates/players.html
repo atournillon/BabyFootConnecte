@@ -13,15 +13,27 @@
           <tr>
             <th>Prénom</th>
             <th>Nom</th>
-            <th>Surnom</th>
+            <th>Trigramme</th>
+            <th># Matchs</th>
+            <th># Victoires</th>
+            <th>#Défaites</th>
+            <th>Temps de Jeu</th>
+            <th>Buts Marqués</th>
+            <th>Buts Encaissés</th>
           </tr>
         </thead>
         <tbody id="myTable">
           {% for id_player in players_table.index %}
             <tr>
               <td>{{ players_table.loc[id_player].firstname }}</td>
-              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].lastname }}</a></td>
-              <td>{{ players_table.loc[id_player].nickname }}</td>
+              <td>{{ players_table.loc[id_player].lastname }}</td>
+              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].nickname }}</a></td>
+              <td>{{ players_table.loc[id_player].match_count }}</td>
+              <td>{{ players_table.loc[id_player].match_win_count }}</td>
+              <td>{{ players_table.loc[id_player].match_los_count }}</td>
+              <td>{{ players_table.loc[id_player].game_time_sec }}</td>
+              <td>{{ players_table.loc[id_player].goals_win_count }}</td>
+              <td>{{ players_table.loc[id_player].goals_los_count }}</td>
             </tr>
           {% endfor %}
         </tbody>

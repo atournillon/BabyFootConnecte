@@ -24,12 +24,24 @@ def CreateTable():
     # Création de la table d'historisation des lives de match
     requete.execute('''CREATE TABLE IF NOT EXISTS PROD_LIVE_MATCH_HISTO
     (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
+    requete.execute('''CREATE TABLE IF NOT EXISTS PROD_STAT_PLAYERS
+    (id_player INTEGER, match_count INTEGER, match_win_count INTEGER, match_los_count INTEGER, game_time_sec INTEGER,
+     goals_win_count INTEGER, goals_los_count INTEGER, match_win_percent REAL, goals_count INTEGER, goal_per_minut REAL
+     , prenom TEXT , nom TEXT , trigram TEXT)''')
     
 # Initialisation de la fonction contenant le déclencheur
 def Trigger():
     # Initialisation du Trigger permettant de copier PROD_LIVE_MATCH dans PROD_LIVE_MATCH_HISTO
     requete.execute('''CREATE TRIGGER IF NOT EXISTS MAJ_HISTO_MATCH 
     AFTER UPDATE OF id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r
+    ON PROD_LIVE_MATCH
+    BEGIN insert into PROD_LIVE_MATCH_HISTO  
+    SELECT id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r
+    FROM PROD_LIVE_MATCH;
+    END
+    ''')
+    requete.execute('''CREATE TRIGGER IF NOT EXISTS MAJ_HISTO_MATCH2 
+    AFTER INSERT
     ON PROD_LIVE_MATCH
     BEGIN insert into PROD_LIVE_MATCH_HISTO  
     SELECT id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r
@@ -68,6 +80,9 @@ for sheet in wb:
 for sheet in wb2:
     wb2[sheet].to_sql('PROD_REF_PLAYERS',connexion, index=False, if_exists='replace')
     
+# 1 ) Les logs de match
+#logs_match = pd.read_csv('data/logs_match.csv', sep = ';')
+#logs_match.to_sql('PROD_LIVE_MATCH_HISTO',connexion, index=False, if_exists='replace')
 
 # Déconnexion de la base
 requete.close()
