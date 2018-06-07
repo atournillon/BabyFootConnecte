@@ -4,6 +4,7 @@
 		"id_capteur_rouge":18
 	},
 	"database":{
-		"name":"data/database/PARC_DES_PRINCES.db"
+		"prod":"data/database/PARC_DES_PRINCES.db",
+		"rec":"data/database/ROUDOUROU.db"
 	}
 }
