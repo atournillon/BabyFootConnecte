@@ -4,6 +4,7 @@ gunicorn
 pandas
 flask_socketio
 sqlite3
+socketio
 
 #Partie Capteurs
 RPi.GPIO

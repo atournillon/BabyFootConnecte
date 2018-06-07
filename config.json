@@ -4,6 +4,6 @@
 		"id_capteur_rouge":18
 	},
 	"database":{
-		"name":"PARC_DES_PRINCES.db"
+		"name":"database/PARC_DES_PRINCES.db"
 	}
 }
