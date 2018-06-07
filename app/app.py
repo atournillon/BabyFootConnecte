@@ -4,22 +4,22 @@
 # Importation des packages
 from flask import Flask, render_template, request,redirect,url_for
 from flask_socketio import SocketIO, emit
-
-import pandas as pd
-import time
-import datetime
 from threading import Thread, Event
 
 # Custom package
 import sys
 sys.path.append('app/lib')
-import interaction_database
+import interaction_database_app
 import class_LiveScoreThread
+
 
 # Lancement app
 app = Flask(__name__)
 #Socket IO --> Real time data
 socketio = SocketIO(app)
+
+
+
 global thread
 global thread_stop_event
 thread = Thread()
