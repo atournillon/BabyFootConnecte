@@ -60,7 +60,6 @@ class LiveScoreThread(Thread):
 global score_b, score_r
 score_b = 0
 score_r = 0
-players_table = interaction_database_app.get_players().set_index('id_player')
 
 @app.route('/')
 def index():
@@ -74,6 +73,7 @@ def players():
 
 @app.route('/player/<int:id_player>/')
 def player(id_player):
+    players_table = interaction_database_app.get_players().set_index('id_player')
     return render_template('player.html', players_table = players_table, id_player=id_player)
 
 @app.route('/match_team', methods=['GET', 'POST'])
@@ -84,6 +84,7 @@ def match_team():
         # the redirect can be to the same route or somewhere else
         return redirect(url_for('index'))
     # show the form, it wasn't submitted
+    players_table = interaction_database_app.get_players().set_index('id_player')
     return render_template('match_team.html', players_table = players_table)
 
 @app.route('/livematch')
