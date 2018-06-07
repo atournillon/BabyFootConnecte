@@ -1,0 +1,9 @@
+{
+	"capteurs":{
+		"id_capteur_bleu":12,
+		"id_capteur_rouge":18
+	},
+	"database":{
+		"name":"PARC_DES_PRINCES.db"
+	}
+}
