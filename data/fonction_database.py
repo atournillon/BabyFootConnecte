@@ -10,7 +10,7 @@ with open('config.json') as conf_file:
 
 def fonction_connexion_sqllite():
     #Fonction pour ajouter un club dans la base
-    fichierDonnees = DB['database']['name']
+    fichierDonnees = DB['database']['prod']
     conn =sqlite3.connect(fichierDonnees)
     cur =conn.cursor()
     return cur,conn
