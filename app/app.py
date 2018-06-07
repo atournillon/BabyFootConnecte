@@ -6,14 +6,28 @@ from flask import Flask, render_template, request,redirect,url_for
 from flask_socketio import SocketIO, emit
 from threading import Thread, Event
 import time
+import datetime
+import logging as lg
 
 # Custom package
 import sys
 sys.path.append('app/lib')
 import interaction_database_app
 
+# Initialisation de la log
+t = datetime.datetime.now()
+fn = 'logs/run_flask.{}.log'.format(t.strftime("%Y-%m-%d"))
+lg.basicConfig(filename = fn,
+               level = lg.INFO,
+               filemode = 'a',
+               format = '%(asctime)s\t%(levelname)s\t%(message)s',
+               datefmt = '%Y-%m-%d %H:%M:%S'
+               )
 
+
+###############################
 # Lancement app
+###############################
 app = Flask(__name__)
 
 #Socket IO --> Real time data
@@ -92,6 +106,7 @@ def test_connect():
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
+    lg.info("Client disconnected")
     print('Client disconnected')
 
 if __name__ == '__main__':

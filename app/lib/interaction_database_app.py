@@ -57,6 +57,6 @@ def init_prod_live_match():
 def recup_players_stat():
     conn, cur = fonction_database.fonction_connexion_sqllite()
     query = "SELECT * FROM PROD_STAT_PLAYERS LIMIT 5"
-    df_sortie = pd.read_sql(query, conn).set_index('id_player')
+    df_sortie = pd.read_sql(query, cur).set_index('id_player')
     fonction_database.fonction_connexion_sqllite_fermeture(conn,cur)
     return df_sortie
