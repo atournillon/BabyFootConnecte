@@ -12,6 +12,9 @@ import json
 sys.path.append("data")
 import fonction_database
 
+# Visualiser la base SQL
+# Télécharger PARC_DES_PRINCES.DB puis sur https://sqliteonline.com/ -> File -> Open DB
+
 # Initialisation de la log
 t = datetime.datetime.now()
 fn = 'logs/init_db.{}.log'.format(t.strftime("%Y-%m-%d"))
