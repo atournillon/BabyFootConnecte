@@ -18,28 +18,25 @@ app = Flask(__name__)
 #Socket IO --> Real time data
 socketio = SocketIO(app)
 
-
-
+# Initialisation des variables globales
 global thread
 global thread_stop_event
 thread = Thread()
 thread_stop_event = Event()
 
-
-# Initialisation des variables
 global score_b, score_r
 score_b = 0
 score_r = 0
-players_table = interaction_database.get_players().set_index('id_player')
+players_table = interaction_database_app.get_players().set_index('id_player')
 
 @app.route('/')
 def index():
-    interaction_database.purge_live_match()
+    interaction_database_app.purge_live_match()
     return render_template('home.html')
 
 @app.route('/players')
 def players():
-    players_stat = interaction_database.recup_players_stat()
+    players_stat = interaction_database_app.recup_players_stat()
     return render_template('players.html', players_table = players_stat)
 
 @app.route('/player/<int:id_player>/')
@@ -58,7 +55,7 @@ def match_team():
 
 @app.route('/livematch')
 def live_match():
-    interaction_database.init_prod_live_match()
+    interaction_database_app.init_prod_live_match()
     return render_template('livematch.html')
 
 

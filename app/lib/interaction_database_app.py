@@ -30,7 +30,7 @@ def get_players():
     #Load Players Table
     conn, cur= fonction_database.fonction_connexion_sqllite()
     query = "SELECT * FROM PROD_REF_PLAYERS"
-    df_players = pd.read_sql(query, conn)
+    df_players = pd.read_sql(query, cur)
     fonction_database.fonction_connexion_sqllite_fermeture(conn,cur)
     return df_players
 
