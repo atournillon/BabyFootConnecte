@@ -8,6 +8,10 @@ from threading import Thread, Event
 import time
 import datetime
 import logging as lg
+import requests
+
+lg.getLogger('socketio').setLevel(lg.ERROR)
+lg.getLogger('engineio').setLevel(lg.ERROR)
 
 # Custom package
 import sys
@@ -69,10 +73,20 @@ def index():
     interaction_database_app.purge_live_match()
     return render_template('home.html')
 
-@app.route('/players')
+
+@app.route('/players', methods=['GET', 'POST'])
 def players():
-    players_stat = interaction_database_app.recup_players_stat()
-    return render_template('players.html', players_table = players_stat)
+    if request.method == 'POST':
+        try:
+            t = requests.get('http://localhost:3333/calcul_statistique')
+            print(t.status_code)
+        except:
+            lg.error("PAS DE RAFRAICHISSEMENT DES STATS")
+            pass
+        players_stat = interaction_database_app.recup_players_stat()
+        return render_template('players.html', players_table = players_stat)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/player/<int:id_player>/')
 def player(id_player):
@@ -81,19 +95,31 @@ def player(id_player):
 
 @app.route('/match_team', methods=['GET', 'POST'])
 def match_team():
-    if request.method == 'POST':
-        # do stuff when the form is submitted
-        # redirect to end the POST handling
-        # the redirect can be to the same route or somewhere else
-        return redirect(url_for('index'))
+    interaction_database_app.purge_live_match()
     # show the form, it wasn't submitted
     players_table = interaction_database_app.get_players().set_index('id_player')
     return render_template('match_team.html', players_table = players_table)
 
-@app.route('/livematch')
+
+@app.route('/livematch', methods=['GET','POST'])
 def live_match():
-    interaction_database_app.init_prod_live_match()
-    return render_template('livematch.html')
+    if request.method=='POST':
+        b1_joueur = request.form.get('nom1')
+        b2_joueur = request.form.get('nom2')
+        r1_joueur = request.form.get('nom3')
+        r2_joueur = request.form.get('nom4')
+
+        interaction_database_app.init_prod_live_match(r1_joueur,r2_joueur,b1_joueur,b2_joueur)
+
+        # Récupération des joueurs à partir des id
+        df_joueurs_rouges = interaction_database_app.recup_prenom_nom(r1_joueur,r2_joueur)
+        df_joueurs_bleus = interaction_database_app.recup_prenom_nom(b1_joueur, b2_joueur)
+        print "ROUGE"
+        print df_joueurs_rouges
+        print "BLEU"
+        print df_joueurs_bleus
+        return render_template('livematch.html',players_bleu=df_joueurs_bleus,players_rouge=df_joueurs_rouges)
+    return redirect(url_for('index'))
 
 
 @socketio.on('connect', namespace='/test')

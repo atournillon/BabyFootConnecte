@@ -46,14 +46,10 @@ def purge_live_match():
     lg.info('PURGE DE LA TABLE PROD_LIVE_MATCH OK')
 
 #Function to insert data on PROD_LIVE_MATCH when livematch.html is loaded
-def init_prod_live_match():
+def init_prod_live_match(r1,r2,b1,b2):
     cur, conn = fonction_database.fonction_connexion_sqllite()
     time_match = datetime.datetime.now()
     id_match = int(time.mktime(time_match.timetuple()))
-    b1 = 0
-    b2 = 0
-    r1 = 0
-    r2 = 0
     score_b = 0
     score_r = 0
     time_match_str = str('{0:%Y-%m-%d %H:%M:%S}'.format(time_match))
@@ -64,5 +60,14 @@ def recup_players_stat():
     cur, conn = fonction_database.fonction_connexion_sqllite()
     query = "SELECT * FROM PROD_STAT_PLAYERS LIMIT 5"
     df_sortie = pd.read_sql(query, conn).set_index('id_player')
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    return df_sortie
+
+def recup_prenom_nom(j1,j2):
+    cur, conn = fonction_database.fonction_connexion_sqllite()
+    query = "SELECT * FROM PROD_REF_PLAYERS WHERE id_player = {} " \
+            "UNION ALL " \
+            "SELECT * FROM PROD_REF_PLAYERS WHERE id_player={}".format(str(j1),str(j2))
+    df_sortie = pd.read_sql(query, conn)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     return df_sortie
