@@ -1,3 +1,7 @@
+# !/usr/bin/python
+# coding: utf8
+
+
 # import the necessary packages
 import sys
 sys.path.append('module_webcam/class')
