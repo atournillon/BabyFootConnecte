@@ -7,6 +7,8 @@ import fonction_database
 import pandas as pd
 import datetime
 import time
+import logging as lg
+
 
 # Retrieve data from database
 def getData():
@@ -25,13 +27,14 @@ def getData():
         pass
     return score_b, score_r
 
-
+''' FONCTION PERMETTANT DE RECUPERER LA LISTE DES JOUEURS DE LA TABLE DE REF'''
 def get_players():
     #Load Players Table
     cur,conn= fonction_database.fonction_connexion_sqllite()
     query = "SELECT * FROM PROD_REF_PLAYERS"
-    df_players = pd.read_sql(query, cur)
+    df_players = pd.read_sql(query, conn)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    lg.info('RECUPERATION DE LA LISTE DES JOUEURS OK')
     return df_players
 
 #  Initalisation de la fonction de vidage des tables
@@ -40,6 +43,7 @@ def purge_live_match():
     # Purge de la table contenant le live du match
     cur.execute("DELETE FROM PROD_LIVE_MATCH")
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    lg.info('PURGE DE LA TABLE PROD_LIVE_MATCH OK')
 
 #Function to insert data on PROD_LIVE_MATCH when livematch.html is loaded
 def init_prod_live_match():
@@ -59,6 +63,6 @@ def init_prod_live_match():
 def recup_players_stat():
     cur, conn = fonction_database.fonction_connexion_sqllite()
     query = "SELECT * FROM PROD_STAT_PLAYERS LIMIT 5"
-    df_sortie = pd.read_sql(query, cur).set_index('id_player')
+    df_sortie = pd.read_sql(query, conn).set_index('id_player')
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     return df_sortie

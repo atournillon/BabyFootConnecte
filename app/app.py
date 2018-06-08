@@ -35,6 +35,12 @@ socketio = SocketIO(app)
 thread = Thread()
 thread_stop_event = Event()
 
+#INITIALISATION POUR LES TRAITEMENTS
+#global score_b_thread, score_r_thread
+#score_b_thread = 0
+#score_r_thread = 0
+
+
 #New thread to get live data from the SQLITE DB
 class LiveScoreThread(Thread):
     def __init__(self):
@@ -57,9 +63,6 @@ class LiveScoreThread(Thread):
 
 
 
-global score_b, score_r
-score_b = 0
-score_r = 0
 
 @app.route('/')
 def index():
@@ -111,4 +114,4 @@ def test_disconnect():
     print('Client disconnected')
 
 if __name__ == '__main__':
-    socketio.run(app.run(debug=True))
+    socketio.run(app.run(debug=True, host='0.0.0.0', port=5000))
