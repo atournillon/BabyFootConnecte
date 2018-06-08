@@ -2,6 +2,28 @@
 # coding: utf8
 
 
+#sudo apt-get update
+#sudo apt-get install python-numpy
+#sudo apt-get update
+#sudo apt-get install python-opencv
+#sudo apt-get install python-scipy
+#sudo apt-get install ipython
+#sudo apt-get install libgl1-mesa-dri
+#python2.7 module_webcam/001_lancement_webcam.py
+
+
+import logging as lg
+import datetime
+# Initialisation de la log
+t = datetime.datetime.now()
+fn = 'logs/run_api_webcam.{}.log'.format(t.strftime("%Y-%m-%d"))
+lg.basicConfig(filename = fn,
+               level = lg.DEBUG,
+               filemode = 'a',
+               format = '%(asctime)s\t%(levelname)s\t%(message)s',
+               datefmt = '%Y-%m-%d %H:%M:%S'
+               )
+
 # import the necessary packages
 import sys
 sys.path.append('module_webcam/class')
@@ -14,7 +36,6 @@ import imutils
 # Pour la partie API
 from flask import Flask, Response, request
 import json
-import datetime
 import numpy as np
 import os
 from os.path import isfile, join
@@ -50,12 +71,10 @@ def convert_frames_to_video(pathIn, pathOut, time_but,fps):
     files_fin.sort(key=lambda x: x.replace('.jpg', ''))
     for i in range(len(files_fin)):
         filename = pathIn + files_fin[i]
-        print(filename)
         # reading each files
         img = cv2.imread(filename)
         height, width, layers = img.shape
         size = (width, height)
-        print(filename)
         # inserting the frames into an image array
         frame_array.append(img)
 
@@ -94,7 +113,7 @@ def generation_but():
         # ssh-keygen
         # ssh-copy-id -i ~/.ssh/tatu-key-ecdsa user@host
         #import os
-        #os.system("scp C:/Users/FabSN/Documents/GitHub/avisia_detection_ball/004_module_raspberry/_video_output/"+datetime.datetime.strftime(moment_but_datetime,'%Y%m%d_%H_%M_%S_%f')+".avi admin@192.168.1.54:/tmp/")
+        #os.system("scp module_webcam/_video_output/"+datetime.datetime.strftime(moment_but_datetime,'%Y%m%d_%H_%M_%S_%f')+".avi admin@192.168.1.54:/tmp/")
         return 'ok'
     else:
         return 'ko'
