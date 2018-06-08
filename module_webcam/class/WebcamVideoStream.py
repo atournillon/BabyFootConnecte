@@ -1,3 +1,6 @@
+# !/usr/bin/python
+# coding: utf8
+
 # import the necessary packages
 from threading import Thread
 import cv2
