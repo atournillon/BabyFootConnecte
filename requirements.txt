@@ -10,6 +10,7 @@ socketio
 RPi.GPIO
 time
 datetime
+fake_rpi
 
 #Partie Joystick
 pygame

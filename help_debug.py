@@ -18,4 +18,3 @@ def add_goal_rouge():
     fonction_database.fonction_connexion_sqllite_fermeture(cur, conn)
 
 interaction_database_app.init_prod_live_match()
-add_goal_bleu()
