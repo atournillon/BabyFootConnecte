@@ -17,8 +17,8 @@ import fonction_database
 sys.path.append("capteurs/lib")
 import interaction_database
 
-
 #Import de la librairie pour les capteurs
+#conda install -c poppy-project rpi.gpio
 import RPi.GPIO as GPIO
 
 #Import de la librairie PyGame
@@ -62,10 +62,10 @@ while True:
     lg.info("Vérification de la base Live en cours")
     # On vérifie si la base Live contient quelque chose
     try:
-        connexion,requete = fonction_database.fonction_connexion_sqllite()
+        requete,connexion = fonction_database.fonction_connexion_sqllite()
         requete.execute("SELECT count(*) FROM PROD_LIVE_MATCH")
         test_score = requete.fetchone()
-        fonction_database.fonction_connexion_sqllite_fermeture(connexion,requete)
+        fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
 
         nb_rows = test_score[0]
         if nb_rows > 0:
@@ -149,14 +149,14 @@ while True:
         # ALORS le match n'est pas demarré
         lg.warning("Table Live Vide")
         try:
-            fonction_database.fonction_connexion_sqllite_fermeture(connexion, requete)
+            fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
         except:
             pass
 
     #Après un match classique, on supprime la Table Live
-    connexion, requete = fonction_database.fonction_connexion_sqllite()
+    requete, connexion = fonction_database.fonction_connexion_sqllite()
     requete.execute("DELETE FROM PROD_LIVE_MATCH")
-    fonction_database.fonction_connexion_sqllite_fermeture(connexion,requete)
+    fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
     time.sleep(10)  #Un check est fait toutes les 10 secondes pour savoir si un match commence
 
     # 5 - SORTIE DU PROGRAMME_____________________

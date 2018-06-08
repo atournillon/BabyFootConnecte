@@ -3,6 +3,8 @@
 
 import sqlite3
 import json
+import datetime
+
 with open('config.json') as conf_file:
     global DB
     DB = json.load(conf_file)
@@ -17,5 +19,6 @@ def fonction_connexion_sqllite():
 
 def fonction_connexion_sqllite_fermeture(cur,conn):
     conn.commit()
-    cur.close()
     conn.close()
+
+

@@ -32,11 +32,11 @@ app = Flask(__name__)
 def calcul_statistique():
     ####################################""
     # Requêtage sur la table d'histo match
-    conn, cur = fonction_database.fonction_connexion_sqllite()
+    cur, conn = fonction_database.fonction_connexion_sqllite()
     input_match_df = pd.read_sql_query(
         "select a.* from PROD_LIVE_MATCH_HISTO as a INNER JOIN (SELECT distinct id_match FROM PROD_LIVE_MATCH_HISTO WHERE score_b = 10 OR score_r = 10) as b ON a.id_match = b.id_match;",
         cur)
-    fonction_database.fonction_connexion_sqllite_fermeture(conn, cur)
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
     ############ preprocessing ####################
     # compute dataframe with one row per match : id_match / start_time / end_time / duration / players_dom / players_etx /
@@ -101,15 +101,15 @@ def calcul_statistique():
     resume_players_df = resume_players.rename_axis("id_player").reset_index()
 
     # Jointure avec le référentiel joueur
-    conn, cur = fonction_database.fonction_connexion_sqllite()
+    cur, conn = fonction_database.fonction_connexion_sqllite()
     ref_player = pd.read_sql_query("select * from PROD_REF_PLAYERS;", cur)
-    fonction_database.fonction_connexion_sqllite_fermeture(conn, cur)
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
     resume_players_df_vf = pd.merge(ref_player, resume_players_df)
 
-    conn, cur = fonction_database.fonction_connexion_sqllite()
+    cur,conn = fonction_database.fonction_connexion_sqllite()
     resume_players_df_vf.to_sql('PROD_STAT_PLAYERS', cur, index=False, if_exists='replace')
-    fonction_database.fonction_connexion_sqllite_fermeture(conn, cur)
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
     return "ok"
 
