@@ -10,7 +10,7 @@ t
 t=requests.get('http://localhost:3574/kill_webcam')
 t
 
-
+import requests
 import datetime
 t=requests.post('http://localhost:3574/generation_video_but',data={'but':datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d_%H_%M_%S_%f')})
 

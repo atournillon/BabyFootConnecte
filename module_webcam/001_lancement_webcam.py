@@ -59,7 +59,7 @@ def convert_frames_to_video(pathIn, pathOut, time_but,fps):
         # inserting the frames into an image array
         frame_array.append(img)
 
-    out = cv2.VideoWriter(pathOut, cv2.VideoWriter_fourcc(*'DIVX'), fps, size)
+    out = cv2.VideoWriter(pathOut, cv2.cv.CV_FOURCC('M','J','P','G'), fps, size)
 
     for i in range(len(frame_array)):
         # writing to a image array
