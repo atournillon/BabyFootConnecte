@@ -103,7 +103,7 @@ def generation_but():
 
         #Lancement de la fonction de création de la video
         pathIn = 'module_webcam/_image_init/'
-        pathOut = 'module_webcam/_video_output/{}.avi'.format(moment_but)
+        pathOut = 'module_webcam/_video_output/{}.mp4'.format(moment_but)
         fps = 30
 
         convert_frames_to_video(pathIn, pathOut, moment_but_datetime_debut,fps)
