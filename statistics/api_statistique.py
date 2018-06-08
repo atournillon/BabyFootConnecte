@@ -35,7 +35,7 @@ def calcul_statistique():
     cur, conn = fonction_database.fonction_connexion_sqllite()
     input_match_df = pd.read_sql_query(
         "select a.* from PROD_LIVE_MATCH_HISTO as a INNER JOIN (SELECT distinct id_match FROM PROD_LIVE_MATCH_HISTO WHERE score_b = 10 OR score_r = 10) as b ON a.id_match = b.id_match;",
-        cur)
+        conn)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
     ############ preprocessing ####################
@@ -102,13 +102,13 @@ def calcul_statistique():
 
     # Jointure avec le référentiel joueur
     cur, conn = fonction_database.fonction_connexion_sqllite()
-    ref_player = pd.read_sql_query("select * from PROD_REF_PLAYERS;", cur)
+    ref_player = pd.read_sql_query("select * from PROD_REF_PLAYERS;", conn)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
     resume_players_df_vf = pd.merge(ref_player, resume_players_df)
 
     cur,conn = fonction_database.fonction_connexion_sqllite()
-    resume_players_df_vf.to_sql('PROD_STAT_PLAYERS', cur, index=False, if_exists='replace')
+    resume_players_df_vf.to_sql('PROD_STAT_PLAYERS', conn, index=False, if_exists='replace')
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
     return "ok"
