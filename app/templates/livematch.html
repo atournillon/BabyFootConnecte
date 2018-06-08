@@ -1,6 +1,42 @@
 {% extends 'layout.html' %}
 
+
 {% block body %}
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#bouton_annuler').on('click', function() {
+            $.ajax({
+                url: "{{ url_for('perte_un_but') }}",
+                method: "POST",
+                data: {
+                    data: 'blabla'
+                },
+                success: function(data) {
+                    $('#response').html(data);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script src="./static/js/easytimer.min.js"></script>
+<script>
+    var timerInstance = new Timer();
+</script>
+<script type="text/javascript">
+    var timer = new Timer();
+    timer.start();
+    timer.addEventListener('secondsUpdated', function (e) {
+        $('#basicUsage').html(timer.getTimeValues().toString());
+    });
+</script>
+
+
+
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -36,10 +72,11 @@
 
  </table>
 
+<h1><div id="basicUsage">00:00:00</div></h1>
 
  <table id="table_base">
  <tr id="tr_vide">
-  <td><button class="button_annuler" style="vertical-align:middle"><span>Annuler le dernier but </span></button></td>
+  <td><button id="bouton_annuler" class="button_annuler" style="vertical-align:middle"><span>Annuler le dernier but </span></button></td>
  </tr>
  </table>
 

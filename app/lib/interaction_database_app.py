@@ -16,14 +16,14 @@ def getData():
         curs_thr, conn_thr = fonction_database.fonction_connexion_sqllite()
         table = curs_thr.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
         fonction_database.fonction_connexion_sqllite_fermeture(curs_thr,conn_thr)
-
         if len(table) == 0:
             return '/', '/'
         else:
             row = table[0] #Just one line in the table
             score_b = row[7]
             score_r = row[8]
-    except:
+    except Exception as e:
+        lg.error("PROBLEME WEBSOCKET : {]".format(e))
         pass
     return score_b, score_r
 
@@ -62,6 +62,15 @@ def recup_players_stat():
     df_sortie = pd.read_sql(query, conn).set_index('id_player')
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     return df_sortie
+
+
+def perte_un_but():
+    cur, conn = fonction_database.fonction_connexion_sqllite()
+    query = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1;"
+    cur.execute(query)
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    lg.info("ON SUPPRIME UN BUT")
+    return 'ok'
 
 def recup_prenom_nom(j1,j2):
     cur, conn = fonction_database.fonction_connexion_sqllite()

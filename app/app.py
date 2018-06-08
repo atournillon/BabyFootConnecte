@@ -73,7 +73,6 @@ def index():
     interaction_database_app.purge_live_match()
     return render_template('home.html')
 
-
 @app.route('/players', methods=['GET', 'POST'])
 def players():
     if request.method == 'POST':
@@ -86,7 +85,8 @@ def players():
         players_stat = interaction_database_app.recup_players_stat()
         return render_template('players.html', players_table = players_stat)
     else:
-        return redirect(url_for('index'))
+        players_stat = interaction_database_app.recup_players_stat()
+        return render_template('players.html', players_table=players_stat)
 
 @app.route('/player/<int:id_player>/')
 def player(id_player):
@@ -99,6 +99,14 @@ def match_team():
     # show the form, it wasn't submitted
     players_table = interaction_database_app.get_players().set_index('id_player')
     return render_template('match_team.html', players_table = players_table)
+
+
+''' chemin pour enlever un but'''
+@app.route('/perte_un_but', methods=['POST'])
+def perte_un_but():
+    interaction_database_app.perte_un_but()
+    return 'ok'
+
 
 
 @app.route('/livematch', methods=['GET','POST'])
