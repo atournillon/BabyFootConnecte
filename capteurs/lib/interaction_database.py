@@ -9,9 +9,9 @@ import fonction_database
 
 # Fonction d'ajout de données dans la table
 # Update de la table Live avec le time du but, et les scores des Bleus et Rouge
-def live(time_goal_str, i, j):
+def live(time_goal_str, i, j, Last_Goal):
     requete, connexion = fonction_database.fonction_connexion_sqllite()
-    requete.execute("UPDATE PROD_LIVE_MATCH SET time_goal=?, score_b=?, score_r=?", (time_goal_str, i, j))
+    requete.execute("UPDATE PROD_LIVE_MATCH SET time_goal=?, score_b=?, score_r=?, last_team=?", (time_goal_str, i, j, Last_Goal))
     fonction_database.fonction_connexion_sqllite_fermeture(requete, connexion)
 
 
