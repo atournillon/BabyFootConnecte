@@ -53,7 +53,8 @@ def init_prod_live_match(r1,r2,b1,b2):
     score_b = 0
     score_r = 0
     time_match_str = str('{0:%Y-%m-%d %H:%M:%S}'.format(time_match))
-    cur.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), (?), null, (?), (?))", (id_match, b1, b2, r1, r2,time_match_str, score_b, score_r))
+    last_team = 0
+    cur.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), (?), null, (?), (?), (?))", (id_match, b1, b2, r1, r2,time_match_str, score_b, score_r, last_team))
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
 def recup_players_stat():
@@ -66,8 +67,16 @@ def recup_players_stat():
 
 def perte_un_but():
     cur, conn = fonction_database.fonction_connexion_sqllite()
-    query = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1;"
-    cur.execute(query)
+    table = cur.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
+    row = table[0] #Just one line in the table
+    last = row[9]
+    if last == 1:
+    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1;"
+    elif last == 2:
+    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_r=score_r-1;"
+    else:
+    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_r=score_r+5;"
+    cur.execute(query_2)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     lg.info("ON SUPPRIME UN BUT")
     return 'ok'
