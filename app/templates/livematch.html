@@ -44,39 +44,34 @@
 
 </br><h1> Allez, battez-vous ! </h1>
 <table id="table_base">
+
+<tr id = "tr_name">
+
+    <td id = "td_name">
+    	{% for id_player in players_bleu.index %}
+    	<h3 style="color:white;">{{players_bleu.loc[id_player].firstname + " " +players_bleu.loc[id_player].lastname}}</h3>
+    	{% endfor %}
+    </td>
+
+    <td><div id="basicUsage">00:00:00</div></td>
+
+    <td id = "td_name">
+    	{% for id_player in players_rouge.index %}
+    	<h3 style="color:white;">{{players_rouge.loc[id_player].firstname + " " +players_rouge.loc[id_player].lastname}}</h3>
+    	{% endfor %}
+    </td>
+
+<tr></tr>
+
+
  <tr id="tr_vide">
   <td><div id="blue_circle"><div id="score"><div id="score_b"></div></div></div></td>
   <td><h1>/</h1></td>
   <td><div id="red_circle"><div id="score"><div id="score_r"></div></div></div></td>
  </tr>
-</table>
-<table>
-    <tr>
-        {% for id_player in players_bleu.index %}
-            <td>
-                <font color=white>
-                {{players_bleu.loc[id_player].firstname + " " +players_bleu.loc[id_player].lastname}}
-                </font>
-            </td>
-        {% endfor %}
-    </tr>
-    <tr>
-        {% for id_player in players_rouge.index %}
-            <td>
-                <font color=white>
-                {{players_rouge.loc[id_player].firstname + " " +players_rouge.loc[id_player].lastname}}
-                </font>
-            </td>
-        {% endfor %}
-    </tr>
 
- </table>
-
-<h1><div id="basicUsage">00:00:00</div></h1>
-
- <table id="table_base">
  <tr id="tr_vide">
-  <td><button id="bouton_annuler" class="button_annuler" style="vertical-align:middle"><span>Annuler le dernier but </span></button></td>
+  <td colspan="3"><button id="bouton_annuler" class="button_annuler" style="vertical-align:middle"><span>Annuler le dernier but </span></button></td>
  </tr>
  </table>
 
@@ -84,12 +79,7 @@
   	<table id="footer">
 		<tr id="tr_footer">
   			<td id="td_footer"><h3><a href="{{ url_for('match_team') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour</a></h3></td>
-  			<td id="td_footer"><form method="POST" id="fin_match" action="{{ url_for('players')}}">
-                                <h3>
-                                    <input type="submit" form="fin_match" value="Fin du match"/>
-                                </h3>
-                                </form>
-            </td>
+  			<td id="td_footer"><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;"><h3><form method="POST" id="fin_match" action="{{ url_for('players')}}"><input type="submit" form="fin_match" value="Fin du match"/></form></h3></td>
  		</tr>
  	</table>
 </footer>

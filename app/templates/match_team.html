@@ -4,26 +4,102 @@
 
 </br><h1> Fais ta compo ! </h1>
 
-  <table id="table_base">
+<table id="table_container">
+<FORM id="myform" METHOD="POST" action="{{ url_for('live_match')}}">
+<tr>
+	<td>
+		<table id="table_blue">
+			<tr>
+ 				<td colspan="2"><img src="static/img/bleus_fond.png" style="width:auto;height:250px; margin: 0 15px 0 30px;"></br></br><h2>équipe Bleue</h2></td>
+			</tr>
+			<tr id="tr_name">
+	  			
+				<td>
+					<SELECT name="nom1" size="1">
+        			{% for id_player in players_table.index %}
+					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
+        			{% endfor %}
+					</SELECT>
+				</td>
+				<td>
+					<SELECT name="nom2" size="1">
+        			{% for id_player in players_table.index %}
+					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
+        			{% endfor %}
+					</SELECT>
+				</td>
+ 			</tr>
+		</table>
+	</td>
+	<td>
+		<table id="table_none">
+			<tr>
+				<td><img src="static/img/versus.png" style="width:200px;"</td>
+			</tr>
+		</table>
+	</td>
+	<td>
+		<table id="table_red">
+				<tr>
+ 					<td colspan="2"><img src="static/img/rouges_fond.png" style="width:auto;height:250px; margin: 0 15px 0 30px;"></br></br><h2>équipe Rouge</h2></td>
+				</tr>
+				<td>
+					<SELECT name="nom3" size="1">
+        			{% for id_player in players_table.index %}
+					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
+        			{% endfor %}
+					</SELECT>
+				</td>
+				<td>
+					<SELECT name="nom4" size="1">
+        			{% for id_player in players_table.index %}
+					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
+        			{% endfor %}
+				
+				</td>
+		</table>
+	</td>
+</tr>
+</FORM>
+</table>
+
+
+</body>
+<footer id="footer">
+  	<table id="footer">
+		<tr id="tr_footer">
+  			<td id="td_footer"><h3><a href="{{ url_for('index') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour</a></h3></td>
+			<td id="td_footer"><h3><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;"><input type="submit" form="myform"/></h3></td>
+ 		</tr>
+ 	</table>
+</footer>
+
+
+
+{% endblock %}
+
+
+
+<table id="table_base">
 
 
 
  <tr>
-  <td colspan="2"><img src="static/img/bleus.png" style="width:auto;height:250px; margin: 0 15px 0 30px;"></br><h2 style=color:#126DE3>Equipe Bleue</h2></td>
-  <td ><img src="static/img/versus.png" style="width:400px;height:auto;"></td>
-  <td colspan="2"><img src="static/img/rouges.png" style="width:auto;height:260px; margin: 0 15px 0 30px;"></br><h2 style=color:#E31212>Equipe Rouge</h2></td>
+  <td colspan="2" id="td_blue"><img src="static/img/bleus.png" style="width:auto;height:250px; margin: 0 15px 0 30px;"></br></br><h2>Equipe Bleue</h2></td>
+  <td ><img src="static/img/versus.png" style="width:100%;height:auto;"></td>
+  <td colspan="2" id="td_red"><img src="static/img/rouges.png" style="width:auto;height:260px; margin: 0 15px 0 30px;"></br></br><h2>Equipe Rouge</h2></td>
  </tr>
-  <tr>
+ <tr id="tr_name">
 	  	<FORM id="myform" METHOD="POST" action="{{ url_for('live_match')}}">
 
-	<td>
+	<td id="td_blue">
 			<SELECT name="nom1" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
         			{% endfor %}
 			</SELECT>
 	</td>
-	<td>
+	<td id="td_blue">
 			<SELECT name="nom2" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
@@ -32,14 +108,14 @@
 	</td>
 	<td>
 	</td>
-	<td>
+	<td id="td_red">
 			<SELECT name="nom3" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
         			{% endfor %}
 			</SELECT>
 	</td>
-	<td>
+	<td id="td_red">
 			<SELECT name="nom4" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
@@ -48,16 +124,3 @@
 	</td>
  </tr>
 </table>
-</body>
-<footer id="footer">
-  	<table id="footer">
-		<tr id="tr_footer">
-  			<td id="td_footer"><h3><a href="{{ url_for('index') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour</a></h3></td>
-			<td id="td_footer"><h3><input type="submit" form="myform" /></h3></td>
- 		</tr>
- 	</table>
-</footer>
-
-
-
-{% endblock %}
