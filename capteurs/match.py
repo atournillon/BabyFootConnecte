@@ -117,7 +117,6 @@ while True:
                     Last_Goal = 1															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Bleus ! {}".format(time_goal_str))
                     interaction_database.live(time_goal_str, i, j, Last_Goal)               #Ecriture dans la table live
-
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
                 #Buts pour les rouges
