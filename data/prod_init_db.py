@@ -44,10 +44,10 @@ else:
     def CreateTable():
         # Création de la table du live du match
         requete.execute('''CREATE TABLE IF NOT EXISTS PROD_LIVE_MATCH
-        (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
+        (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER, last_team INTEGER)''')
         # Création de la table d'historisation des lives de match
         requete.execute('''CREATE TABLE IF NOT EXISTS PROD_LIVE_MATCH_HISTO
-        (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER)''')
+        (id_match INTEGER, b1 INTEGER, b2 INTEGER, r1 INTEGER, r2 INTEGER, time_start DATETIME, time_goal DATETIME, score_b INTEGER, score_r INTEGER, last_team INTEGER)''')
         # Création de la table des stats
         requete.execute('''CREATE TABLE IF NOT EXISTS PROD_STAT_PLAYERS
         (id_player INTEGER, match_count INTEGER, match_win_count INTEGER, match_los_count INTEGER, game_time_sec INTEGER,
@@ -61,16 +61,16 @@ else:
         AFTER INSERT
         ON PROD_LIVE_MATCH
         BEGIN insert into PROD_LIVE_MATCH_HISTO  
-        SELECT id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r
+        SELECT id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r, last_team
         FROM PROD_LIVE_MATCH;
         END
         ''')
         # Historisation après un UPDATE
         requete.execute('''CREATE TRIGGER IF NOT EXISTS MAJ_HISTO_MATCH 
-        AFTER UPDATE OF id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r
+        AFTER UPDATE OF id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r, last_team
         ON PROD_LIVE_MATCH
         BEGIN insert into PROD_LIVE_MATCH_HISTO  
-        SELECT id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r
+        SELECT id_match, b1, b2, r1, r2, time_start, time_goal, score_b, score_r, last_team
         FROM PROD_LIVE_MATCH;
         END
         ''')
