@@ -91,7 +91,8 @@ def players():
 @app.route('/player/<int:id_player>/')
 def player(id_player):
     players_table = interaction_database_app.get_players().set_index('id_player')
-    return render_template('player.html', players_table = players_table, id_player=id_player)
+    players_stat = interaction_database_app.recup_players_stat()
+    return render_template('player.html', players_table = players_stat, id_player=id_player)
 
 @app.route('/match_team', methods=['GET', 'POST'])
 def match_team():
