@@ -116,7 +116,7 @@ while True:
                     i += 1                                                                  #Incrément du but marqué
                     Last_Goal = 1															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Bleus ! {}".format(time_goal_str))
-                    interaction_database.live(time_goal_str, i, j)                          #Ecriture dans la table live
+                    interaction_database.live(time_goal_str, i, j, Last_Goal)               #Ecriture dans la table live
 
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
@@ -127,7 +127,7 @@ while True:
                     j += 1                                                                  #Incrément du but marqué
                     Last_Goal = 2															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Rouges ! {}".format(time_goal_str))
-                    interaction_database.live(time_goal_str, i, j)                          #Ecriture dans la table live
+                    interaction_database.live(time_goal_str, i, j, Last_Goal)                #Ecriture dans la table live
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
                 #Annulation du dernier but
@@ -138,18 +138,18 @@ while True:
                                 i = i - 1                                                   #On retire le but
                                 Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                 lg.info("Oh le but n'est pas validé")
-                                interaction_database.live(time_goal_str, i, j)              #Ecriture dans la table live
+                                interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
                             elif Last_Goal == 2:                                            #Si le dernier but vient des rouge
                                 j = j - 1                                                   #On retire le but
                                 Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                 lg.info("Oh le but n'est pas validé")
-                                interaction_database.live(time_goal_str, i, j)              #Ecriture dans la table live
+                                interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
                             elif Last_Goal == 0:                                            #Si c'est le premier but du match
                                 i = 0                                                       #Les bleus reste à 0
                                 j = 0                                                       #Les rouge reste à 0
                                 Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                 lg.info("Oh ce premier but n'est pas validé")
-                                interaction_database.live(time_goal_str, i, j)                                  #Ecriture dans la table live
+                                interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
                             elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
                                 lg.info("Pas de ça ici messieurs ! Bien essayé !\n\n")
 # 4 - FIN DU MATCH
