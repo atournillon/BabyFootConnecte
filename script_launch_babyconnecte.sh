@@ -2,7 +2,7 @@
 
 cd /home/pi/Documents/BabyFootConnecte
 # Launch capteurs avec native python
-nohup python capteurs/match.py &
+nohup /usr/bin/python capteurs/match.py &
 
 
 # Activation de lenv
