@@ -54,7 +54,7 @@ def init_prod_live_match(r1,r2,b1,b2):
     score_r = 0
     time_match_str = str('{0:%Y-%m-%d %H:%M:%S}'.format(time_match))
     last_team = 0
-    cur.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), (?), null, (?), (?), (?))", (id_match, b1, b2, r1, r2,time_match_str, score_b, score_r, last_team))
+    cur.execute("INSERT INTO PROD_LIVE_MATCH values((?), (?), (?), (?), (?), (?), (?), (?), (?), (?))", (id_match, b1, b2, r1, r2,time_match_str,time_match_str, score_b, score_r, last_team))
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
 
 def recup_players_stat():
