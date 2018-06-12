@@ -52,8 +52,8 @@ with open('config.json') as conf_file:
 #Initialisation des capteurs
 GPIO.setwarnings(False)     #Désactive le Warning
 GPIO.setmode(GPIO.BOARD)    #Mode BCM si on utilise un BreadBoard
-GPIO.setup(DB['capteurs']['id_capteur_bleu'], RPi.GPIO.IN)     #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
-GPIO.setup(DB['capteurs']['id_capteur_rouge'], RPi.GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
+GPIO.setup(DB['capteurs']['id_capteur_bleu'], GPIO.IN)     #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
+GPIO.setup(DB['capteurs']['id_capteur_rouge'], GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 
 #Initilisation de la manette
 try:
