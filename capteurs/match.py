@@ -20,13 +20,7 @@ import interaction_database
 
 #Import de la librairie pour les capteurs
 #conda install -c poppy-project rpi.gpio
-try:
-    import RPi.GPIO as GPIO
-except:
-    import fake_rpi
-    sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
-    sys.modules['smbus'] = fake_rpi.smbus # Fake smbus (I2C)
-    import RPi
+import RPi.GPIO as GPIO
 
 
 #Import de la librairie PyGame
