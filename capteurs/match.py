@@ -21,7 +21,7 @@ import interaction_database
 #Import de la librairie pour les capteurs
 #conda install -c poppy-project rpi.gpio
 try:
-    import RPi
+    import RPi.GPIO
 except:
     import fake_rpi
     sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
