@@ -164,7 +164,7 @@ while True:
 
     #Après un match classique, on supprime la Table Live
     if i == 10 or j == 10:
-        interaction_database.purge_live_match()
+        #interaction_database.purge_live_match()
         # On réinitialise pour éviter que la purge continue de passer bloquant la base inutilement
         i = 0
         j = 0
