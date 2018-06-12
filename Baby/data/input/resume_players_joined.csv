@@ -1,6 +1,0 @@
-player_id,match_count,match_win_count,match_los_count,game_time_sec,goals_win_count,goals_los_count,match_win_percent,goals_count,goal_per_minut,prenom,nom
-1,40,15,25,1080,150,163,0.375,313,17.38888888888889,Adrien,Tournillon
-4,42,22,20,1140,220,147,0.5238095238095238,367,19.31578947368421,Nicolas,B�tin
-2,38,19,19,900,190,108,0.5,298,19.866666666666667,Matthieu,Brochard
-3,44,22,22,1080,220,136,0.5,356,19.77777777777778,Eric,Bescond
-5,36,22,14,840,220,90,0.6111111111111112,310,22.142857142857142,Thibault,Quinquis
