@@ -170,5 +170,5 @@ while True:
 
     # 5 - SORTIE DU PROGRAMME_____________________
     #Réinitialisation des capteurs
-    GPIO.cleanup()
+    #GPIO.cleanup()
     lg.info("FIN DE LA BOUCLE")
