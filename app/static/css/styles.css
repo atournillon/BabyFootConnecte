@@ -1,0 +1,377 @@
+/*!
+ * Start Bootstrap - The Big Picture (https://startbootstrap.com/template-overviews/the-big-picture)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-the-big-picture/blob/master/LICENSE)
+ */
+
+body {
+ background: url("../img/background_2.png") no-repeat center center fixed;
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ background-size: cover;
+ -o-background-size: cover;
+}
+
+.container{
+	width:90%;
+	max-height:50%;
+	margin:auto;
+}
+
+#tr_vide { 
+ border:none;
+ /*border-style:solid; 
+ border-color:red;*/
+ min-width:10%;
+ text-align:center;
+ padding:50px 50px 50px 50px;
+ background:none;
+ }
+
+#blue_circle{
+  float:left;
+  background:#126DE3;
+  border-radius:50%;
+  width:300px;
+  height:300px;
+  border:none;
+  margin-left:15%
+}
+
+#red_circle{
+  float:right;
+  background:#E31212;
+  border-radius:50%;
+  width:300px;
+  height:300px;
+  border:none; 
+  margin-right:15%
+}
+
+
+#green_circle{
+  float:left;
+  background:#4ED35E;
+  border-radius:50%;
+  width:300px;
+  height:300px;
+  border:none; 
+  margin-left:15%;
+}
+
+
+
+#score {
+    text-align:center;
+    vertical-align:center;
+    font-size:200px;
+    color:white;
+    font-family: Impact, Charcoal, sans-serif;
+    
+}
+
+
+/* CODE DE TQS A AMELIORER */
+
+#table_container {
+ width:auto;
+ margin-top:5%;
+}
+
+#table_container_player {
+ width:auto;
+ height-max:80%;
+ margin-top:5%;
+ padding:50px 10px 50px 10px;
+ border-radius: 30px;
+ background:#f6f6f6;
+}
+
+#table_base {
+ width:100%;
+ margin:0;
+ margin-top:5%; 
+}
+
+#table_blue {
+ width:400px;
+ margin:0; 
+ border-radius: 50px;
+ background-color:#126DE3;
+}
+
+#table_none {
+ width:auto;
+ padding:0;
+ margin:0;
+}
+
+#table_red {
+ width:400px;
+ margin:0;
+ border-radius: 50px;
+ background-color:#E31212;
+}
+ 
+tr { 
+ border:none;
+ text-align:center;
+ padding:10px;
+ }
+ 
+ td{
+ 	padding:20px;
+ }
+ 
+ #tr_name { 
+ border:none;
+ text-align:left;
+ padding:100px;
+ }
+ 
+ #td_blue{
+ 	width:auto;
+ 	padding:3px;
+ 	text-align:center;
+ 	background-color:#126DE3;
+ 	margin:50px;
+ }
+ 
+  #td_red{
+  	width:auto;
+ 	padding:3px;
+ 	text-align:center;
+ 	background-color:#E31212;
+ 	margin:50px;
+ }
+ 
+ h1{
+	 font-size:70px;
+	 color:white;
+	 font-family: Impact, Charcoal, sans-serif;
+	 text-transform: uppercase;
+	 text-align:center;
+ }
+ 
+ h2{
+	 font-size:40px;
+	 color:white;
+	 font-family: Impact, Charcoal, sans-serif;
+	 text-align:center;
+	 text-transform: uppercase;
+	 font-style:italic;
+ }
+ 
+  h3{
+	 font-size:20px;
+	 color:#303030;
+	 font-family: Impact, Charcoal, sans-serif;
+	 text-align:center;
+	 text-decoration:none;
+ }
+ 
+  p{
+	 font-size:20px;
+	 color:white;
+	 font-family: Helvetica;
+	 text-align:center;
+ }
+ 
+ 
+
+
+/*Footer*/
+
+#footer {
+ width:100%;
+ 
+ position: absolute;
+ bottom: 0%;
+ left: 0; right: 0
+ }
+ 
+ #tr_footer { 
+ border:none;
+ text-align:center;
+ padding:10px;
+ background-color:rgba(255, 255, 255, 0.4);
+ }
+ 
+ #td_footer {
+ 	padding:5px;
+ }
+
+/*Gestion des liens*/
+a {
+    color:#303030;   
+}
+ 
+a:link {
+    text-decoration:none;
+}
+
+a:hover {
+    color: white;
+    transition: all .5s ease-in-out;
+    
+}
+ 
+ select {
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+	font-size:15px;
+	color:#303030;
+	font-family: Helvetica;
+	text-align:center;
+}
+
+
+/* Création du bouton annuler*/
+.button_annuler {
+  display: inline-block;
+  border-radius: 30px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 400px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button_annuler span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button_annuler span:after {
+  content: '\00D7';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button_annuler:hover span {
+  padding-right: 25px;
+}
+
+.button_annuler:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
+/* Création du bouton suivant*/
+.button_suivant {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #4ED35E;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 300px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  opacity:0.5;
+}
+
+.button_suivant:hover {
+  opacity:1;
+}
+
+.button_suivant span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button_suivant span:after {
+  content: '\00BB';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button_suivant:hover span {
+  padding-right: 25px;
+}
+
+.button_suivant:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: transparent;
+    display:inline-block;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    color:#303030; 
+}
+
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
+    color: white;
+    transition: all .5s ease-in-out;
+}
+
+
+#basicUsage {
+  display: inline-block;
+  border-radius: 30px;
+  background-color: #fff;
+  opacity:0.4;
+  border: none;
+  color: #01049f;
+  text-align: center;
+  font-size: 40px;
+  padding: 3px;
+  width: 400px;
+  margin: 0;
+}
+
+
+
+/*Table*/
+
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {
+	background-color: #ddd;
+}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    text-transform:uppercase;
+    background-color: #4CAF50;
+    color: white;
+}
