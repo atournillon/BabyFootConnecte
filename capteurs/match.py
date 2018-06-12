@@ -20,13 +20,11 @@ import interaction_database
 
 #Import de la librairie pour les capteurs
 #conda install -c poppy-project rpi.gpio
-try:
-    import RPi
-except:
-    import fake_rpi
-    sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
-    sys.modules['smbus'] = fake_rpi.smbus # Fake smbus (I2C)
-    import RPi
+import RPi.GPIO as GPIO
+#    import fake_rpi
+#    sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
+#    sys.modules['smbus'] = fake_rpi.smbus # Fake smbus (I2C)
+#    import RPi
 
 
 #Import de la librairie PyGame
@@ -50,10 +48,10 @@ with open('config.json') as conf_file:
     DB = json.load(conf_file)
 
 #Initialisation des capteurs
-RPi.GPIO.setwarnings(False)     #Désactive le Warning
-RPi.GPIO.setmode(RPi.GPIO.BOARD)    #Mode BCM si on utilise un BreadBoard
-RPi.GPIO.setup(DB['capteurs']['id_capteur_bleu'], RPi.GPIO.IN)     #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
-RPi.GPIO.setup(DB['capteurs']['id_capteur_rouge'], RPi.GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
+GPIO.setwarnings(False)     #Désactive le Warning
+GPIO.setmode(GPIO.BOARD)    #Mode BCM si on utilise un BreadBoard
+GPIO.setup(DB['capteurs']['id_capteur_bleu'], GPIO.IN)     #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
+GPIO.setup(DB['capteurs']['id_capteur_rouge'], GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 
 #Initilisation de la manette
 try:
@@ -110,7 +108,7 @@ while True:
             #Boucle pour créer le match jusqu'au moment où une équipe arrive à 10
             while  i < 10 and j < 10:                                                       #Boucle de 10 buts
                 #Buts pour les bleus
-                if RPi.GPIO.input(DB['capteurs']['id_capteur_bleu']) == 0:
+                if GPIO.input(DB['capteurs']['id_capteur_bleu']) == 0:
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                     i += 1                                                                  #Incrément du but marqué
@@ -120,7 +118,7 @@ while True:
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
                 #Buts pour les rouges
-                elif RPi.GPIO.input(DB['capteurs']['id_capteur_rouge']) == 0:                   #Détection des mouvements sur le PIN 19
+                elif GPIO.input(DB['capteurs']['id_capteur_rouge']) == 0:                   #Détection des mouvements sur le PIN 19
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                     j += 1                                                                  #Incrément du but marqué
@@ -176,5 +174,5 @@ while True:
 
     # 5 - SORTIE DU PROGRAMME_____________________
     #Réinitialisation des capteurs
-    RPi.GPIO.cleanup()
+    #GPIO.cleanup()
     lg.info("FIN DE LA BOUCLE")
