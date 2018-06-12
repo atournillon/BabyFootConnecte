@@ -6,11 +6,11 @@ nohup /usr/bin/python capteurs/match.py &
 
 
 # Activation de lenv
-source /opt/anaconda/bin/activate py27
+# source /opt/anaconda/bin/activate py27
 
 # Launch de api statistique
-nohup python statistics/api_statistique.py &
+nohup /usr/bin/python3.5 statistics/api_statistique.py &
 # Launch app flask
-nohup python app/app.py &
+nohup /usr/bin/python app/app.py &
 
 
