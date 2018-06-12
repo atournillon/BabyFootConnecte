@@ -54,7 +54,7 @@ def calcul_statistique():
     columns_results = ['id_match', 'b1', 'b2', 'r1', 'r2', 'score_b', 'score_r']
     match_results = fonction_statistiques.results_function(input_match_df[columns_results][
                                                                (input_match_df.score_b == 10) | (
-                                                                           input_match_df.score_r == 10)].drop_duplicates())
+                                                                           input_match_df.score_r == 10)])
 
     ############### join all parts ################
     # join all dataframe by id_match
