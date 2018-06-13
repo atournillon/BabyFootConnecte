@@ -19,12 +19,13 @@ sys.path.append("capteurs/lib")
 import interaction_database
 
 #Import de la librairie pour les capteurs
-#conda install -c poppy-project rpi.gpio
-import RPi.GPIO as GPIO
-#    import fake_rpi
-#    sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
-#    sys.modules['smbus'] = fake_rpi.smbus # Fake smbus (I2C)
-#    import RPi
+try:
+    import RPi
+except:
+    import fake_rpi
+    sys.modules['RPi'] = fake_rpi.RPi     # Fake RPi (GPIO)
+    sys.modules['smbus'] = fake_rpi.smbus # Fake smbus (I2C)
+    import RPi
 
 
 #Import de la librairie PyGame
@@ -48,10 +49,10 @@ with open('config.json') as conf_file:
     DB = json.load(conf_file)
 
 #Initialisation des capteurs
-GPIO.setwarnings(False)     #Désactive le Warning
-GPIO.setmode(GPIO.BOARD)    #Mode BCM si on utilise un BreadBoard
-GPIO.setup(DB['capteurs']['id_capteur_bleu'], GPIO.IN)     #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
-GPIO.setup(DB['capteurs']['id_capteur_rouge'], GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
+RPi.GPIO.setwarnings(False)     #Désactive le Warning
+RPi.GPIO.setmode(RPi.GPIO.BOARD)    #Mode BCM si on utilise un BreadBoard
+RPi.GPIO.setup(DB['capteurs']['id_capteur_bleu'], RPi.GPIO.IN)     #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
+RPi.GPIO.setup(DB['capteurs']['id_capteur_rouge'], RPi.GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 
 #Initilisation de la manette
 try:
@@ -79,8 +80,11 @@ while True:
         test_score = requete.fetchone()
         fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
         nb_rows = test_score[0]
+        b, r = interaction_database.read_live()
+        i = b
+        j = r
 
-        if nb_rows > 0:
+        if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
             lg.info("On peut démarrer un match")
 
@@ -89,8 +93,8 @@ while True:
             #################################
             #Initialisation du début de match
             m += 1					#On incrémente le match dès le début
-            i=0                     #i = Equipe Bleue
-            j=0                     #j = Equipe Rouge
+            #i=0                     #i = Equipe Bleue
+            #j=0                     #j = Equipe Rouge
             Last_Goal = 0           # Pas de dernier but pour démarrer
 
             #Initialisation de l'heure de début de partie
@@ -108,22 +112,30 @@ while True:
             #Boucle pour créer le match jusqu'au moment où une équipe arrive à 10
             while  i < 10 and j < 10:                                                       #Boucle de 10 buts
                 #Buts pour les bleus
-                if GPIO.input(DB['capteurs']['id_capteur_bleu']) == 0:
+                if RPi.GPIO.input(DB['capteurs']['id_capteur_bleu']) == 0:
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
-                    i += 1                                                                  #Incrément du but marqué
+                    b, r = interaction_database.read_live()
+                    i = b + 1                                                                  #Incrément du but marqué
+                    j = r
                     Last_Goal = 1															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Bleus ! {}".format(time_goal_str))
+                    lg.info("{}".format(str(i)))
+                    lg.info("{}".format(str(j)))
                     interaction_database.live(time_goal_str, i, j, Last_Goal)               #Ecriture dans la table live
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
                 #Buts pour les rouges
-                if GPIO.input(DB['capteurs']['id_capteur_rouge']) == 0:                   #Détection des mouvements sur le PIN 19
+                if RPi.GPIO.input(DB['capteurs']['id_capteur_rouge']) == 0:                   #Détection des mouvements sur le PIN 19
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
-                    j += 1                                                                  #Incrément du but marqué
+                    b, r = interaction_database.read_live()
+                    j = r + 1                                                                #Incrément du but marqué
+                    i = b
                     Last_Goal = 2															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Rouges ! {}".format(time_goal_str))
+                    lg.info("{}".format(str(i)))
+                    lg.info("{}".format(str(j)))
                     interaction_database.live(time_goal_str, i, j, Last_Goal)                #Ecriture dans la table live
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
@@ -166,8 +178,8 @@ while True:
     if i == 10 or j == 10:
         #interaction_database.purge_live_match()
         # On réinitialise pour éviter que la purge continue de passer bloquant la base inutilement
-        i = 0
-        j = 0
+        #i = -1
+        #j = -1
         lg.info("PURGE DE LA TABLE LIVE_MATCH")
 
     time.sleep(10)  #Un check est fait toutes les 10 secondes pour savoir si un match commence
