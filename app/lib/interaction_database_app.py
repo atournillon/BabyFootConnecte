@@ -59,7 +59,7 @@ def init_prod_live_match(r1,r2,b1,b2):
 
 def recup_players_stat():
     cur, conn = fonction_database.fonction_connexion_sqllite()
-    query = "SELECT * FROM PROD_STAT_PLAYERS WHERE match_count > 0"
+    query = "SELECT * FROM PROD_STAT_PLAYERS WHERE ID_PLAYER > 0 ORDER BY match_count DESC LIMIT 10 "
     df_sortie = pd.read_sql(query, conn).set_index('id_player')
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     return df_sortie
@@ -72,10 +72,8 @@ def perte_un_but():
     last = row[9]
     if last == 1:
     	query_2 = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1;"
-    elif last == 2:
+    if last == 2:
     	query_2 = "UPDATE PROD_LIVE_MATCH SET score_r=score_r-1;"
-    else:
-    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_r=score_r+5;"
     cur.execute(query_2)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     lg.info("ON SUPPRIME UN BUT")
