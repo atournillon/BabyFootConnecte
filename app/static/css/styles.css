@@ -80,7 +80,7 @@ body {
 
 #table_container_player {
  width:auto;
- height-max:80%;
+ height:100%;
  margin-top:5%;
  padding:50px 10px 50px 10px;
  border-radius: 30px;
@@ -89,8 +89,8 @@ body {
 
 #table_base {
  width:100%;
- margin:0;
- margin-top:5%; 
+ margin:auto;
+ margin-top:10%; 
 }
 
 #table_blue {
@@ -184,9 +184,10 @@ tr {
 
 #footer {
  width:100%;
+ margin-top:30px;
  
- position: absolute;
- bottom: 0%;
+ position: fixed;
+ bottom: 0;
  left: 0; right: 0
  }
  
@@ -354,11 +355,17 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
+    
 }
 
 #customers td, #customers th {
     border: 1px solid #ddd;
     padding: 8px;
+}
+
+tbody {
+   height: 550px;     /* Hauteur du reste des données */
+   overflow:scroll;
 }
 
 #customers tr:nth-child(even){background-color: #f2f2f2;}
@@ -375,3 +382,51 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
     background-color: #4CAF50;
     color: white;
 }
+
+/*Page Player*/
+
+#table_base {
+ width:100%;
+ margin:auto;
+ margin-top:0; 
+}
+
+tr_vide { 
+ border:none;
+ text-align:center;
+ padding:10px;
+ }
+
+#classement_container{
+  background-color:#4ED35E;
+  width:250px;
+  height:150px;
+  border:none; 
+  margin:auto;
+  border-radius: 30px;
+}
+
+#classement {
+    text-align:center;
+    vertical-align:center;
+    font-size:100px;
+    color:white;
+    font-family: Impact, Charcoal, sans-serif;   
+}
+
+#table_player {
+ width:100%;
+ margin-top:50px;
+ padding: 30px;
+ border-color:white;
+ border-radius: 30px;
+ background-color:#EDF7F2;
+}
+
+ #emojis{
+ 	width:25%;
+ 	padding-top:10px;
+ 	padding-bottom:10px;
+ 	text-align:center;
+ 	
+ }
