@@ -21,3 +21,13 @@ def purge_live_match():
     # Purge de la table contenant le live du match
     cur.execute("DELETE FROM PROD_LIVE_MATCH")
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    
+# Fonction de lecture des données de Live
+def read_live():
+    requete, connexion = fonction_database.fonction_connexion_sqllite()
+    table = requete.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
+    row = table[0] #Just one line in the table
+    score_b = row[7]
+    score_r = row[8]
+    fonction_database.fonction_connexion_sqllite_fermeture(requete, connexion)
+    return score_b, score_r
