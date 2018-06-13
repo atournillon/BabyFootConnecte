@@ -61,6 +61,7 @@ def recup_players_stat():
     cur, conn = fonction_database.fonction_connexion_sqllite()
     query = "SELECT * FROM PROD_STAT_PLAYERS WHERE ID_PLAYER > 0 ORDER BY match_count DESC LIMIT 10 "
     df_sortie = pd.read_sql(query, conn).set_index('id_player')
+    df_sortie['game_time_sec']=df_sortie['game_time_sec'].apply(lambda x : str(datetime.timedelta(seconds=100)))
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     return df_sortie
 
