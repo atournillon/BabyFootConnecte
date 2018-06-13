@@ -71,11 +71,13 @@ def perte_un_but():
     cur, conn = fonction_database.fonction_connexion_sqllite()
     table = cur.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
     row = table[0] #Just one line in the table
+    bleu = row[7]
+    rouge = row[8]
     last = row[9]
-    if last == 1:
-    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1;"
-    if last == 2:
-    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_r=score_r-1;"
+    if last == 1 and bleu > 0:
+    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1, last_team = 0;"
+    if last == 2 and rouge > 0:
+    	query_2 = "UPDATE PROD_LIVE_MATCH SET score_r=score_r-1, last_team = 0;"
     cur.execute(query_2)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     lg.info("ON SUPPRIME UN BUT")
