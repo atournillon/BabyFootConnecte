@@ -1,0 +1,36 @@
+2018-06-13 19:26:14	INFO	 * Restarting with stat
+2018-06-13 19:26:15	WARNING	 * Debugger is active!
+2018-06-13 19:26:15	INFO	 * Debugger PIN: 624-542-778
+2018-06-13 19:26:15	INFO	 * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2018-06-13 19:26:27	INFO	PURGE DE LA TABLE PROD_LIVE_MATCH OK
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET / HTTP/1.1" 200 -
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET /static/css/styles.css HTTP/1.1" 200 -
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET /static/js/application.js HTTP/1.1" 304 -
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET /static/img/avisia.png HTTP/1.1" 304 -
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET /static/img/stats.png HTTP/1.1" 304 -
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET /static/img/start.png HTTP/1.1" 304 -
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET /static/img/background_2.png HTTP/1.1" 304 -
+2018-06-13 19:26:27	INFO	127.0.0.1 - - [13/Jun/2018 19:26:27] "GET /favicon.ico HTTP/1.1" 404 -
+2018-06-13 19:26:30	INFO	127.0.0.1 - - [13/Jun/2018 19:26:30] "GET /players HTTP/1.1" 200 -
+2018-06-13 19:26:30	INFO	127.0.0.1 - - [13/Jun/2018 19:26:30] "GET /static/img/retour.png HTTP/1.1" 304 -
+2018-06-13 19:27:19	INFO	 * Detected change in 'C:\\Users\\FabSN\\Documents\\GitHub\\BabyFootConnecte\\app\\lib\\interaction_database_app.py', reloading
+2018-06-13 19:27:19	INFO	 * Restarting with stat
+2018-06-13 19:27:21	WARNING	 * Debugger is active!
+2018-06-13 19:27:21	INFO	 * Debugger PIN: 624-542-778
+2018-06-13 19:27:21	INFO	 * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2018-06-13 19:28:32	INFO	 * Detected change in 'C:\\Users\\FabSN\\Documents\\GitHub\\BabyFootConnecte\\app\\lib\\interaction_database_app.py', reloading
+2018-06-13 19:28:32	INFO	 * Restarting with stat
+2018-06-13 19:28:34	WARNING	 * Debugger is active!
+2018-06-13 19:28:34	INFO	 * Debugger PIN: 624-542-778
+2018-06-13 19:28:34	INFO	 * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2018-06-13 19:28:35	INFO	127.0.0.1 - - [13/Jun/2018 19:28:35] "GET /players HTTP/1.1" 200 -
+2018-06-13 19:29:55	INFO	 * Detected change in 'C:\\Users\\FabSN\\Documents\\GitHub\\BabyFootConnecte\\app\\lib\\interaction_database_app.py', reloading
+2018-06-13 19:29:55	INFO	 * Restarting with stat
+2018-06-13 19:29:57	WARNING	 * Debugger is active!
+2018-06-13 19:29:57	INFO	 * Debugger PIN: 624-542-778
+2018-06-13 19:29:57	INFO	 * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+2018-06-13 19:31:06	INFO	 * Detected change in 'C:\\Users\\FabSN\\Documents\\GitHub\\BabyFootConnecte\\app\\lib\\interaction_database_app.py', reloading
+2018-06-13 19:31:06	INFO	 * Restarting with stat
+2018-06-13 19:31:07	WARNING	 * Debugger is active!
+2018-06-13 19:31:07	INFO	 * Debugger PIN: 624-542-778
+2018-06-13 19:31:07	INFO	 * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
