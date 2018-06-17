@@ -193,7 +193,7 @@ while True:
 
             # Fin des festivites
             os.system("mpg321 -q data/audio/applaudissements1.mp3")
-            #Affichage du résultat
+            # Affichage du résultat
             if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
             elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
