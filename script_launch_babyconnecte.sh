@@ -12,5 +12,7 @@ nohup /usr/bin/python capteurs/match.py &
 nohup /usr/bin/python3.5 statistics/api_statistique.py &
 # Launch app flask
 nohup /usr/bin/python app/app.py &
+# Launch commentaires_live
+nohup /usr/bin/python data/commentaires_live.py &
 
 
