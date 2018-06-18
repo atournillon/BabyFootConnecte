@@ -99,8 +99,6 @@ while True:
             #j=0                     #j = Equipe Rouge
             Last_Goal = 0           # Pas de dernier but pour démarrer
 
-            # Lancement des festivites
-            os.system("mpg321 -q data/audio/ea_sport.mp3")
             # Initialisation de l'heure de début de partie
             # Time de début de partie
             time_start = datetime.datetime.now()
@@ -123,16 +121,6 @@ while True:
                     b, r = interaction_database.read_live()
                     i = b + 1                                                                  #Incrément du but marqué
                     j = r
-                    if i == j:
-                        os.system("mpg321 -q data/audio/egalite.mp3")
-                    else:
-                        filexist = 0
-                        while filexist < 1:
-                            commentaire = requete.execute('''select id_comment from PROD_REF_COMMENTS where (team = 'bleu' or team = 'lesdeux') and scenario = 'but' order by random() limit 1 ''').fetchall()
-                            commentaire_TTS = str(commentaire[0][0])
-                            if os.path.exists("data/audio/com" + commentaire_TTS + ".mp3") == True:
-                                filexist=1
-                        os.system("mpg321 -q data/audio/com" + commentaire_TTS + ".mp3")
                     Last_Goal = 1															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Bleus ! {}".format(time_goal_str))
                     lg.info("{}".format(str(i)))
@@ -148,18 +136,6 @@ while True:
                     b, r = interaction_database.read_live()
                     j = r + 1                                                                #Incrément du but marqué
                     i = b
-                    if j == i:
-                        os.system("mpg321 -q data/audio/egalite.mp3")
-                    elif j-i == 5:
-                        os.system("mpg321 -q data/audio/allez_les_bleus.mp3")
-                    else:
-                        filexist = 0
-                        while filexist < 1:
-                            commentaire = requete.execute('''select id_comment from PROD_REF_COMMENTS where (team = 'rouge' or team = 'lesdeux') and scenario = 'but' order by random() limit 1 ''').fetchall()
-                            commentaire_TTS = str(commentaire[0][0])
-                            if os.path.exists("data/audio/com" + commentaire_TTS + ".mp3") == True:
-                                filexist=1
-                        os.system("mpg321 -q data/audio/com" + commentaire_TTS + ".mp3")
                     Last_Goal = 2															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Rouges ! {}".format(time_goal_str))
                     lg.info("{}".format(str(i)))
@@ -191,8 +167,6 @@ while True:
                                 lg.info("Pas de ça ici messieurs ! Bien essayé !\n\n")
 # 4 - FIN DU MATCH
 
-            # Fin des festivites
-            os.system("mpg321 -q data/audio/applaudissements1.mp3")
             # Affichage du résultat
             if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
