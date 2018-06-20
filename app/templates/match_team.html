@@ -15,6 +15,7 @@
 			<tr id="tr_name">
 	  			
 				<td>
+					<h2 style="font-size:30px;">Défense</h2>
 					<SELECT name="nom1" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
@@ -22,6 +23,7 @@
 					</SELECT>
 				</td>
 				<td>
+					<h2 style="font-size:30px;">Attaque</h2>
 					<SELECT name="nom2" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
@@ -44,6 +46,7 @@
  					<td colspan="2"><img src="static/img/rouges_fond.png" style="width:auto;height:250px; margin: 0 15px 0 30px;"></br></br><h2>équipe Rouge</h2></td>
 				</tr>
 				<td>
+					<h2 style="font-size:30px;">Défense</h2>
 					<SELECT name="nom3" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>
@@ -51,6 +54,7 @@
 					</SELECT>
 				</td>
 				<td>
+					<h2 style="font-size:30px;">Attaque</h2>
 					<SELECT name="nom4" size="1">
         			{% for id_player in players_table.index %}
 					<OPTION VALUE="{{id_player}}"> {{players_table.loc[id_player].firstname+" "+players_table.loc[id_player].lastname }}</OPTION>

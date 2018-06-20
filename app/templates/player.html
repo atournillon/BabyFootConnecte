@@ -11,7 +11,7 @@
  	<tr id="tr_vide">
   		<td><h2>Classement</h2><div id="classement_container"><div id="classement"># {{ players_table.loc[id_player].ranking }}</div></div></td>
   		<td><h2># Matchs</h2><div id="classement_container"><div id="classement">{{ players_table.loc[id_player].match_count }}</div></div></td>
- 		<td><h2># Victoires</h2><div id="classement_container"><div id="classement">{{ players_table.loc[id_player].match_win_count }}</div></div></td>
+ 		<td><h2># Victoires</h2><div id="classement_container"><div id="classement">{{ players_table.loc[id_player].match_win_percent }} %</div></div></td>
  		</tr>
  </table>
 
