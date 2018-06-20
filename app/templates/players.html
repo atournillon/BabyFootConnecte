@@ -17,7 +17,6 @@
             <th>#Matchs</th>
             <th>#Victoires</th>
             <th>#Défaites</th>
-            <th>Temps de Jeu</th>
             <th>Buts Marqués</th>
             <th>Buts Encaissés</th>
           </tr>
@@ -31,9 +30,8 @@
               <td>{{ players_table.loc[id_player].match_count }}</td>
               <td>{{ players_table.loc[id_player].match_win_count }}</td>
               <td>{{ players_table.loc[id_player].match_los_count }}</td>
-              <td>{{ players_table.loc[id_player].game_time_sec }}</td>
-              <td>{{ players_table.loc[id_player].goals_win_count }}</td>
-              <td>{{ players_table.loc[id_player].goals_los_count }}</td>
+              <td>{{ players_table.loc[id_player].goals_scored }}</td>
+              <td>{{ players_table.loc[id_player].goals_conceced }}</td>
             </tr>
           {% endfor %}
         </tbody>

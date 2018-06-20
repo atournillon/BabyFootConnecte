@@ -9,9 +9,9 @@
 
 <table id="table_base">
  	<tr id="tr_vide">
-  		<td><h2>Classement</h2><div id="classement_container"><div id="classement"># {{ players_table.loc[id_player].match_los_count }}</div></div></td>
+  		<td><h2>Classement</h2><div id="classement_container"><div id="classement"># {{ players_table.loc[id_player].ranking }}</div></div></td>
   		<td><h2># Matchs</h2><div id="classement_container"><div id="classement">{{ players_table.loc[id_player].match_count }}</div></div></td>
- 		<td><h2>% Victoires</h2><div id="classement_container"><div id="classement">{{ players_table.loc[id_player].match_los_count }} %</div></div></td>
+ 		<td><h2># Victoires</h2><div id="classement_container"><div id="classement">{{ players_table.loc[id_player].match_win_count }}</div></div></td>
  		</tr>
  </table>
 
@@ -46,16 +46,16 @@
 	</tr>
 	<tr>
 		<td id="emojis">
-			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname}} </br> {{players_table.loc[id_player].lastname}}</h2>
+			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname_best_partner}} </br> {{players_table.loc[id_player].lastname_best_partner}}</h2>
 		</td>
 		<td id="emojis">
-			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname}} </br> {{players_table.loc[id_player].lastname}}</h2>
+			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname_bad_partner}} </br> {{players_table.loc[id_player].lastname_bad_partner}}</h2>
 		</td>
 		<td id="emojis">
-			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname}} </br> {{players_table.loc[id_player].lastname}}</h2>
+			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname_best_adver}} </br> {{players_table.loc[id_player].lastname_best_adver}}</h2>
 		</td>
 		<td id="emojis">
-			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname}} </br> {{players_table.loc[id_player].lastname}}</h2>
+			<h2 style="color:#303030;">{{players_table.loc[id_player].firstname_bad_adver}} </br> {{players_table.loc[id_player].lastname_bad_adver}}</h2>
 		</td>
 	</tr>
 </table>
