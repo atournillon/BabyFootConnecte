@@ -109,8 +109,8 @@ def calcul_statistique():
             best_partner = temp1.iloc[0, :]['winner_id']
             bad_partner = temp1.iloc[temp1.shape[0] - 1, :]['winner_id']
         except:
-            best_partner=None
-            bad_partner=None
+            best_partner=110
+            bad_partner=110
 
         # Calcul de best / bad adversaire
         temp1 = match[player == match[['loser_id1', 'loser_id2']].values].groupby(['loser_id1', 'loser_id2']).agg(
@@ -126,16 +126,21 @@ def calcul_statistique():
             bad_adver = temp1.iloc[0, :]['los_id']
             best_adver = temp1.iloc[temp1.shape[0] - 1, :]['los_id']
         except:
-            bad_adver = None
-            best_adver = None
+            bad_adver = 110
+            best_adver = 110
+                  
         # create temp dataframe for player
         resume_player = pd.DataFrame(np.array([[match_count, match_win_count, match_los_count, game_time_sec,goals_scored, goals_conceced, worst_score, best_score,best_partner, bad_partner, bad_adver, best_adver]]), index=[player],columns=col)
-
+        resume_players['best_partner'] = resume_players['best_partner'].astype('int')
+        resume_players['best_adver'] = resume_players['best_adver'].astype('int')
+        resume_players['bad_partner'] = resume_players['bad_partner'].astype('int')
+        resume_players['bad_adver'] = resume_players['bad_adver'].astype('int')
+		
         # concat resume_player with resume_players
         resume_players = pd.concat([resume_players, resume_player], axis=0)
 
     # generate other stats
-    resume_players['match_win_percent'] = resume_players.match_win_count / resume_players.match_count
+    resume_players['match_win_percent'] = resume_players.match_win_count / resume_players.match_count * 100
     resume_players['goals_diff'] = resume_players.goals_scored - resume_players.goals_conceced
     resume_players['goal_per_minut'] = resume_players.goals_scored / (resume_players.game_time_sec / 60)
     resume_players = resume_players.sort_values(by=['match_win_count', 'match_win_percent'], ascending=False)
@@ -171,12 +176,20 @@ def calcul_statistique():
 
     resume_players_df_vf = pd.merge(ref_player, resume_players_df)
     cur, conn = fonction_database.fonction_connexion_sqllite()
-    resume_players_df_vf['game_time_sec']=resume_players_df_vf['game_time_sec'].astype('float')
+    
+    resume_players_df_vf['match_count'] = resume_players_df_vf['match_count'].astype('int')
+    resume_players_df_vf['match_win_count'] = resume_players_df_vf['match_win_count'].astype('int')
+    resume_players_df_vf['match_los_count'] = resume_players_df_vf['match_los_count'].astype('int')
+    resume_players_df_vf['goals_scored'] = resume_players_df_vf['goals_scored'].astype('int')
+    resume_players_df_vf['goals_conceced'] = resume_players_df_vf['goals_conceced'].astype('int')
+    resume_players_df_vf['match_win_percent'] = resume_players_df_vf['match_win_percent'].astype('int')
+    
+    resume_players_df_vf['game_time_sec']=resume_players_df_vf['game_time_sec'].astype('int')
     resume_players_df_vf['goal_per_minut'] = resume_players_df_vf['goal_per_minut'].astype('float')
-    resume_players_df_vf['best_partner'] = resume_players_df_vf['best_partner'].astype('str')
-    resume_players_df_vf['bad_partner'] = resume_players_df_vf['bad_partner'].astype('str')
-    resume_players_df_vf['best_adver'] = resume_players_df_vf['best_adver'].astype('str')
-    resume_players_df_vf['bad_adver'] = resume_players_df_vf['bad_adver'].astype('str')
+    resume_players_df_vf['best_partner'] = resume_players_df_vf['best_partner'].astype('int')
+    resume_players_df_vf['bad_partner'] = resume_players_df_vf['bad_partner'].astype('int')
+    resume_players_df_vf['best_adver'] = resume_players_df_vf['best_adver'].astype('int')
+    resume_players_df_vf['bad_adver'] = resume_players_df_vf['bad_adver'].astype('int')
     resume_players_df_vf.to_sql('PROD_STAT_PLAYERS', conn, index=False, if_exists='replace')
     fonction_database.fonction_connexion_sqllite_fermeture(cur, conn)
 
