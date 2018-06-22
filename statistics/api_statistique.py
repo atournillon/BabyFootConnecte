@@ -13,6 +13,18 @@
 import pandas as pd
 import numpy as np
 import datetime
+import logging as lg
+
+t = datetime.datetime.now()
+fn = 'logs/run_statistique.{}.log'.format(t.strftime("%Y-%m-%d"))
+
+lg.basicConfig(filename = fn,
+               level = lg.DEBUG,
+               filemode = 'a',
+               format = '%(asctime)s\t%(levelname)s\t%(message)s',
+               datefmt = '%Y-%m-%d %H:%M:%S'
+               )
+
 
 # Initialisation de SQLite
 import sys
@@ -24,23 +36,28 @@ import fonction_statistiques
 # Pour la partie API
 from flask import Flask, Response, request
 app = Flask(__name__)
+lg.info("LANCEMENT API STATISTIQUE")
 
 # Import du référentiel joueur
+lg.info("Récupération de la liste des users dans le referentiel")
 cur, conn = fonction_database.fonction_connexion_sqllite()
 ref_player = pd.read_sql_query("select * from PROD_REF_PLAYERS;", conn)
 fonction_database.fonction_connexion_sqllite_fermeture(cur, conn)
+lg.info("Récupération de la liste des users dans le referentiel - OK")
 
 # created a *threaded* video stream, allow the camera sensor to warmup,
 @app.route('/calcul_statistique')
 def calcul_statistique():
     ####################################""
     # Requêtage sur la table d'histo match
+    lg.info("Appel de la fonction statistique")
     cur, conn = fonction_database.fonction_connexion_sqllite()
     input_match_df = pd.read_sql_query(
         "select a.* from PROD_LIVE_MATCH_HISTO as a INNER JOIN (SELECT distinct id_match FROM PROD_LIVE_MATCH_HISTO WHERE score_b = 10 OR score_r = 10) as b ON a.id_match = b.id_match;",
         conn)
     fonction_database.fonction_connexion_sqllite_fermeture(cur, conn)
 
+    lg.info("Récupération du dernier match")
     ############ preprocessing ####################
     # compute dataframe with one row per match : id_match / start_time / end_time / duration / players_dom / players_etx /
     # winers / losers / score_win / score_los / score_diff / goal_per_min_win / goal_per_min_los
@@ -77,6 +94,7 @@ def calcul_statistique():
             #, 'bad_los_score', 'best_win_score', 'mean_score'
             ,'best_partner', 'bad_partner', 'bad_adver', 'best_adver']
 
+    lg.info("Début du calcul par player")
     resume_players = pd.DataFrame(columns=col)
     for player in players:
         # keep only match played
@@ -173,6 +191,7 @@ def calcul_statistique():
 
     # Jointure des player_id avec la base ref
     import sqlalchemy
+    lg.info("Sauvegarde de la table dans sqlite")
 
     resume_players_df_vf = pd.merge(ref_player, resume_players_df)
     cur, conn = fonction_database.fonction_connexion_sqllite()
@@ -193,6 +212,7 @@ def calcul_statistique():
     resume_players_df_vf.to_sql('PROD_STAT_PLAYERS', conn, index=False, if_exists='replace')
     fonction_database.fonction_connexion_sqllite_fermeture(cur, conn)
 
+    lg.info("FIN DE LA FONCTION")
     return "ok"
 
 # Lancement de l'app
