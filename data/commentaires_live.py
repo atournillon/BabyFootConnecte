@@ -57,12 +57,12 @@ GPIO.setup(DB['capteurs']['id_capteur_bleu'], GPIO.IN)     #Ce Capteur est un La
 GPIO.setup(DB['capteurs']['id_capteur_rouge'], GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 
 #Initilisation de la manette
-try:
-    pygame.init()                                #Init de Pygame
-    mon_joystick = pygame.joystick.Joystick(0)   #Touche 0 correspond au bouton Start
-    mon_joystick.init()
-except:
-    pass
+#try:
+#    pygame.init()                                #Init de Pygame
+#    mon_joystick = pygame.joystick.Joystick(0)   #Touche 0 correspond au bouton Start
+#    mon_joystick.init()
+#except:
+#    pass
 
 #Initialisation du compteur de match
 m = 0
@@ -167,27 +167,27 @@ while True:
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
                 #Annulation du dernier but
-                for event in pygame.event.get():                                            #A tout moment on peut annuler un but
-                    if event.type == pygame.JOYBUTTONDOWN:                                         #Quand un bouton est appuyé
-                        if event.button == 0:                                               #Le bouton 0 correspond au bouton X
-                            if Last_Goal == 1:                                              #Si le dernier but vient des bleus
+                #for event in pygame.event.get():                                            #A tout moment on peut annuler un but
+                    #if event.type == pygame.JOYBUTTONDOWN:                                         #Quand un bouton est appuyé
+                        #if event.button == 0:                                               #Le bouton 0 correspond au bouton X
+                            #if Last_Goal == 1:                                              #Si le dernier but vient des bleus
                                 #com annulation à rajouter
-                                i = i - 1                                                   #On retire le but
-                                Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Oh le but n'est pas validé")
-                            elif Last_Goal == 2:  
+                              #  i = i - 1                                                   #On retire le but
+                               # Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                                #lg.info("Oh le but n'est pas validé")
+                            #elif Last_Goal == 2:  
                                 #com annulation à rajouter                                          #Si le dernier but vient des rouge
-                                j = j - 1                                                   #On retire le but
-                                Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Oh le but n'est pas validé")
-                            elif Last_Goal == 0:  
+                             #   j = j - 1                                                   #On retire le but
+                             #   Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                             #   lg.info("Oh le but n'est pas validé")
+                           # elif Last_Goal == 0:  
                                 #com annulation à rajouter                                          #Si c'est le premier but du match
-                                i = 0                                                       #Les bleus reste à 0
-                                j = 0                                                       #Les rouge reste à 0
-                                Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Oh ce premier but n'est pas validé")
-                            elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Pas de ça ici messieurs ! Bien essayé !\n\n")
+                            #    i = 0                                                       #Les bleus reste à 0
+                            #    j = 0                                                       #Les rouge reste à 0
+                           #     Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                           #     lg.info("Oh ce premier but n'est pas validé")
+                           # elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
+                            #    lg.info("Pas de ça ici messieurs ! Bien essayé !\n\n")
 # 4 - FIN DU MATCH
 
             # Fin des festivites
