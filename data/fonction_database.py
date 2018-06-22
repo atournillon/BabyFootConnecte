@@ -4,6 +4,7 @@
 import sqlite3
 import json
 import datetime
+from slacker import Slacker
 
 with open('config.json') as conf_file:
     global DB
@@ -20,5 +21,12 @@ def fonction_connexion_sqllite():
 def fonction_connexion_sqllite_fermeture(cur,conn):
     conn.commit()
     conn.close()
+    
+def fonction_connexion_slack():
+    #Fonction pour se connecter à slack
+    token_slack = DB['slack']['token']
+    slackClient = Slacker(token_slack)
+    channel = DB['slack']['channel']
+    return slackClient,channel
 
 

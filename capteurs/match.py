@@ -115,7 +115,7 @@ while True:
             while  i < 10 and j < 10:                                                       #Boucle de 10 buts
                 #Buts pour les bleus
                 if GPIO.input(DB['capteurs']['id_capteur_bleu']) == 0:
-                    os.system("mpg321 -q data/audio/sifflet1.mp3")
+                    
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                     b, r = interaction_database.read_live()
@@ -130,7 +130,7 @@ while True:
 
                 #Buts pour les rouges
                 if GPIO.input(DB['capteurs']['id_capteur_rouge']) == 0:                     #Détection des mouvements sur le PIN 19
-                    os.system("mpg321 -q data/audio/sifflet1.mp3")                     
+                                       
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                     b, r = interaction_database.read_live()
