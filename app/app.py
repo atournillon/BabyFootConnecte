@@ -107,6 +107,18 @@ def match_team():
 def perte_un_but():
     interaction_database_app.perte_un_but()
     return 'ok'
+    
+''' chemin pour gamelle bleu'''
+@app.route('/gamelle_bleu', methods=['POST'])
+def gamelle_bleu():
+    interaction_database_app.gamelle_bleu()
+    return 'ok'
+    
+''' chemin pour gamelle rouge'''
+@app.route('/gamelle_rouge', methods=['POST'])
+def gamelle_rouge():
+    interaction_database_app.gamelle_rouge()
+    return 'ok'
 
 
 
