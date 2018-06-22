@@ -399,7 +399,9 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
 #scrolltable tr:nth-child(even) { background: #EEE; }
 #scrolltable th {background-color: #303030; color: white;}
 #scrolltable th div {position: absolute; margin-top: -50px; text-transform:uppercase;}
-#scrolltable td {width:130px; padding:15px; text-align: center;}
+#scrolltable td {width:130px; padding:15px; text-align: center; }
+#scrolltable tr:hover {background-color: #4ED35E;}
+
 
 /*Page Player*/
 
