@@ -26,3 +26,9 @@ datetime
 os
 pyttsx3
 time
+
+#Partie Commentaires
+sudo apt-get install mpg321
+slacker
+sclackClient
+#son /usr/share/alsa/alsa.conf puis pcm.front cards.pcm.default au lieu de pcm.front cards.pcm.front
