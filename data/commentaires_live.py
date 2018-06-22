@@ -85,7 +85,7 @@ while True:
         b, r = interaction_database.read_live()
         i = b
         j = r
-		fonction_connexion_slack()
+	slackClient,channel = fonction_connexion_slack()
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
