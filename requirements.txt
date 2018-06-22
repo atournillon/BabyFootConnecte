@@ -28,7 +28,8 @@ pyttsx3
 time
 
 #Partie Commentaires
-sudo apt-get install mpg321
+#sudo apt-get install mpg321
 slacker
 sclackClient
 #son /usr/share/alsa/alsa.conf puis pcm.front cards.pcm.default au lieu de pcm.front cards.pcm.front
+#son2 sudo apt-get install alsa-utils puis sudo amixer cset numid=3 0
