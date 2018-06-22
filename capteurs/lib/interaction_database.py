@@ -26,8 +26,12 @@ def purge_live_match():
 def read_live():
     requete, connexion = fonction_database.fonction_connexion_sqllite()
     table = requete.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
-    row = table[0] #Just one line in the table
-    score_b = row[7]
-    score_r = row[8]
+    try:
+        row = table[0] #Just one line in the table
+        score_b = row[7]
+        score_r = row[8]
+    except:
+        score_b=0
+        score_r=0
     fonction_database.fonction_connexion_sqllite_fermeture(requete, connexion)
     return score_b, score_r
