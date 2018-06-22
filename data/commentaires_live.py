@@ -196,12 +196,12 @@ while True:
 			# Affichage du résultat
             if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
-				messageToChannel = "Hello, Victoire des Bleus " + str(i) + " - " + str(j)
-				slackClient.chat.post_message(channel,messageToChannel)
+		messageToChannel = "Hello, Victoire des Bleus " + str(i) + " - " + str(j)
+		slackClient.chat.post_message(channel,messageToChannel)
             elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Rouges")
-				messageToChannel = "Hello, Victoire des Rouges " + str(j) + " - " + str(i)
-				slackClient.chat.post_message(channel,messageToChannel)
+		messageToChannel = "Hello, Victoire des Rouges " + str(j) + " - " + str(i)
+		slackClient.chat.post_message(channel,messageToChannel)
 
     except Exception as e:
         lg.error("PROBLEME SUR LA TABLE LIVE")
