@@ -6,40 +6,47 @@
 </br>
   <div id="table_container_player">
     <div class="container">
-      <input class="form-control" id="myInput" type="text" placeholder="Search..">
+      
             
-      <br>
-      <table id="customers">
-        <thead>
-          <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Trigramme</th>
-            <th>#Matchs</th>
-            <th>#Victoires</th>
-            <th>#Défaites</th>
-            <th>Temps de jeu</th>
-            <th>Buts Marqués</th>
-            <th>Buts Encaissés</th>
-          </tr>
-        </thead>
-        <tbody id="myTable">
-          {% for id_player in players_table.index %}
-            <tr>
-              <td>{{ players_table.loc[id_player].firstname }}</td>
-              <td>{{ players_table.loc[id_player].lastname }}</td>
-              <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].nickname }}</a></td>
-              <td>{{ players_table.loc[id_player].match_count }}</td>
-              <td>{{ players_table.loc[id_player].match_win_count }}</td>
-              <td>{{ players_table.loc[id_player].match_los_count }}</td>
-              <td>{{ players_table.loc[id_player].game_time_sec }}</td>
-              <td>{{ players_table.loc[id_player].goals_scored }}</td>
-              <td>{{ players_table.loc[id_player].goals_conceced }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <br>
+    
+    <div id="scrolltable">
+    <table>
+        <tr id="thead">
+        	<th><div><h3>Prénom</h3></div></th>
+			<th><div><h3>Nom</h3></div></th>
+			<th><div><h3>Surnom</h3></div></th>
+			<th><div><h3>#Matchs</h3></div></th>
+			<th><div><h3>#Victoires</h3></div></th>
+			<th><div><h3>#Défaites</h3></div></th>
+			<th><div><h3>Temps de jeu</h3></div></th>
+			<th><div><h3>Buts Pour</h3></div></th>
+			<th><div><h3>Buts Contre</h3></div></th>
+        </tr>
+       
+        {% for id_player in players_table.index %}
+				<tr>
+				  <td>{{ players_table.loc[id_player].firstname }}</td>
+				  <td>{{ players_table.loc[id_player].lastname }}</td>
+				  <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].nickname }}</a></td>
+				  <td>{{ players_table.loc[id_player].match_count }}</td>
+				  <td>{{ players_table.loc[id_player].match_win_count }}</td>
+				  <td>{{ players_table.loc[id_player].match_los_count }}</td>
+				  <td>{{ players_table.loc[id_player].game_time_sec }}</td>
+				  <td>{{ players_table.loc[id_player].goals_scored }}</td>
+				  <td>{{ players_table.loc[id_player].goals_conceced }}</td>
+				</tr>
+			  {% endfor %}
+ 
+    </table>
+	</div>	
+      
+      
     </div>
+    
+    
+   
+
 
     <script>
     $(document).ready(function(){
@@ -66,3 +73,5 @@
  	</table>
 </footer>
 {% endblock %}
+
+<input class="form-control" id="myInput" type="text" placeholder="Search..">
