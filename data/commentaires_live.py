@@ -13,6 +13,7 @@ import json
 import time
 import datetime
 import sys
+from slacker import Slacker
 sys.path.append("data")
 import fonction_database
 
@@ -84,6 +85,7 @@ while True:
         b, r = interaction_database.read_live()
         i = b
         j = r
+		fonction_connexion_slack()
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
@@ -190,11 +192,16 @@ while True:
 
             # Fin des festivites
             os.system("mpg321 -q data/audio/applaudissements1.mp3")
-            # Affichage du résultat
+			# Publication sur Slack du résultat
+			# Affichage du résultat
             if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
+				messageToChannel = "Hello, Victoire des Bleus " + i + " à " + j
+				slackClient.chat.post_message(channel,messageToChannel)
             elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Rouges")
+				messageToChannel = "Hello, Victoire des Rouges " + j + " à " + i
+				slackClient.chat.post_message(channel,messageToChannel)
 
     except Exception as e:
         lg.error("PROBLEME SUR LA TABLE LIVE")
