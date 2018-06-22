@@ -143,28 +143,32 @@ while True:
                     interaction_database.live(time_goal_str, i, j, Last_Goal)                #Ecriture dans la table live
                     time.sleep(5)                                                           #On rajoute du temps (5sec) pour éviter les problèmes de détection
 
-                #Annulation du dernier but
-                for event in pygame.event.get():                                            #A tout moment on peut annuler un but
-                    if event.type == pygame.JOYBUTTONDOWN:                                         #Quand un bouton est appuyé
-                        if event.button == 0:                                               #Le bouton 0 correspond au bouton X
-                            if Last_Goal == 1:                                              #Si le dernier but vient des bleus
-                                i = i - 1                                                   #On retire le but
-                                Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Oh le but n'est pas validé")
-                                interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
-                            elif Last_Goal == 2:                                            #Si le dernier but vient des rouge
-                                j = j - 1                                                   #On retire le but
-                                Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Oh le but n'est pas validé")
-                                interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
-                            elif Last_Goal == 0:                                            #Si c'est le premier but du match
-                                i = 0                                                       #Les bleus reste à 0
-                                j = 0                                                       #Les rouge reste à 0
-                                Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Oh ce premier but n'est pas validé")
-                                interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
-                            elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
-                                lg.info("Pas de ça ici messieurs ! Bien essayé !\n\n")
+                try:
+                    #Annulation du dernier but
+                    for event in pygame.event.get():                                            #A tout moment on peut annuler un but
+                        if event.type == pygame.JOYBUTTONDOWN:                                         #Quand un bouton est appuyé
+                            if event.button == 0:                                               #Le bouton 0 correspond au bouton X
+                                if Last_Goal == 1:                                              #Si le dernier but vient des bleus
+                                    i = i - 1                                                   #On retire le but
+                                    Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                                    lg.info("Oh le but n'est pas validé")
+                                    interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
+                                elif Last_Goal == 2:                                            #Si le dernier but vient des rouge
+                                    j = j - 1                                                   #On retire le but
+                                    Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                                    lg.info("Oh le but n'est pas validé")
+                                    interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
+                                elif Last_Goal == 0:                                            #Si c'est le premier but du match
+                                    i = 0                                                       #Les bleus reste à 0
+                                    j = 0                                                       #Les rouge reste à 0
+                                    Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
+                                    lg.info("Oh ce premier but n'est pas validé")
+                                    interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
+                                elif Last_Goal == -1:                                           #En modifiant le Last Goal, on va empêcher la double annulation
+                                    lg.info("Pas de ça ici messieurs ! Bien essayé !\n\n")
+                except:
+                    pass
+                    lg.info('pas de joystick')
 # 4 - FIN DU MATCH
 
             # Affichage du résultat
