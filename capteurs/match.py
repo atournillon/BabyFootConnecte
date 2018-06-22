@@ -168,7 +168,7 @@ while True:
                                     lg.info("Pas de ça ici messieurs ! Bien essayé !\n\n")
                 except:
                     pass
-                    lg.info('pas de joystick')
+                    #lg.info('pas de joystick')
 # 4 - FIN DU MATCH
 
             # Affichage du résultat
