@@ -6,5 +6,9 @@
 	"database":{
 		"prod":"data/database/PARC_DES_PRINCES.db",
 		"rec":"data/database/ROUDOUROU.db"
+	},
+	"slack":{
+		"token":"xoxb-189877674341-386300590194-M89MbAzG9bYgnnbG9Vc8dlPk",
+		"channel":"#babyfoot_avisia"
 	}
 }
