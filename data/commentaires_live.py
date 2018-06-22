@@ -196,11 +196,11 @@ while True:
 			# Affichage du résultat
             if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
-				messageToChannel = "Hello, Victoire des Bleus " + i + " à " + j
+				messageToChannel = "Hello, Victoire des Bleus " + str(i) + " à " + str(j)
 				slackClient.chat.post_message(channel,messageToChannel)
             elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Rouges")
-				messageToChannel = "Hello, Victoire des Rouges " + j + " à " + i
+				messageToChannel = "Hello, Victoire des Rouges " + str(j) + " à " + str(i)
 				slackClient.chat.post_message(channel,messageToChannel)
 
     except Exception as e:
