@@ -102,6 +102,7 @@ while True:
 
             # Lancement des festivites
             os.system("mpg321 -q data/audio/ea_sport.mp3")
+            lg.info("son ea_sport")
             # Initialisation de l'heure de début de partie
             # Time de début de partie
             time_start = datetime.datetime.now()
@@ -119,6 +120,7 @@ while True:
                 #Buts pour les bleus
                 if GPIO.input(DB['capteurs']['id_capteur_bleu']) == 0:
                     os.system("mpg321 -q data/audio/sifflet1.mp3")
+					lg.info("coup de sifflet")
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                     b, r = interaction_database.read_live()
@@ -126,6 +128,7 @@ while True:
                     j = r
                     if i == j:
                         os.system("mpg321 -q data/audio/egalite.mp3")
+			lg.info("il y a egalite")
                     else:
                         filexist = 0
                         while filexist < 1:
@@ -134,6 +137,7 @@ while True:
                             if os.path.exists("data/audio/com" + commentaire_TTS + ".mp3") == True:
                                 filexist=1
                         os.system("mpg321 -q data/audio/com" + commentaire_TTS + ".mp3")
+			lg.info("commentaire data/audio/com" + commentaire_TTS + ".mp3")
                     Last_Goal = 1															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Bleus ! {}".format(time_goal_str))
                     lg.info("{}".format(str(i)))
@@ -142,7 +146,8 @@ while True:
 
                 #Buts pour les rouges
                 if GPIO.input(DB['capteurs']['id_capteur_rouge']) == 0:                     #Détection des mouvements sur le PIN 19
-                    os.system("mpg321 -q data/audio/sifflet1.mp3")                     
+                    os.system("mpg321 -q data/audio/sifflet1.mp3")  
+                    lg.info("coup de sifflet")
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                     b, r = interaction_database.read_live()
@@ -150,8 +155,10 @@ while True:
                     i = b
                     if j == i:
                         os.system("mpg321 -q data/audio/egalite.mp3")
+			lg.info("il y a egalite")
                     elif j-i == 5:
                         os.system("mpg321 -q data/audio/allez_les_bleus.mp3")
+			lg.info("encouragement des bleus qui galerent")
                     else:
                         filexist = 0
                         while filexist < 1:
@@ -160,6 +167,7 @@ while True:
                             if os.path.exists("data/audio/com" + commentaire_TTS + ".mp3") == True:
                                 filexist=1
                         os.system("mpg321 -q data/audio/com" + commentaire_TTS + ".mp3")
+			lg.info("commentaire data/audio/com" + commentaire_TTS + ".mp3")
                     Last_Goal = 2															#Ce but a été marqué par les bleus - utiliser pour l'annulation
                     lg.info("Buuuut des Rouges ! {}".format(time_goal_str))
                     lg.info("{}".format(str(i)))
@@ -192,16 +200,19 @@ while True:
 
             # Fin des festivites
             os.system("mpg321 -q data/audio/applaudissements1.mp3")
+            lg.info("applaudissements car fin du match")
 			# Publication sur Slack du résultat
 			# Affichage du résultat
             if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
 		messageToChannel = "Hello, Victoire des Bleus " + str(i) + " - " + str(j)
 		slackClient.chat.post_message(channel,messageToChannel)
+		lg.info("push du match sur slack")
             elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
                 lg.info("C'est donc terminé pour ce match. Victoire des Rouges")
 		messageToChannel = "Hello, Victoire des Rouges " + str(j) + " - " + str(i)
 		slackClient.chat.post_message(channel,messageToChannel)
+		lg.info("push du match sur slack")
 
     except Exception as e:
         lg.error("PROBLEME SUR LA TABLE LIVE")
