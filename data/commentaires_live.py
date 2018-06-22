@@ -120,7 +120,7 @@ while True:
                 #Buts pour les bleus
                 if GPIO.input(DB['capteurs']['id_capteur_bleu']) == 0:
                     os.system("mpg321 -q data/audio/sifflet1.mp3")
-					lg.info("coup de sifflet")
+                    lg.info("coup de sifflet")
                     time_goal = datetime.datetime.now()                                     #Récupérer le time du but
                     time_goal_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_goal))          #Conversion en format String pour stockage au bon format
                     b, r = interaction_database.read_live()
