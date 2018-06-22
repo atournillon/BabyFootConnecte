@@ -60,7 +60,7 @@ def init_prod_live_match(r1,r2,b1,b2):
 
 def recup_players_stat():
     cur, conn = fonction_database.fonction_connexion_sqllite()
-    query = "SELECT * FROM PROD_STAT_PLAYERS WHERE ID_PLAYER > 0 ORDER BY match_win_percent DESC LIMIT 10 "
+    query = "SELECT * FROM PROD_STAT_PLAYERS WHERE ID_PLAYER > 0 ORDER BY match_win_percent DESC LIMIT 50 "
     df_sortie = pd.read_sql(query, conn).set_index('id_player')
     df_sortie['game_time_sec']=df_sortie['game_time_sec'].apply(lambda x : str(datetime.timedelta(seconds=x)))
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
@@ -81,6 +81,32 @@ def perte_un_but():
     cur.execute(query_2)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     lg.info("ON SUPPRIME UN BUT")
+    return 'ok'
+    
+def gamelle_bleu():
+    cur, conn = fonction_database.fonction_connexion_sqllite()
+    table = cur.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
+    row = table[0] #Just one line in the table
+    bleu = row[7]
+    rouge = row[8]
+    if rouge > 0:
+        query = "UPDATE PROD_LIVE_MATCH SET score_r=score_r-1, last_team = 0;"
+    cur.execute(query)
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    lg.info("GAMELLE DES BLEUS - ON SUPPRIME UN BUT DES ROUGES")
+    return 'ok'
+    
+def gamelle_rouge():
+    cur, conn = fonction_database.fonction_connexion_sqllite()
+    table = cur.execute("SELECT * FROM PROD_LIVE_MATCH").fetchall()
+    row = table[0] #Just one line in the table
+    bleu = row[7]
+    rouge = row[8]
+    if bleu > 0:
+        query = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1, last_team = 0;"
+    cur.execute(query)
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    lg.info("GAMELLE DES ROUGE - ON SUPPRIME UN BUT DES BLEUS")
     return 'ok'
 
 def recup_prenom_nom(j1,j2):
