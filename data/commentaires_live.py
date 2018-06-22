@@ -80,7 +80,7 @@ while True:
         requete,connexion = fonction_database.fonction_connexion_sqllite()
         requete.execute("SELECT count(*) FROM PROD_LIVE_MATCH")
         test_score = requete.fetchone()
-        fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
+        #fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
         nb_rows = test_score[0]
         b, r = interaction_database.read_live()
         i = b
@@ -204,11 +204,13 @@ while True:
 			# Publication sur Slack du résultat
 			# Affichage du résultat
             if i == 10:                                                                                 #Si les bleus arrivent à 10 buts
+		fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
 		messageToChannel = "Hello, Victoire des Bleus " + str(i) + " - " + str(j)
 		slackClient.chat.post_message(channel,messageToChannel)
 		lg.info("push du match sur slack")
             elif j == 10:                                                                               #Si les rouge arrivent à 10 buts
+		fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
                 lg.info("C'est donc terminé pour ce match. Victoire des Rouges")
 		messageToChannel = "Hello, Victoire des Rouges " + str(j) + " - " + str(i)
 		slackClient.chat.post_message(channel,messageToChannel)
