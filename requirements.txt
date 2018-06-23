@@ -27,6 +27,9 @@ os
 pyttsx3
 time
 
+#Partie statistique
+sqlalchemy
+
 #Partie Commentaires
 #sudo apt-get install mpg321
 slacker
