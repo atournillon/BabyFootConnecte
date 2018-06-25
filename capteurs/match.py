@@ -80,6 +80,11 @@ i = 0
 j = 0
 Last_Goal = 0
 
+# Temperature
+def temperature():
+	temp = os.popen('vcgencmd measure_temp').readline()
+	return(temp.replace("temp=","").replace("'C\n",""))
+
 class but(Thread):
     def __init__(self, team, i, j, Last_Goal):
         Thread.__init__(self)
@@ -155,8 +160,16 @@ while True:
         b, r = interaction_database.read_live()
         i = b
         j = r
-
+        
         slackClient,channel = fonction_database.fonction_connexion_slack()
+        
+        # Temperature
+        chaleur=temperature()
+        lg.info("Temperature : " + chaleur)
+        
+        if chaleur >= 55:
+            messageToChannel = "Temperature RPI : " + chaleur + " degres CELSUIS"
+            slackClient.chat.post_message("#babyfoot_temperature",messageToChannel)
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
