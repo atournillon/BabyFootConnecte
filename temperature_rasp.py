@@ -19,4 +19,4 @@ def get_cpu_temperature():
     output, _error = process.communicate()
     return float(output[output.index('=') + 1:output.rindex("'")])
 
-slackClient.chat.post_message(channel,str("La température est de : "+get_cpu_temperature()+" °C"))
+slackClient.chat.post_message(channel,"La température est de : "+str(get_cpu_temperature())+" °C")
