@@ -1,5 +1,5 @@
 # !/usr/bin/python
-# coding: utf8
+# coding: utf-8
 
 ########################################
 # BABY FOOT Connecté
@@ -13,10 +13,16 @@ import json
 import time
 import datetime
 import sys
+reload(sys)  
+sys.setdefaultencoding('utf8')
 from threading import Thread
 from slacker import Slacker
+
 sys.path.append("data")
 import fonction_database
+
+sys.path.append("slack")
+import fonction_slack
 
 sys.path.append("capteurs/lib")
 import interaction_database
@@ -158,8 +164,51 @@ while True:
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
             lg.info("On peut démarrer un match")
+
+            # Recuperation des joueurs
+            requete.execute(''' SELECT 'ROUGE' as team
+                                    ,CASE WHEN A.nickname IS NULL THEN A.firstname || ' ' || A.lastname
+                                    ELSE A.nickname 
+                                    END as JOUEUR   
+                                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                                (
+                                  SELECT distinct r1 FROM PROD_LIVE_MATCH
+                                ) AS B ON A.id_player=B.r1
+                            UNION ALL
+                                SELECT 'ROUGE' as team
+                                    ,CASE WHEN A.nickname IS NULL THEN A.firstname || ' ' || A.lastname
+                                    ELSE A.nickname 
+                                    END as JOUEUR   
+                                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                                (
+                                  SELECT distinct r2 FROM PROD_LIVE_MATCH
+                                ) AS B ON A.id_player=B.r2
+                            UNION ALL
+                                SELECT 'BLEU' as team
+                                    ,CASE WHEN A.nickname IS NULL THEN A.firstname || ' ' || A.lastname
+                                    ELSE A.nickname 
+                                    END as JOUEUR   
+                                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                                (
+                                  SELECT distinct b1 FROM PROD_LIVE_MATCH
+                                ) AS B ON A.id_player=B.b1
+                            UNION ALL
+                                SELECT 'BLEU' as team
+                                    ,CASE WHEN A.nickname IS NULL THEN A.firstname || ' ' || A.lastname
+                                    ELSE A.nickname 
+                                    END as JOUEUR   
+                                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                                (
+                                  SELECT distinct b2 FROM PROD_LIVE_MATCH
+                                ) AS B ON A.id_player=B.b2
+                            ''')
+            joueur = requete.fetchall()
+            r1 = joueur[0][1]
+            r2 = joueur[1][1]
+            b1 = joueur[2][1]
+            b2 = joueur[3][1]
             
-            slackClient,channel = fonction_database.fonction_connexion_slack()
+            slackClient,channel = fonction_slack.fonction_connexion_slack("channel_result")
 
             # Lancement des festivites
             os.system("mpg321 -q data/audio/ea_sport.mp3")
@@ -177,6 +226,7 @@ while True:
             # Initialisation de l'heure de début de partie
             # Time de début de partie
             time_start = datetime.datetime.now()
+            start = time.time()
             # Conversion pour stockage en caractère
             time_start_str = str('{0:%d/%m/%Y %H:%M:%S}'.format(time_start))
 
@@ -266,11 +316,27 @@ while True:
                                     Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                     lg.info("Oh le but n'est pas validé")
                                     interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
+                                    filexist = 0
+                                    while filexist < 1:
+                                        commentaire = requete.execute('''select id_comment from PROD_REF_COMMENTS where (team = 'bleu') and scenario = 'annulation' order by random() limit 1 ''').fetchall()
+                                        commentaire_TTS = str(commentaire[0][0])
+                                        if os.path.exists("data/audio/com" + commentaire_TTS + ".mp3") == True:
+                                            filexist=1
+                                            os.system("mpg321 -q data/audio/com" + commentaire_TTS + ".mp3")
+                                            lg.info("Commentaire data/audio/com" + commentaire_TTS + ".mp3")
                                 elif Last_Goal == 2:                                            #Si le dernier but vient des rouge
                                     j = j - 1                                                   #On retire le but
                                     Last_Goal = -1                                              #En modifiant le Last Goal, on va empêcher la double annulation
                                     lg.info("Oh le but n'est pas validé")
                                     interaction_database.live(time_goal_str, i, j, Last_Goal)   #Ecriture dans la table live
+                                    filexist = 0
+                                    while filexist < 1:
+                                        commentaire = requete.execute('''select id_comment from PROD_REF_COMMENTS where (team = 'rouge') and scenario = 'annulation' order by random() limit 1 ''').fetchall()
+                                        commentaire_TTS = str(commentaire[0][0])
+                                        if os.path.exists("data/audio/com" + commentaire_TTS + ".mp3") == True:
+                                            filexist=1
+                                            os.system("mpg321 -q data/audio/com" + commentaire_TTS + ".mp3")
+                                            lg.info("Commentaire data/audio/com" + commentaire_TTS + ".mp3")
                                 elif Last_Goal == 0:                                            #Si c'est le premier but du match
                                     i = 0                                                       #Les bleus reste à 0
                                     j = 0                                                       #Les rouge reste à 0
@@ -284,6 +350,8 @@ while True:
                     #lg.info('pas de joystick')
 # 4 - FIN DU MATCH
 
+            end = time.time()
+            duree = (end - start) / 60 
             os.system("mpg321 -q data/audio/applaudissements1.mp3")
             lg.info("Applaudissements car fin du match")
 
@@ -292,18 +360,18 @@ while True:
                 fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
                 if rpi==0:
-                    messageToChannel = "[test local] Hello, Victoire des Bleus " + str(i) + " - " + str(j)
+                    messageToChannel = "[test local] Hello, Victoire de " + str(b1) + " et " + str(b2) +  " (Bleu) " + str(i) + " - " + str(j) + " contre " + str(r1) + " et " + str(r2) + " (Rouge) en " + str(int(duree)) + " minutes"
                 else:
-                    messageToChannel = "Hello, Victoire des Bleus " + str(i) + " - " + str(j)
+                    messageToChannel = "Hello, Victoire de " + str(b1) + " et " + str(b2) +  " (Bleu) " + str(i) + " - " + str(j) + " contre " + str(r1) + " et " + str(r2) + " (Rouge) en " + str(int(duree)) + " minutes"
                 slackClient.chat.post_message(channel,messageToChannel)
                 lg.info("Push du match sur slack")
             elif j == 10:                                                                        #Si les rouge arrivent à 10 buts
                 fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
                 lg.info("C'est donc terminé pour ce match. Victoire des Rouges")
                 if rpi==0:
-                    messageToChannel = "[test local] Hello, Victoire des Rouges " + str(j) + " - " + str(i)
+                    messageToChannel = "[test local] Hello, Victoire de " + str(r1) + " et " + str(r2) +  " (Rouge) " + str(j) + " - " + str(i) + " contre " + str(b1) + " et " + str(b2) + " (Bleu) en " + str(int(duree)) + " minutes"
                 else:
-                    messageToChannel = "Hello, Victoire des Rouges " + str(j) + " - " + str(i)
+                    messageToChannel = "Hello, Victoire de " + str(r1) + " et " + str(r2) +  " (Rouge) " + str(j) + " - " + str(i) + " contre " + str(b1) + " et " + str(b2) + " (Bleu) en " + str(int(duree)) + " minutes"
                 slackClient.chat.post_message(channel,messageToChannel)
                 lg.info("Push du match sur Slack")
 
