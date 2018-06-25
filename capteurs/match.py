@@ -162,9 +162,7 @@ while True:
         nb_rows = test_score[0]
         b, r = interaction_database.read_live()
         i = b
-        j = r
-
-        slackClient,channel = fonction_database.fonction_connexion_slack()
+        j = r       
         
         if rpi==1:
             end = time.time()
@@ -184,6 +182,8 @@ while True:
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
             lg.info("On peut démarrer un match")
+            
+            slackClient,channel = fonction_database.fonction_connexion_slack()
 
             # Lancement des festivites
             os.system("mpg321 -q data/audio/ea_sport.mp3")
