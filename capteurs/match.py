@@ -15,6 +15,7 @@ import datetime
 import sys
 from threading import Thread
 from slacker import Slacker
+from subprocess import PIPE, Popen
 sys.path.append("data")
 import fonction_database
 
@@ -81,9 +82,11 @@ j = 0
 Last_Goal = 0
 
 # Temperature
-def temperature():
-    temp = os.popen('vcgencmd measure_temp').readline()
-    return(temp.replace("temp=","").replace("'C\n",""))
+def get_cpu_temperature():
+    """get cpu temperature using vcgencmd"""
+    process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE)
+    output, _error = process.communicate()
+    return float(output[output.index('=') + 1:output.rindex("'")])
 
 class but(Thread):
     def __init__(self, team, i, j, Last_Goal):
@@ -162,14 +165,14 @@ while True:
         j = r
         
         slackClient,channel = fonction_database.fonction_connexion_slack()
+        slackClient,channel_temp = fonction_database.fonction_temperature_slack()
         
         # Temperature
-        chaleur=temperature()
-        lg.info("Temperature : " + chaleur)
+        temperature = get_cpu_temperature()
+        lg.info("Temperature : " + str(temperature))
         
-        if chaleur >= 55:
-            messageToChannel = "Temperature RPI : " + chaleur + " degres CELSUIS"
-            slackClient.chat.post_message("#babyfoot_temperature",messageToChannel)
+        if temperature >= 55:
+            slackClient.chat.post_message(channel_temp,"La température est de : "+str(temperature)+" °C")
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
@@ -184,7 +187,7 @@ while True:
                     END as JOUEUR	
                 FROM PROD_REF_PLAYERS AS A INNER JOIN 
                 (
-                  SELECT distinct r1 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                  SELECT distinct r1 FROM PROD_LIVE_MATCH
                 ) AS B ON A.id_player=B.r1
 
             UNION ALL
@@ -196,7 +199,7 @@ while True:
                     END as JOUEUR	
                 FROM PROD_REF_PLAYERS AS A INNER JOIN 
                 (
-                  SELECT distinct r2 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                  SELECT distinct r2 FROM FROM PROD_LIVE_MATCH
                 ) AS B ON A.id_player=B.r2
 
             UNION ALL
@@ -208,7 +211,7 @@ while True:
                     END as JOUEUR	
                 FROM PROD_REF_PLAYERS AS A INNER JOIN 
                 (
-                  SELECT distinct b1 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                  SELECT distinct b1 FROM FROM PROD_LIVE_MATCH
                 ) AS B ON A.id_player=B.b1
 
             UNION ALL
@@ -220,7 +223,7 @@ while True:
                     END as JOUEUR	
                 FROM PROD_REF_PLAYERS AS A INNER JOIN 
                 (
-                  SELECT distinct b2 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                  SELECT distinct b2 FROM FROM PROD_LIVE_MATCH
                 ) AS B ON A.id_player=B.b2
             ''')
             r1=str(joueur[0][1])
