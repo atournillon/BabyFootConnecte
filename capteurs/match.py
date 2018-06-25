@@ -62,7 +62,7 @@ if rpi==0:
     RPi.GPIO.setup(DB['capteurs']['id_capteur_rouge'], RPi.GPIO.IN)     #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 else:
     #GPIO.setwarnings(False)                                            #Désactive le Warning
-    GPIO.setmode(RPi.GPIO.BOARD)                                        #Mode BCM si on utilise un BreadBoard
+    GPIO.setmode(GPIO.BOARD)                                        #Mode BCM si on utilise un BreadBoard
     GPIO.setup(DB['capteurs']['id_capteur_bleu'], GPIO.IN)              #Ce Capteur est un Laser sur le PIN 18 - Il est pour les Bleus
     GPIO.setup(DB['capteurs']['id_capteur_rouge'], GPIO.IN)             #Ce Capteur est un Laser sur le PIN 5 - Il est pour les Rouges
 
