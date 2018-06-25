@@ -150,6 +150,7 @@ class commentaire(Thread):
 # 2 - GESTION DE L'ATTENTE D'UN DEBUT DE MATCH_____________________
 # Programme qui tourne à l'infini
 lg.info("DEBUT DU PROGRAMME")
+start = time.time()
 while True:
     lg.info("Vérification de la base Live en cours")
     # On vérifie si la base Live contient quelque chose
@@ -166,14 +167,19 @@ while True:
         slackClient,channel = fonction_database.fonction_connexion_slack()
         
         if rpi==1:
-            slackClient,channel_temp = fonction_database.fonction_temperature_slack()
+            end = time.time()
+            interval = end - start
+            
+            if interval >= 300:
+                slackClient,channel_temp = fonction_database.fonction_temperature_slack()
 
-            # Temperature
-            temperature = get_cpu_temperature()
-            lg.info("Temperature : " + str(temperature))
+                # Temperature
+                temperature = get_cpu_temperature()
+                lg.info("Temperature : " + str(temperature))
 
-            if temperature >= 55:
                 slackClient.chat.post_message(channel_temp,"La température est de : "+str(temperature)+" °C")
+                
+                start = end
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
