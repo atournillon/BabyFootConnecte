@@ -9,7 +9,7 @@
 	},
 	"slack":{
 		"token":"xoxb-189877674341-386300590194-M89MbAzG9bYgnnbG9Vc8dlPk",
-		"channel":"#babyfoot_avisia",
-		"channel_temp":"#babyfoot_temp_rpi"
+		"channel_result":"#babyfoot_avisia",
+		"channel_usage":"#babyfoot_usage_rpi"
 	}
 }
