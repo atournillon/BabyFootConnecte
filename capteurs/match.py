@@ -82,8 +82,8 @@ Last_Goal = 0
 
 # Temperature
 def temperature():
-	temp = os.popen('vcgencmd measure_temp').readline()
-	return(temp.replace("temp=","").replace("'C\n",""))
+    temp = os.popen('vcgencmd measure_temp').readline()
+    return(temp.replace("temp=","").replace("'C\n",""))
 
 class but(Thread):
     def __init__(self, team, i, j, Last_Goal):
