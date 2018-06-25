@@ -15,7 +15,6 @@ import datetime
 import sys
 from threading import Thread
 from slacker import Slacker
-from subprocess import PIPE, Popen
 sys.path.append("data")
 import fonction_database
 
@@ -81,12 +80,6 @@ i = 0
 j = 0
 Last_Goal = 0
 
-def get_cpu_temperature():
-    """get cpu temperature using vcgencmd"""
-    process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE)
-    output, _error = process.communicate()
-    return float(output[output.index('=') + 1:output.rindex("'")])
-
 class but(Thread):
     def __init__(self, team, i, j, Last_Goal):
         Thread.__init__(self)
@@ -150,7 +143,6 @@ class commentaire(Thread):
 # 2 - GESTION DE L'ATTENTE D'UN DEBUT DE MATCH_____________________
 # Programme qui tourne à l'infini
 lg.info("DEBUT DU PROGRAMME")
-start = time.time()
 while True:
     lg.info("Vérification de la base Live en cours")
     # On vérifie si la base Live contient quelque chose
@@ -158,26 +150,10 @@ while True:
         requete,connexion = fonction_database.fonction_connexion_sqllite()
         requete.execute("SELECT count(*) FROM PROD_LIVE_MATCH")
         test_score = requete.fetchone()
-        #fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
         nb_rows = test_score[0]
         b, r = interaction_database.read_live()
         i = b
-        j = r       
-        
-        if rpi==1:
-            end = time.time()
-            interval = end - start
-            
-            if interval >= 300:
-                slackClient,channel_temp = fonction_database.fonction_temperature_slack()
-
-                # Temperature
-                temperature = get_cpu_temperature()
-                lg.info("Temperature : " + str(temperature))
-
-                slackClient.chat.post_message(channel_temp,"La température est de : "+str(temperature)+" °C")
-                
-                start = end
+        j = r  
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
