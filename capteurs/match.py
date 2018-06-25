@@ -15,6 +15,7 @@ import datetime
 import sys
 from threading import Thread
 from slacker import Slacker
+from subprocess import PIPE, Popen
 sys.path.append("data")
 import fonction_database
 
@@ -79,6 +80,12 @@ m = 0
 i = 0
 j = 0
 Last_Goal = 0
+
+def get_cpu_temperature():
+    """get cpu temperature using vcgencmd"""
+    process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE)
+    output, _error = process.communicate()
+    return float(output[output.index('=') + 1:output.rindex("'")])
 
 class but(Thread):
     def __init__(self, team, i, j, Last_Goal):
@@ -157,6 +164,12 @@ while True:
         j = r
 
         slackClient,channel = fonction_database.fonction_connexion_slack()
+        slackClient,channel_temp = fonction_database.fonction_temperature_slack()
+        
+        temperature = get_cpu_temperature()
+        
+        if temperature >= 55:
+            slackClient.chat.post_message(channel_temp,"La température est de : "+str(temperature)+" °C")
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
