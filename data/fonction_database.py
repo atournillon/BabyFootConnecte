@@ -29,4 +29,11 @@ def fonction_connexion_slack():
     channel = DB['slack']['channel']
     return slackClient,channel
 
+def fonction_temperature_slack():
+    #Fonction pour se connecter à slack
+    token_slack = DB['slack']['token']
+    slackClient = Slacker(token_slack)
+    channel_temp = DB['slack']['channel_temp']
+    return slackClient,channel_temp
+
 
