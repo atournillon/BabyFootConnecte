@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
 
-cd /home/pi/Documents/BabyFootConnecte
-# Launch capteurs avec native python
-nohup /usr/bin/python capteurs/match.py &
+su pi -c 'sh /home/pi/Documents/BabyFootConnecte/cron_statistique.sh' &
+su pi -c 'sh /home/pi/Documents/BabyFootConnecte/cron_match.sh' &
+su pi -c 'sh /home/pi/Documents/BabyFootConnecte/cron_app.sh' &
 
-
-# Activation de lenv
-# source /opt/anaconda/bin/activate py27
-
-# Launch de api statistique
-nohup /usr/bin/python3.5 statistics/api_statistique.py &
-# Launch app flask
-nohup /usr/bin/python app/app.py &
-
-
+sleep 20
+su pi -c 'DISPLAY=:0 chromium-browser http://127.0.0.1:5000/ --start-fullscreen' &
