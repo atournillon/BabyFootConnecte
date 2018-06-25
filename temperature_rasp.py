@@ -4,6 +4,7 @@
 from subprocess import PIPE, Popen
 import json
 from slacker import Slacker
+import sys
 sys.path.append("data")
 import fonction_database
 
