@@ -165,14 +165,16 @@ while True:
         j = r
         
         slackClient,channel = fonction_database.fonction_connexion_slack()
-        slackClient,channel_temp = fonction_database.fonction_temperature_slack()
         
-        # Temperature
-        temperature = get_cpu_temperature()
-        lg.info("Temperature : " + str(temperature))
-        
-        if temperature >= 55:
-            slackClient.chat.post_message(channel_temp,"La température est de : "+str(temperature)+" °C")
+        if rpi==1:
+            slackClient,channel_temp = fonction_database.fonction_temperature_slack()
+
+            # Temperature
+            temperature = get_cpu_temperature()
+            lg.info("Temperature : " + str(temperature))
+
+            if temperature >= 55:
+                slackClient.chat.post_message(channel_temp,"La température est de : "+str(temperature)+" °C")
 
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
