@@ -161,6 +161,59 @@ while True:
         if nb_rows > 0 and i == 0 and j == 0:
             # Si elle contient une ligne, c'est qu'un match doit démarrer
             lg.info("On peut démarrer un match")
+            
+            # Recuperation des joueurs
+            joueur = requete.execute('''
+                SELECT 
+                    'ROUGE' as team
+                    ,CASE WHEN A.nickname = NULL THEN A.firstname || ' ' || A.lastname
+                    ELSE A.nickname 
+                    END as JOUEUR	
+                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                (
+                  SELECT distinct r1 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                ) AS B ON A.id_player=B.r1
+
+            UNION ALL
+
+                SELECT 
+                    'ROUGE' as team
+                    ,CASE WHEN A.nickname = NULL THEN A.firstname || ' ' || A.lastname 
+                    ELSE A.nickname 
+                    END as JOUEUR	
+                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                (
+                  SELECT distinct r2 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                ) AS B ON A.id_player=B.r2
+
+            UNION ALL
+
+                SELECT 
+                    'BLEU' as team
+                    ,CASE WHEN A.nickname = NULL THEN A.firstname || ' ' || A.lastname 
+                    ELSE A.nickname 
+                    END as JOUEUR	
+                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                (
+                  SELECT distinct b1 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                ) AS B ON A.id_player=B.b1
+
+            UNION ALL
+
+                SELECT 
+                    'BLEU' as team
+                    ,CASE WHEN A.nickname = NULL THEN A.firstname || ' ' || A.lastname 
+                    ELSE A.nickname 
+                    END as JOUEUR	
+                FROM PROD_REF_PLAYERS AS A INNER JOIN 
+                (
+                  SELECT distinct b2 FROM 'PROD_LIVE_MATCH_HISTO' WHERE id_match=1529530824
+                ) AS B ON A.id_player=B.b2
+            ''')
+            r1=str(joueur[0][1])
+            r2=str(joueur[1][1])
+            b1=str(joueur[2][1])
+            b2=str(joueur[3][1])
 
             # Lancement des festivites
             os.system("mpg321 -q data/audio/ea_sport.mp3")
@@ -293,18 +346,18 @@ while True:
                 fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
                 lg.info("C'est donc terminé pour ce match. Victoire des Bleus")
                 if rpi==0:
-                    messageToChannel = "[test local] Hello, Victoire des Bleus " + str(i) + " - " + str(j)
+                    messageToChannel = "[test local] Hello, Victoire de " + b1 + " et " + b2 +  " (Bleu) " + str(i) + " - " + str(j) + " contre " + r1 + " et " + r2 + " (Rouge)"
                 else:
-                    messageToChannel = "Hello, Victoire des Bleus " + str(i) + " - " + str(j)
+                    messageToChannel = "Hello, Victoire de " + b1 + " et " + b2 +  " (Bleu) " + str(i) + " - " + str(j) + " contre " + r1 + " et " + r2 + " (Rouge)"
                 slackClient.chat.post_message(channel,messageToChannel)
                 lg.info("Push du match sur slack")
             elif j == 10:                                                                        #Si les rouge arrivent à 10 buts
                 fonction_database.fonction_connexion_sqllite_fermeture(requete,connexion)
                 lg.info("C'est donc terminé pour ce match. Victoire des Rouges")
                 if rpi==0:
-                    messageToChannel = "[test local] Hello, Victoire des Rouges " + str(j) + " - " + str(i)
+                    messageToChannel = "[test local] Hello, Victoire de " + r1 + " et " + r2 +  " (Rouge) " + str(i) + " - " + str(j) + " contre " + b1 + " et " + b2 + " (Bleu)"
                 else:
-                    messageToChannel = "Hello, Victoire des Rouges " + str(j) + " - " + str(i)
+                    messageToChannel = "Hello, Victoire de " + r1 + " et " + r2 +  " (Rouge) " + str(i) + " - " + str(j) + " contre " + b1 + " et " + b2 + " (Bleu)"
                 slackClient.chat.post_message(channel,messageToChannel)
                 lg.info("Push du match sur Slack")
 
