@@ -19,6 +19,7 @@ print(getRAMinfo())
 
 # Return % of CPU used by user as a character string                                
 def getCPUuse():
-    return(str(os.popen("top -n1 | awk '/Cpu\(s\):/ {print $2}'").readline().strip()))
+    return(str(os.popen("top -n 3 -o cpu | awk '/Cpu\(s\):/ {print $2}'").readline().strip()))
 
+#os.popen("top -n 3 -o cpu | awk '/Cpu\(s\):/ {print $2}'").readline().strip())
 print(getCPUuse())
