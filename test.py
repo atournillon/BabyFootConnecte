@@ -21,5 +21,5 @@ print(getRAMinfo())
 def getCPUuse():
     return(str(os.popen("top -n3 -o %CPU | awk '/Cpu\(s\):/ {print $2}'").readline().strip()))
 
-os.popen("top -n 3 -o %CPU | awk '{print $2}'").readline().strip())
+os.popen("top -n 3 -o %CPU | awk '{print $2}'").readline().strip()
 print(getCPUuse())
