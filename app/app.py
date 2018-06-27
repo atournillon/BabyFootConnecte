@@ -79,7 +79,9 @@ def players():
     if request.method == 'POST':
         try:
             t = requests.get('http://localhost:3333/calcul_statistique')
+            subprocess.call(['sh ./kill_capteurs_statistic.sh'])
             print(t.status_code)
+
         except:
             lg.error("PAS DE RAFRAICHISSEMENT DES STATS")
             pass
@@ -141,7 +143,7 @@ def live_match():
         print "BLEU"
         print df_joueurs_bleus
 
-        subprocess.call(['./script_launch_capteurs_statistic.sh'])
+        subprocess.call(['sh ./script_launch_capteurs_statistic.sh'])
         return render_template('livematch.html',players_bleu=df_joueurs_bleus,players_rouge=df_joueurs_rouges)
     return redirect(url_for('index'))
 
