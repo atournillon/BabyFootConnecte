@@ -9,7 +9,7 @@ import time
 import datetime
 import logging as lg
 import requests
-import subprocess
+import os
 
 lg.getLogger('socketio').setLevel(lg.ERROR)
 lg.getLogger('engineio').setLevel(lg.ERROR)
@@ -79,7 +79,7 @@ def players():
     if request.method == 'POST':
         try:
             t = requests.get('http://localhost:3333/calcul_statistique')
-            subprocess.call(['sh /home/pi/Documents/BabyFootConnecte/kill_capteurs_statistic.sh'])
+            os.system('sh /home/pi/Documents/BabyFootConnecte/kill_capteurs_statistic.sh')
             print(t.status_code)
 
         except:
@@ -99,10 +99,12 @@ def player(id_player):
 
 @app.route('/match_team', methods=['GET', 'POST'])
 def match_team():
+    import os
+    lg.info(os.getcwd())
     interaction_database_app.purge_live_match()
     # show the form, it wasn't submitted
     players_table = interaction_database_app.get_players().set_index('id_player')
-    subprocess.call(['sh /home/pi/Documents/BabyFootConnecte/script_launch_capteurs_statistic.sh'])
+    os.system('sh /home/pi/Documents/BabyFootConnecte/script_launch_capteurs_statistic.sh')
     return render_template('match_team.html', players_table = players_table)
 
 
