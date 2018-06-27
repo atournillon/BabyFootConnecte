@@ -79,7 +79,9 @@ def players():
     if request.method == 'POST':
         try:
             t = requests.get('http://localhost:3333/calcul_statistique')
+            lg.info("je vais killer")
             os.system('sh /home/pi/Documents/BabyFootConnecte/kill_capteurs_statistic.sh')
+            lg.info("terminé")
             print(t.status_code)
 
         except:
@@ -104,7 +106,9 @@ def match_team():
     interaction_database_app.purge_live_match()
     # show the form, it wasn't submitted
     players_table = interaction_database_app.get_players().set_index('id_player')
-    os.system('sh /home/pi/Documents/BabyFootConnecte/script_launch_capteurs_statistic.sh')
+    lg.info("je lance")
+    os.system('sh /home/pi/Documents/BabyFootConnecte/script_launch_capteurs_statistic.sh &')
+    lg.info("je suis sorti du lancement")
     return render_template('match_team.html', players_table = players_table)
 
 
