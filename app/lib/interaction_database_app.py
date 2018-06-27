@@ -89,8 +89,8 @@ def gamelle_bleu():
     row = table[0] #Just one line in the table
     bleu = row[7]
     rouge = row[8]
-    if rouge > 0:
-        query = "UPDATE PROD_LIVE_MATCH SET score_r=score_r-1, last_team = 0;"
+    #if rouge > 0:
+    query = "UPDATE PROD_LIVE_MATCH SET score_r=score_r-1, last_team = 0;"
     cur.execute(query)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     lg.info("GAMELLE DES BLEUS - ON SUPPRIME UN BUT DES ROUGES")
@@ -102,8 +102,8 @@ def gamelle_rouge():
     row = table[0] #Just one line in the table
     bleu = row[7]
     rouge = row[8]
-    if bleu > 0:
-        query = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1, last_team = 0;"
+    #if bleu > 0:
+    query = "UPDATE PROD_LIVE_MATCH SET score_b=score_b-1, last_team = 0;"
     cur.execute(query)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     lg.info("GAMELLE DES ROUGE - ON SUPPRIME UN BUT DES BLEUS")
