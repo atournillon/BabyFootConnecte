@@ -79,7 +79,7 @@ def players():
     if request.method == 'POST':
         try:
             t = requests.get('http://localhost:3333/calcul_statistique')
-            subprocess.call(['sh ./kill_capteurs_statistic.sh'])
+            subprocess.call(['sh kill_capteurs_statistic.sh'])
             print(t.status_code)
 
         except:
@@ -102,7 +102,7 @@ def match_team():
     interaction_database_app.purge_live_match()
     # show the form, it wasn't submitted
     players_table = interaction_database_app.get_players().set_index('id_player')
-    subprocess.call(['sh ./script_launch_capteurs_statistic.sh'])
+    subprocess.call(['sh script_launch_capteurs_statistic.sh'])
     return render_template('match_team.html', players_table = players_table)
 
 
