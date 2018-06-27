@@ -79,7 +79,7 @@ def players():
     if request.method == 'POST':
         try:
             t = requests.get('http://localhost:3333/calcul_statistique')
-            subprocess.call(['sh kill_capteurs_statistic.sh'])
+            subprocess.call(['sh /home/pi/Documents/BabyFootConnecte/kill_capteurs_statistic.sh'])
             print(t.status_code)
 
         except:
@@ -102,7 +102,7 @@ def match_team():
     interaction_database_app.purge_live_match()
     # show the form, it wasn't submitted
     players_table = interaction_database_app.get_players().set_index('id_player')
-    subprocess.call(['sh script_launch_capteurs_statistic.sh'])
+    subprocess.call(['sh /home/pi/Documents/BabyFootConnecte/script_launch_capteurs_statistic.sh'])
     return render_template('match_team.html', players_table = players_table)
 
 
@@ -139,10 +139,6 @@ def live_match():
         # Récupération des joueurs à partir des id
         df_joueurs_rouges = interaction_database_app.recup_prenom_nom(r1_joueur,r2_joueur)
         df_joueurs_bleus = interaction_database_app.recup_prenom_nom(b1_joueur, b2_joueur)
-        print "ROUGE"
-        print df_joueurs_rouges
-        print "BLEU"
-        print df_joueurs_bleus
 
         return render_template('livematch.html',players_bleu=df_joueurs_bleus,players_rouge=df_joueurs_rouges)
     return redirect(url_for('index'))
