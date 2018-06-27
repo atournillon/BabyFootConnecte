@@ -101,13 +101,12 @@ def player(id_player):
 
 @app.route('/match_team', methods=['GET', 'POST'])
 def match_team():
-    import os
-    lg.info(os.getcwd())
     interaction_database_app.purge_live_match()
     # show the form, it wasn't submitted
     players_table = interaction_database_app.get_players().set_index('id_player')
     lg.info("je lance")
-    #os.system('sh /home/pi/Documents/BabyFootConnecte/script_launch_capteurs_statistic.sh &')
+    os.system('sh /home/pi/Documents/BabyFootConnecte/script_launch_capteurs_statistic.sh &')
+    time.sleep(5)
     lg.info("je suis sorti du lancement")
     return render_template('match_team.html', players_table = players_table)
 
