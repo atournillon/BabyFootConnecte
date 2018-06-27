@@ -9,6 +9,7 @@ import time
 import datetime
 import logging as lg
 import requests
+import subprocess
 
 lg.getLogger('socketio').setLevel(lg.ERROR)
 lg.getLogger('engineio').setLevel(lg.ERROR)
@@ -139,6 +140,8 @@ def live_match():
         print df_joueurs_rouges
         print "BLEU"
         print df_joueurs_bleus
+
+        subprocess.call(['./script_launch_capteurs_statistic.sh'])
         return render_template('livematch.html',players_bleu=df_joueurs_bleus,players_rouge=df_joueurs_rouges)
     return redirect(url_for('index'))
 
