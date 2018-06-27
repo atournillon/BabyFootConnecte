@@ -31,7 +31,7 @@ def getData():
 def get_players():
     #Load Players Table
     cur,conn= fonction_database.fonction_connexion_sqllite()
-    query = "SELECT * FROM PROD_REF_PLAYERS ORDER BY lastname"
+    query = "SELECT * FROM PROD_REF_PLAYERS WHERE id_player = 0 UNION ALL SELECT * FROM PROD_REF_PLAYERS WHERE id_player <> 0 ORDER BY lastname"
     df_players = pd.read_sql(query, conn)
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     lg.info('RECUPERATION DE LA LISTE DES JOUEURS OK')
