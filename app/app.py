@@ -120,12 +120,14 @@ def perte_un_but():
 @app.route('/gamelle_bleu', methods=['POST'])
 def gamelle_bleu():
     interaction_database_app.gamelle_bleu()
+    time.sleep(2)
     return 'ok'
     
 ''' chemin pour gamelle rouge'''
 @app.route('/gamelle_rouge', methods=['POST'])
 def gamelle_rouge():
     interaction_database_app.gamelle_rouge()
+    time.sleep(2)
     return 'ok'
 
 
