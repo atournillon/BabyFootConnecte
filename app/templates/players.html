@@ -13,12 +13,12 @@
     <div id="scrolltable">
     <table>
         <tr id="thead">
-        	<th><div><h3>Prénom</h3></div></th>
+        		<th><div><img src="static/img/eye.gif" style="width:30px;height:15px; margin: 0;"></div></th>
+			<th><div><h3>Prénom</h3></div></th>
 			<th><div><h3>Nom</h3></div></th>
 			<th><div><h3>Surnom</h3></div></th>
 			<th><div><h3>#Matchs</h3></div></th>
 			<th><div><h3>#Victoires</h3></div></th>
-			<th><div><h3>#Défaites</h3></div></th>
 			<th><div><h3>Temps de jeu</h3></div></th>
 			<th><div><h3>Buts Pour</h3></div></th>
 			<th><div><h3>Buts Contre</h3></div></th>
@@ -26,12 +26,12 @@
        
         {% for id_player in players_table.index %}
 				<tr>
-				  <td>{{ players_table.loc[id_player].firstname }}</td>
-				  <td>{{ players_table.loc[id_player].lastname }}</td>
-				  <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].nickname }}</a></td>
+				  <td><a href="player/{{id_player}}"><img src="static/img/eye.png" style="width:30px;height:15px; margin: 0;"></a></td>
+				  <td><a href="player/{{id_player}}" style="test-align:left;">{{ players_table.loc[id_player].firstname }}</a></td>
+				  <td><a href="player/{{id_player}}" style="test-align:left;">{{ players_table.loc[id_player].lastname }}</a></td>
+				  <td><a href="player/{{id_player}}" style="test-align:left;"> {{ players_table.loc[id_player].nickname }}</a></td>
 				  <td>{{ players_table.loc[id_player].match_count }}</td>
 				  <td>{{ players_table.loc[id_player].match_win_count }}</td>
-				  <td>{{ players_table.loc[id_player].match_los_count }}</td>
 				  <td>{{ players_table.loc[id_player].game_time_sec }}</td>
 				  <td>{{ players_table.loc[id_player].goals_scored }}</td>
 				  <td>{{ players_table.loc[id_player].goals_conceced }}</td>
