@@ -13,7 +13,8 @@
     <div id="scrolltable">
     <table>
         <tr id="thead">
-        	<th><div><h3>Prénom</h3></div></th>
+        		<th><div></div></th>
+			<th><div><h3>Prénom</h3></div></th>
 			<th><div><h3>Nom</h3></div></th>
 			<th><div><h3>Surnom</h3></div></th>
 			<th><div><h3>#Matchs</h3></div></th>
@@ -26,6 +27,7 @@
        
         {% for id_player in players_table.index %}
 				<tr>
+				  <td><img src="static/img/eye.png" style="width:60px;height:30px; margin: 0 10px 0 0;"></td>
 				  <td>{{ players_table.loc[id_player].firstname }}</td>
 				  <td>{{ players_table.loc[id_player].lastname }}</td>
 				  <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].nickname }}</a></td>
