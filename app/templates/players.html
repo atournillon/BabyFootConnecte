@@ -13,7 +13,7 @@
     <div id="scrolltable">
     <table>
         <tr id="thead">
-        		<th><div></div></th>
+        		<th><div><img src="static/img/eye.gif" style="width:30px;height:15px; margin: 0;"></div></th>
 			<th><div><h3>Prénom</h3></div></th>
 			<th><div><h3>Nom</h3></div></th>
 			<th><div><h3>Surnom</h3></div></th>
@@ -27,9 +27,9 @@
         {% for id_player in players_table.index %}
 				<tr>
 				  <td><a href="player/{{id_player}}"><img src="static/img/eye.png" style="width:30px;height:15px; margin: 0;"></a></td>
-				  <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].firstname }}</a></td>
-				  <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].lastname }}</a></td>
-				  <td><a href="player/{{id_player}}">{{ players_table.loc[id_player].nickname }}</a></td>
+				  <td><a href="player/{{id_player}}" style="test-align:left;">{{ players_table.loc[id_player].firstname }}</a></td>
+				  <td><a href="player/{{id_player}}" style="test-align:left;">{{ players_table.loc[id_player].lastname }}</a></td>
+				  <td><a href="player/{{id_player}}" style="test-align:left;"> {{ players_table.loc[id_player].nickname }}</a></td>
 				  <td>{{ players_table.loc[id_player].match_count }}</td>
 				  <td>{{ players_table.loc[id_player].match_win_count }}</td>
 				  <td>{{ players_table.loc[id_player].game_time_sec }}</td>
