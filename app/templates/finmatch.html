@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BabyFoot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
+  
+  </head>
+  {% block body %}
+  
+    <!-- Début -->
+    
+    </br><h1> Victoire logique ? </h1>
+<table id="table_short">
+
+	<tr id = "tr_name">
+
+		<td><div id="blue_circle" style="width:190px;height:190px;"><div id="score" style="font-size:140px;"> {{ livematch.score_b }}</div></div></div></td>
+
+		<td> <h3 style="color:white; font-size:35px; "> Temps de jeu </h3> </br> <div id="basicUsage">{{ livematch.deltatime }}</div></td>
+
+		<td><div id="red_circle" style="width:190px;height:190px;"><div id="score" style="font-size:140px;">{{ livematch.score_r }}</div></div></div></td>
+
+	</tr>
+
+</table>
+
+<table>
+<table id="table_stats">
+
+<tr id = "tr_name">
+
+    <td id = "td_name_fin" style="background-color:#126DE3">
+    	<h3 style="color:white; font-size:35px; ">{{ stats.loc[livematch['b1'],'firstname']+" "+stats.loc[livematch['b1'],'lastname'] }}  #{{ stats.loc[livematch['b1'],'ranking'] }}</h3>
+    </td>
+    <td id = "td_name_fin" style="background-color:#126DE3">
+    	<h3 style="color:white; font-size:35px;">{{ stats.loc[livematch['b2'],'firstname']+" "+stats.loc[livematch['b2'],'lastname'] }}  #{{ stats.loc[livematch['b2'],'ranking'] }} </h3>
+    </td>
+
+    
+
+    <td id = "td_name_fin" style="background-color:#E31212">
+    	<h3 style="color:white; font-size:35px;">{{ stats.loc[livematch['r1'],'firstname']+" "+stats.loc[livematch['r1'],'lastname'] }}  #{{ stats.loc[livematch['r1'],'ranking'] }} <h3> 
+    </td>
+    <td id = "td_name_fin" style="background-color:#E31212">
+    	<h3 style="color:white; font-size:35px;">{{ stats.loc[livematch['r2'],'firstname']+" "+stats.loc[livematch['r2'],'lastname'] }}  #{{ stats.loc[livematch['r2'],'ranking'] }} <h3> 
+    </td>
+
+</tr>
+
+
+
+<tr>
+		<td style="background-color:rgba(18, 109, 227,0.2);"> 
+			<canvas id="linechartb1" width="400" height="150" ></canvas>
+		</td>
+		<td style="background-color:rgba(18, 109, 227,0.2);"> 
+			<canvas id="linechartb2" width="400" height="150"></canvas>
+		</td>
+		
+		<td style="background-color:rgba(227,18,18,0.2);"> 
+			<canvas id="linechartr1" width="400" height="150"></canvas>
+		</td>
+		<td style="background-color:rgba(227,18,18,0.2);"> 
+			<canvas id="linechartr2" width="400" height="150"></canvas>
+		</td>
+</tr>
+<tr>
+		<td style="background-color:rgba(18, 109, 227,0.2);"> 
+			<h3 style="color:rgba(227,18,18,0.8); font-size:45px; display: inline; vertical-align:top; text-shadow: 1px 1px #000;">{{stats.loc[livematch['b1'],'match_los_count']}} D </h3>
+			<canvas id="piechartb1" width="200" height="150"></canvas>
+			<h3 style="color:rgba(78, 211, 94,0.8); font-size:45px; display: inline; vertical-align:top;text-shadow: 1px 1px #000;">{{stats.loc[livematch['b1'],'match_win_count']}} V  </h3>
+		</td>
+		<td style="background-color:rgba(18, 109, 227,0.2);"> 
+			<h3 style="color:rgba(227,18,18,0.8); font-size:45px; display: inline; vertical-align: top;vertical-align:top; text-shadow: 1px 1px #000;">{{stats.loc[livematch['b2'],'match_los_count']}} D </h3>
+			<canvas id="piechartb2" width="200" height="150"></canvas>
+			<h3 style="color:rgba(78, 211, 94,0.8); font-size:45px; display: inline; vertical-align: top;vertical-align:top; text-shadow: 1px 1px #000;">{{stats.loc[livematch['b2'],'match_win_count']}} V  </h3>
+		</td>
+		
+		<td style="background-color:rgba(227,18,18,0.2);"> 
+			<h3 style="color:rgba(227,18,18,0.8); font-size:45px; display: inline; vertical-align: top;text-shadow: 1px 1px #000;">{{stats.loc[livematch['r1'],'match_los_count']}} D </h3>
+			<canvas id="piechartr1" width="200" height="150"></canvas>
+			<h3 style="color:rgba(78, 211, 94,0.8); font-size:45px; display: inline; vertical-align: top;text-shadow: 1px 1px #000;">{{stats.loc[livematch['r1'],'match_win_count']}} V  </h3>
+		</td>
+		<td style="background-color:rgba(227,18,18,0.2);"> 
+			<h3 style="color:rgba(227,18,18,0.8); font-size:45px; display: inline; vertical-align: top;vertical-align:top; text-shadow: 1px 1px #000;">{{stats.loc[livematch['r2'],'match_los_count']}} D </h3>
+			<canvas id="piechartr2" width="200" height="150"></canvas>
+			<h3 style="color:rgba(78, 211, 94,0.8); font-size:45px; display: inline; vertical-align: top;vertical-align:top; text-shadow: 1px 1px #000;">{{stats.loc[livematch['r2'],'match_win_count']}} V  </h3>
+		</td>
+	</tr>
+
+
+ 
+ </table>
+ 
+
+ </table>
+ 
+ 
+  <!-- Fin -->
+
+
+    <script>
+      // line chart data
+      var lineDatab1 = {
+        labels : [
+          {% for item in line_labelsb1 %}
+            "{{ item }}",
+          {% endfor %}
+        ],
+        datasets : [{
+          fillColor: "rgba(18, 109, 227,0.5)", // remplissage
+          strokeColor: "rgba(18, 109, 227,1)", // couleur ligne
+          pointColor: "rgba(18, 109, 227,1)", //remplissage point
+          pointStrokeColor: "rgba(255,255,255,1)", //contour point
+          pointHighlightFill: "rgba(255,255,255,0.8)", //survol du point
+          pointHighlightStroke: "rgba(255,255,255,0.8)", //survol contour point
+          data : [
+	    {% for item in line_valuesb1 %}
+              {{ item }},
+            {% endfor %}]
+          }
+	]
+      }
+      Chart.defaults.global.animationSteps = 100;
+      Chart.defaults.global.tooltipYPadding = 16;
+      Chart.defaults.global.tooltipCornerRadius = 0;
+      Chart.defaults.global.tooltipTitleFontStyle = "normal";
+      Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+      Chart.defaults.global.animationEasing = "easeOutBounce";
+      Chart.defaults.global.responsive = false;
+      Chart.defaults.global.scaleLineColor = "rgba(255,255,255,0.5)";
+      <!-- Chart.defaults.global.scaleFontSize = 16; -->
+	  Chart.defaults.global.scaleFontColor = "rgba(255,255,255,0.5)";
+	  
+      // get bar chart canvas
+      var linechartb1 = document.getElementById("linechartb1").getContext("2d");
+	  
+      steps = 1
+      max = 10
+	  
+      // draw bar chart
+      var LineChartDemo = new Chart(linechartb1).Line(lineDatab1, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max/steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: false,
+        scaleShowGridLines : false,
+        barShowStroke : false,
+        scaleShowLabels: true,
+        bezierCurve: true,
+      });
+    </script>
+	
+    <script>
+      // line chart data
+      var lineDatab2 = {
+        labels : [
+          {% for item in line_labelsb2 %}
+            "{{ item }}",
+          {% endfor %}
+        ],
+        datasets : [{
+          fillColor: "rgba(18, 109, 227,0.5)", // remplissage
+          strokeColor: "rgba(18, 109, 227,1)", // couleur ligne
+          pointColor: "rgba(18, 109, 227,1)", //remplissage point
+          pointStrokeColor: "rgba(255,255,255,1)", //contour point
+          pointHighlightFill: "rgba(255,255,255,0.8)", //survol du point
+          pointHighlightStroke: "rgba(255,255,255,0.8)", //survol contour point
+          data : [
+	    {% for item in line_valuesb2 %}
+              {{ item }},
+            {% endfor %}]
+          }
+	]
+      }
+      Chart.defaults.global.animationSteps = 100;
+      Chart.defaults.global.tooltipYPadding = 16;
+      Chart.defaults.global.tooltipCornerRadius = 0;
+      Chart.defaults.global.tooltipTitleFontStyle = "normal";
+      Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+      Chart.defaults.global.animationEasing = "easeOutBounce";
+      Chart.defaults.global.responsive = false;
+      Chart.defaults.global.scaleLineColor = "rgba(255,255,255,0.5)";
+      <!-- Chart.defaults.global.scaleFontSize = 16; -->
+	  Chart.defaults.global.scaleFontColor = "rgba(255,255,255,0.5)";	  
+	  
+      // get bar chart canvas
+      var linechartb2 = document.getElementById("linechartb2").getContext("2d");
+	  
+      steps = 1
+      max = 10
+	  
+      // draw bar chart
+      var LineChartDemo = new Chart(linechartb2).Line(lineDatab2, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: false,
+        scaleShowGridLines : false,
+        barShowStroke : false,
+        scaleShowLabels: true,
+        bezierCurve: true,		
+      });
+    </script>
+
+	
+    <script>
+      // line chart data
+      var lineDatar1 = {
+        labels : [
+          {% for item in line_labelsr1 %}
+            "{{ item }}",
+          {% endfor %}
+        ],
+        datasets : [{
+          fillColor: "rgba(227, 18, 18,0.5)",
+          strokeColor: "rgba(227, 18, 18,1)",
+          pointColor: "rgba(227, 18, 18,1)",
+          pointStrokeColor: "rgba(255,255,255,1)",
+          pointHighlightFill: "rgba(255,255,255,0.8)",
+          pointHighlightStroke: "rgba(255,255,255,0.8)",
+          data : [
+	    {% for item in line_valuesr1 %}
+              {{ item }},
+            {% endfor %}]
+          }
+	]
+      }
+      Chart.defaults.global.animationSteps = 100;
+      Chart.defaults.global.tooltipYPadding = 16;
+      Chart.defaults.global.tooltipCornerRadius = 0;
+      Chart.defaults.global.tooltipTitleFontStyle = "normal";
+      Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+      Chart.defaults.global.animationEasing = "easeOutBounce";
+      Chart.defaults.global.responsive = false;
+      Chart.defaults.global.scaleLineColor = "rgba(255,255,255,0.5)";
+      <!-- Chart.defaults.global.scaleFontSize = 16; -->
+	  Chart.defaults.global.scaleFontColor = "rgba(255,255,255,0.5)";
+	  
+      // get bar chart canvas
+      var linechartr1 = document.getElementById("linechartr1").getContext("2d");
+	  
+      steps = 1
+      max = 10
+	  
+      // draw bar chart
+      var LineChartDemo = new Chart(linechartr1).Line(lineDatar1, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: false,
+        scaleShowGridLines : false,
+        barShowStroke : false,
+        scaleShowLabels: true,
+		bezierCurve: true,
+      });
+    </script>
+	
+    <script>
+      // line chart data
+      var lineDatar2 = {
+        labels : [
+          {% for item in line_labelsr2 %}
+            "{{ item }}",
+          {% endfor %}
+        ],
+        datasets : [{
+          fillColor: "rgba(227, 18, 18,0.5)",
+          strokeColor: "rgba(227, 18, 18,1)",
+          pointColor: "rgba(227, 18, 18,1)",
+          pointStrokeColor: "rgba(255,255,255,1)",
+          pointHighlightFill: "rgba(255,255,255,0.8)",
+          pointHighlightStroke: "rgba(255,255,255,0.8)",
+          data : [
+	    {% for item in line_valuesr2 %}
+              {{ item }},
+            {% endfor %}]
+          }
+	]
+      }
+      Chart.defaults.global.animationSteps = 100;
+      Chart.defaults.global.tooltipYPadding = 16;
+      Chart.defaults.global.tooltipCornerRadius = 0;
+      Chart.defaults.global.tooltipTitleFontStyle = "normal";
+      Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+      Chart.defaults.global.animationEasing = "easeOutBounce";
+      Chart.defaults.global.responsive = false;
+      Chart.defaults.global.scaleLineColor = "rgba(255,255,255,0.5)";
+      <!-- Chart.defaults.global.scaleFontSize = 15; -->
+	  Chart.defaults.global.scaleFontColor = "rgba(255,255,255,0.5)";
+	  
+      // get bar chart canvas
+      var linechartr2 = document.getElementById("linechartr2").getContext("2d");
+	  
+      steps = 1
+      max = 10
+	  
+      // draw bar chart
+      var LineChartDemo = new Chart(linechartr2).Line(lineDatar2, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: false,
+        scaleShowGridLines : false,
+        barShowStroke : false,
+        scaleShowLabels: true,
+        bezierCurve: true,
+      });
+    </script>
+	
+
+		
+	<script>
+	// pie chart data
+      var pieDatab1 = [
+        {% for item, label, colors in setb1 %}
+          {
+            value: {{item}},
+            label: '{{label}}',
+            color : '{{colors}}',
+          },
+        {% endfor %}
+      ];
+      // get pie chart canvas
+      var piechartb1 = document.getElementById("piechartb1").getContext("2d");
+      
+	  steps = 10
+      max = {{ max }}
+	  
+      // draw pie chart
+      new Chart(piechartb1).Pie(pieDatab1);
+		
+
+	</script>
+
+
+	<script>
+	// pie chart data
+      var pieDatab2 = [
+        {% for item, label, colors in setb2 %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+            color : "{{colors}}"
+          },
+        {% endfor %}
+      ];
+      // get pie chart canvas
+      var piechartb2 = document.getElementById("piechartb2").getContext("2d");
+      
+	  steps = 10
+      max = {{ max }}
+	  
+      // draw pie chart
+      new Chart(piechartb2).Pie(pieDatab2);
+
+	</script>
+
+	<script>
+	// pie chart data
+      var pieDatar1 = [
+        {% for item, label, colors in setr1 %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+            color : "{{colors}}"
+          },
+        {% endfor %}
+      ];
+      // get pie chart canvas
+      var piechartr1 = document.getElementById("piechartr1").getContext("2d");
+      
+	  steps = 10
+      max = {{ max }}
+	  
+      // draw pie chart
+      new Chart(piechartr1).Pie(pieDatar1);
+
+	</script>
+
+
+	<script>
+	// pie chart data
+      var pieDatar2 = [
+        {% for item, label, colors in setr2 %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+            color : "{{colors}}"
+          },
+        {% endfor %}
+      ];
+      // get pie chart canvas
+      var piechartr2 = document.getElementById("piechartr2").getContext("2d");
+      
+	  steps = 10
+      max = {{ max }}
+	  
+      // draw pie chart
+      new Chart(piechartr2).Pie(pieDatar2);
+
+	</script>
+
+	<script>
+	var ctx = document.getElementById("myChart").getContext('2d');
+	var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: [20,10],
+    options: options
+      });
+
+	</script>
+	
+
+
+  {% endblock %}
+  
+  <footer id="footer">
+  	<table id="footer">
+		<tr id="tr_footer">
+  			<td id="td_footer"><h3><a href="{{ url_for('index') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Menu</a></h3></td>
+  		</tr>
+ 	</table>
+</footer>
+
+</html>
