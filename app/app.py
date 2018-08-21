@@ -10,6 +10,7 @@ import datetime
 import logging as lg
 import requests
 import os
+import numpy as np
 
 lg.getLogger('socketio').setLevel(lg.ERROR)
 lg.getLogger('engineio').setLevel(lg.ERROR)
