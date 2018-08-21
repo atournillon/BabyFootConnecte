@@ -124,7 +124,7 @@ def finmatch():
         line_valuesr1 = interaction_database_app.graphiques_players(livematch['r1'])[-10:]	
         line_labelsr2 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['r2'])[-10:]))+1]
         line_valuesr2 = interaction_database_app.graphiques_players(livematch['r2'])[-10:]
-        pie_labels = ['Victoires','Défaites']
+        pie_labels = ['Victoires',u'Défaites']
         pie_valuesb1 = [int(statsplayers.loc[livematch['b1'],'match_win_count']),
             int(statsplayers.loc[livematch['b1'],'match_los_count'])]
         pie_valuesb2 = [int(statsplayers.loc[livematch['b2'],'match_win_count']),
@@ -151,7 +151,7 @@ def finmatch():
         line_valuesr1 = interaction_database_app.graphiques_players(livematch['r1'])[-10:]
         line_labelsr2 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['r2'])))+1]
         line_valuesr2 = interaction_database_app.graphiques_players(livematch['r2'])	
-        pie_labels = ['Victoires','Défaites']
+        pie_labels = ['Victoires',u'Défaites']
         pie_valuesb1 = [int(statsplayers.loc[livematch['b1'],'match_win_count']),
             int(statsplayers.loc[livematch['b1'],'match_los_count'])]
         pie_valuesb2 = [int(statsplayers.loc[livematch['b2'],'match_win_count']),
