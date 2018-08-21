@@ -66,6 +66,53 @@ def recup_players_stat():
     fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
     return df_sortie
 
+def recup_livematch():
+    cur, conn = fonction_database.fonction_connexion_sqllite()
+    query = "SELECT * FROM PROD_LIVE_MATCH_HISTO WHERE (score_b = 10 OR score_r = 10)"
+    livematch = pd.read_sql(query, conn)
+    livematch['time_start'] = pd.to_datetime(livematch['time_start'])
+    livematch['time_goal'] = pd.to_datetime(livematch['time_goal'],dayfirst=True)
+    livematch = livematch.sort_values('id_match').groupby('id_match').tail(1)
+    livematch = livematch.iloc[-1,:]
+    livematch['deltatime'] = (livematch['time_goal']-livematch['time_start']).total_seconds()
+    livematch['deltatime'] = str(timedelta(seconds=livematch['deltatime']))
+    fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+    return livematch
+
+def graphiques_players(id_j):
+	cur, conn = fonction_database.fonction_connexion_sqllite()
+	query = "SELECT * FROM PROD_LIVE_MATCH_HISTO WHERE (score_b = 10 OR score_r = 10)"
+	match_df = pd.read_sql(query, conn)
+	matchf = match_df.sort_values('id_match').groupby('id_match').tail(1)
+	fonction_database.fonction_connexion_sqllite_fermeture(cur,conn)
+	lst_distinctjoueur = []
+	for x in matchf['b1']:
+		if x not in lst_distinctjoueur:
+			lst_distinctjoueur.append(x)
+	for x in matchf['b2']:
+		if x not in lst_distinctjoueur:
+			lst_distinctjoueur.append(x)
+	for x in matchf['r1']:
+		if x not in lst_distinctjoueur:
+			lst_distinctjoueur.append(x)
+	for x in matchf['r2']:
+		if x not in lst_distinctjoueur:
+			lst_distinctjoueur.append(x)
+	lst_distinctjoueur.sort()
+	dico_joueur = {}
+	for joueur in lst_distinctjoueur:
+		player = matchf[(matchf.loc[:,'r1']==joueur)|(matchf.loc[:,'r2']==joueur)|
+                    (matchf.loc[:,'b1']==joueur)|(matchf.loc[:,'b2']==joueur)]
+		player = player.reset_index()
+		player = player.copy()
+		player['score']=0
+		for i in player.index:
+			if (player.loc[i,'b1']==joueur)|(player.loc[i,'b2']==joueur):
+				player.loc[i,'score'] = player.loc[i,'score_b']
+			elif (player.loc[i,'r1']==joueur)|(player.loc[i,'r2']==joueur):
+				player.loc[i,'score'] = player.loc[i,'score_r']
+		dico_joueur[joueur] = list(player['score'])
+	return dico_joueur[id_j]
 
 def perte_un_but():
     cur, conn = fonction_database.fonction_connexion_sqllite()
