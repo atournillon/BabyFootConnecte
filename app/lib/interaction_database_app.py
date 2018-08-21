@@ -8,7 +8,7 @@ import pandas as pd
 import datetime
 import time
 import logging as lg
-
+from datetime import timedelta
 
 # Retrieve data from database
 def getData():
