@@ -124,7 +124,7 @@
   	<table id="footer">
 		<tr id="tr_footer">
   			<td id="td_footer"><h3><a href="{{ url_for('match_team') }}"><img src="static/img/retour.png" style="width:30px;height:30px; margin: 0 15px 0 0;">Retour</a></h3></td>
-  			<td id="td_footer"><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;"><h3><form method="POST" id="fin_match" action="{{ url_for('players')}}"><input type="submit" form="fin_match" value="Fin du match"/></form></h3></td>
+  			<td id="td_footer"><img src="static/img/valider.png" style="width:30px;height:30px; margin: 0 15px 0 0;"><h3><form method="POST" id="fin_match" action="{{ url_for('finmatch')}}"><input type="submit" form="fin_match" value="Fin du match"/></form></h3></td>
  		</tr>
  	</table>
 </footer>
