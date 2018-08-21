@@ -74,24 +74,12 @@ def index():
     interaction_database_app.purge_live_match()
     return render_template('home.html')
 
-@app.route('/players', methods=['GET', 'POST'])
-def players():
-    if request.method == 'POST':
-        try:
-            t = requests.get('http://localhost:3333/calcul_statistique')
-            lg.info("je vais killer")
-            os.system('sh /home/pi/Documents/BabyFootConnecte/kill_capteurs_statistic.sh')
-            lg.info("terminé")
-            print(t.status_code)
 
-        except:
-            lg.error("PAS DE RAFRAICHISSEMENT DES STATS")
-            pass
-        players_stat = interaction_database_app.recup_players_stat()
-        return render_template('players.html', players_table = players_stat)
-    else:
-        players_stat = interaction_database_app.recup_players_stat()
-        return render_template('players.html', players_table=players_stat)
+@app.route('/players')
+def players():
+    players_stat = interaction_database_app.recup_players_stat()
+    players_stat = players_stat[players_stat.index!=0]
+    return render_template('players.html', players_table=players_stat)
 
 @app.route('/player/<int:id_player>/')
 def player(id_player):
@@ -110,6 +98,78 @@ def match_team():
     return render_template('match_team.html', players_table = players_table)
 
 
+@app.route('/finmatch', methods=['GET', 'POST'])	
+def finmatch():
+    if request.method == 'POST':
+        try:
+            t = requests.get('http://localhost:3333/calcul_statistique')
+            lg.info("je vais killer")
+            os.system('sh /home/pi/Documents/BabyFootConnecte/kill_capteurs_statistic.sh')
+            lg.info("terminé")
+            print(t.status_code)
+
+        except:
+            lg.error("PAS DE RAFRAICHISSEMENT DES STATS")
+            pass
+        players_stat = interaction_database_app.recup_players_stat()
+        livematch = interaction_database_app.recup_livematch()
+        statsplayers = interaction_database_app.recup_players_stat()
+        #legend = 
+        line_labelsb1 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['b1'])[-10:]))+1]
+        line_valuesb1 = interaction_database_app.graphiques_players(livematch['b1'])[-10:]
+        line_labelsb2 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['b2'])[-10:]))+1]
+        line_valuesb2 = interaction_database_app.graphiques_players(livematch['b2'])[-10:]
+        line_labelsr1 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['r1'])[-10:]))+1]
+        line_valuesr1 = interaction_database_app.graphiques_players(livematch['r1'])[-10:]	
+        line_labelsr2 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['r2'])[-10:]))+1]
+        line_valuesr2 = interaction_database_app.graphiques_players(livematch['r2'])[-10:]
+        pie_labels = ['Victoires','Défaites']
+        pie_valuesb1 = [int(statsplayers.loc[livematch['b1'],'match_win_count']),
+            int(statsplayers.loc[livematch['b1'],'match_los_count'])]
+        pie_valuesb2 = [int(statsplayers.loc[livematch['b2'],'match_win_count']),
+            int(statsplayers.loc[livematch['b2'],'match_los_count'])]
+        pie_valuesr1 = [int(statsplayers.loc[livematch['r1'],'match_win_count']),
+            int(statsplayers.loc[livematch['r1'],'match_los_count'])]	
+        pie_valuesr2 = [int(statsplayers.loc[livematch['r2'],'match_win_count']),
+            int(statsplayers.loc[livematch['r2'],'match_los_count'])]			
+        colors = ["rgba(78,211,94,0.6)", "rgba(227,18,18,0.6)"]
+        return render_template('finmatch.html', players_table = players_stat,setb1=zip(pie_valuesb1,pie_labels,colors),setb2=zip(pie_valuesb2,pie_labels,colors),
+		setr1=zip(pie_valuesr1,pie_labels,colors),setr2=zip(pie_valuesr2,pie_labels,colors),
+		line_labelsb1=line_labelsb1,line_valuesb1=line_valuesb1,line_labelsb2=line_labelsb2,line_valuesb2=line_valuesb2,
+		line_labelsr1=line_labelsr1,line_valuesr1=line_valuesr1,line_labelsr2=line_labelsr2,line_valuesr2=line_valuesr2,
+		livematch = livematch,stats = statsplayers)
+    else:
+        players_stat = interaction_database_app.recup_players_stat()
+        livematch = interaction_database_app.recup_livematch()
+        statsplayers = interaction_database_app.recup_players_stat()
+        line_labelsb1 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['b1'])))+1]
+        line_valuesb1 = interaction_database_app.graphiques_players(livematch['b1'])
+        line_labelsb2 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['b2'])[-10:]))+1]
+        line_valuesb2 = interaction_database_app.graphiques_players(livematch['b2'])[-10:]
+        line_labelsr1 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['r1'])[-10:]))+1]
+        line_valuesr1 = interaction_database_app.graphiques_players(livematch['r1'])[-10:]
+        line_labelsr2 = [i for i in np.arange(len(interaction_database_app.graphiques_players(livematch['r2'])))+1]
+        line_valuesr2 = interaction_database_app.graphiques_players(livematch['r2'])	
+        pie_labels = ['Victoires','Défaites']
+        pie_valuesb1 = [int(statsplayers.loc[livematch['b1'],'match_win_count']),
+            int(statsplayers.loc[livematch['b1'],'match_los_count'])]
+        pie_valuesb2 = [int(statsplayers.loc[livematch['b2'],'match_win_count']),
+            int(statsplayers.loc[livematch['b2'],'match_los_count'])]
+        pie_valuesr1 = [int(statsplayers.loc[livematch['r1'],'match_win_count']),
+            int(statsplayers.loc[livematch['r1'],'match_los_count'])]	
+        pie_valuesr2 = [int(statsplayers.loc[livematch['r2'],'match_win_count']),
+            int(statsplayers.loc[livematch['r2'],'match_los_count'])]			
+        colors = ["rgba(78,211,94,0.6)", "rgba(227,18,18,0.6)"]
+        return render_template('finmatch.html', players_table=players_stat,setb1=zip(pie_valuesb1,pie_labels,colors),setb2=zip(pie_valuesb2,pie_labels,colors),
+		setr1=zip(pie_valuesr1,pie_labels,colors),setr2=zip(pie_valuesr2,pie_labels,colors),
+		line_labelsb1=line_labelsb1,line_valuesb1=line_valuesb1,line_labelsb2=line_labelsb2,line_valuesb2=line_valuesb2,
+		line_labelsr1=line_labelsr1,line_valuesr1=line_valuesr1,line_labelsr2=line_labelsr2,line_valuesr2=line_valuesr2,
+		livematch = livematch,stats = statsplayers)
+
+	
+	
+  
+  
 ''' chemin pour enlever un but'''
 @app.route('/perte_un_but', methods=['POST'])
 def perte_un_but():
